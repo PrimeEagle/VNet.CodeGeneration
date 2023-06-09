@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace VNet.CodeGeneration.Writers.SqlWriter
+namespace VNet.Scientific.CodeGen.Writers.SqlWriter
 {
     public class SqlWriter
     {

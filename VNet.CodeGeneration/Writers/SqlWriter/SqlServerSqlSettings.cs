@@ -1,4 +1,4 @@
-﻿namespace VNet.CodeGeneration.Writers.SqlWriter
+﻿namespace VNet.Scientific.CodeGen.Writers.SqlWriter
 {
     public class SqlServerSqlSettings : ISqlSettings
     {

@@ -1,4 +1,4 @@
-﻿namespace VNet.CodeGeneration.Writers
+﻿namespace VNet.Scientific.CodeGen.Writers
 {
     public enum AccessModifier
     {

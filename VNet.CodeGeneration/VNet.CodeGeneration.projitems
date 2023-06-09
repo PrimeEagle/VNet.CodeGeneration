@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>29ddc115-b986-49ca-9939-c9372746518d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>VNet.CodeGeneration</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SyntaxNodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\AccessModifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\BraceStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\ClassScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CppLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CSharpLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\FSharpLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\ILanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\NamespaceScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\PythonLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\Scope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\SqlWriter\AnsiSqlSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\SqlWriter\ISqlSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\SqlWriter\SqlServerSqlSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\SqlWriter\SqlWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\TestWriter\ITestSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\TestWriter\MsTestSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\TestWriter\NUnitSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\TestWriter\TestWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\TestWriter\XUnitSettings.cs" />
+  </ItemGroup>
+</Project>

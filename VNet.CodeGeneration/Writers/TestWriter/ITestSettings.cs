@@ -1,4 +1,4 @@
-﻿namespace VNet.CodeGeneration.Writers.TestWriter
+﻿namespace VNet.Scientific.CodeGen.Writers.TestWriter
 {
     public interface ITestSettings
     {

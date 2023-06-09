@@ -1,4 +1,4 @@
-﻿namespace VNet.CodeGeneration.Writers.CodeWriter
+﻿namespace VNet.Scientific.CodeGen.Writers.CodeWriter
 {
     public class CSharpLanguageSettings : ILanguageSettings
     {
@@ -21,9 +21,9 @@
             return new string(Indent[0], IndentLevel);
         }
 
-        public string OpenScope => BraceStyle == BraceStyle.EndOfLine ? " {" : "\n" + GetIndent() + "{";
+        public string OpenScope => BraceStyle == BraceStyle.EndOfLine ? " {" : "\r\n" + GetIndent() + "{";
 
-        public string CloseScope => BraceStyle == BraceStyle.EndOfLine ? "\n" + GetIndent() + "}" : GetIndent() + "}";
+        public string CloseScope => BraceStyle == BraceStyle.EndOfLine ? "\r\n" + GetIndent() + "}" : GetIndent() + "}";
 
         public string GetGenericType(string typeName, params string[] typeArguments)
         {

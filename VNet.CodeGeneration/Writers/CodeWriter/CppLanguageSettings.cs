@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VNet.CodeGeneration.Writers.CodeWriter
+namespace VNet.Scientific.CodeGen.Writers.CodeWriter
 {
     public class CppLanguageSettings : ILanguageSettings
     {

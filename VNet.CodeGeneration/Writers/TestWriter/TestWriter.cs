@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VNet.CodeGeneration.Writers.TestWriter
+namespace VNet.Scientific.CodeGen.Writers.TestWriter
 {
     public class TestWriter
     {
