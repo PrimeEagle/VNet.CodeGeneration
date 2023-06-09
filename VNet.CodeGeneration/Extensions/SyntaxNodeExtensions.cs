@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace VNet.CodeGeneration.Extensions
+namespace VNet.Scientific.CodeGen.Extensions
 {
     public static class SyntaxNodeExtensions
     {

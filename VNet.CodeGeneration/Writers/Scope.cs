@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace VNet.Scientific.CodeGen.Writers
+namespace VNet.CodeGeneration.Writers
 {
     public class Scope : IDisposable
     {
@@ -16,8 +16,13 @@ namespace VNet.Scientific.CodeGen.Writers
 
         public virtual void Dispose()
         {
-            LanguageSettings.IndentLevel--;
-            StringBuilder.AppendLine($"{LanguageSettings.GetIndent()}{LanguageSettings.CloseScope}");
+            LanguageSettings.Style.IndentLevel--;
+            StringBuilder.AppendLine($"{LanguageSettings.Style.GetIndent()}{LanguageSettings.Style.CloseScope}");
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            Dispose();
         }
     }
 }
