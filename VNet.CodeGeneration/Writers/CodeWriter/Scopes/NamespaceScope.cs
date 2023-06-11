@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 // ReSharper disable NotAccessedField.Local
 // ReSharper disable CollectionNeverUpdated.Local
@@ -37,31 +36,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
-
-            switch (_namespaceStyle)
-            {
-                case NamespaceStyle.Scoped:
-                    {
-                        _codeLines.Add($"{LanguageSettings.Style.GetIndent()}{LanguageSettings.Syntax.UseStatementKeyword} {StyledName}");
-                        _codeLines.AddRange(GenerateOpenScope());
-
-                        foreach (var childScope in _scopes) _codeLines.AddRange(childScope.GenerateCode());
-
-                        _codeLines.AddRange(GenerateCloseScope());
-                        IndentLevel.Increase();
-                        break;
-                    }
-                case NamespaceStyle.SingleLine:
-                    {
-                        _codeLines.Add($"{LanguageSettings.Style.GetIndent()}{LanguageSettings.Syntax.UseStatementKeyword} {StyledName};");
-
-                        foreach (var childScope in _scopes) _codeLines.AddRange(childScope.GenerateCode());
-
-                        break;
-                    }
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetNamespaceCode(StyledName, _namespaceStyle, _scopes, IndentLevel));
 
             return _codeLines;
         }

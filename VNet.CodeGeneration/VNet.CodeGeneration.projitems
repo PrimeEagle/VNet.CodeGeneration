@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SyntaxNodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\AccessModifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IndentationManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageStyledSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpStyledSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\MultilineCommentStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\BraceStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CaseConversionStyle.cs" />
@@ -53,8 +55,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageKeywordSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageStyleSettings.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\" />
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CSharpSyntax : IProgrammingLanguageSyntax
     {
-        public string UseStatementKeyword => "using";
+        public string UsingKeyword => "using";
         public string NamespaceKeyword => "namespace";
         public string ClassKeyword => "class";
         public string MethodKeyword => string.Empty;

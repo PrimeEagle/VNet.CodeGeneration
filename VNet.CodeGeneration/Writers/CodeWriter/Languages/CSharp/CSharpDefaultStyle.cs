@@ -5,12 +5,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CSharpDefaultStyle : IProgrammingLanguageStyle
     {
-        public IProgrammingLanguageSyntax Syntax { get; set; }
         public BraceStyle BraceStyle { get; set; }
         public CommentType DefaultCommentType => CommentType.SingleLine;
         public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.SameLine;
-        public string OpenScope => BraceStyle == BraceStyle.EndOfLine ? " " + Syntax.OpenScopeCharacter : LineBreakCharacter + GetIndent() + Syntax.OpenScopeCharacter;
-        public string CloseScope => BraceStyle == BraceStyle.EndOfLine ? LineBreakCharacter + GetIndent() + Syntax.CloseScopeCharacter : GetIndent() + Syntax.CloseScopeCharacter;
         public int IndentationWidth => 4;
         public bool UseSpacesForIndentation => false;
         public string LineBreakCharacter => Environment.NewLine;
@@ -38,13 +35,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public CaseConversionStyle VariableCaseConversionStyle => CaseConversionStyle.Camel;
         
         
-        public string GetIndent()
-        {
-            var indent = UseSpacesForIndentation ? new string(' ', IndentationWidth) : "\t";
-            
-            return new string(indent[0], IndentationWidth);
-        }
 
+        
         public string GetAccessModifier(AccessModifier modifier)
         {
             return modifier.ToString().ToLower();
@@ -95,15 +87,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                     return $"// {comment}";
                 }
             }
-        }
-
-        public CSharpDefaultStyle(IProgrammingLanguageSyntax syntax)
-        {
-            Syntax = syntax;
-        }
-
-        public CSharpDefaultStyle()
-        {
         }
     }
 }

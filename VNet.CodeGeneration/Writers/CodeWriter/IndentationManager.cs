@@ -1,25 +1,25 @@
 ﻿// ReSharper disable NotAccessedField.Local
-#pragma warning disable IDE0052
 
 namespace VNet.CodeGeneration.Writers.CodeWriter
 {
     public class IndentationManager
     {
-        private int _indentLevel;
+        public int Current { get; private set; }
+
 
         public IndentationManager()
         {
-            _indentLevel = 0;
+            Current = 0;
         }
 
         public void Increase()
         {
-            _indentLevel++;
+            Current++;
         }
 
         public void Decrease()
         {
-            _indentLevel--;
+            Current--;
         }
     }
 }

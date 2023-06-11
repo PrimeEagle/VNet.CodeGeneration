@@ -2,15 +2,12 @@
 {
     public interface IProgrammingLanguageStyle
     {
-        IProgrammingLanguageSyntax Syntax { get; set; }
         int IndentationWidth { get; }
         bool UseSpacesForIndentation { get; }
         BraceStyle BraceStyle { get; }
         CommentType DefaultCommentType { get; }
         MultilineCommentStyle MultilineCommentStyle { get; }
         string LineBreakCharacter { get; }
-        string OpenScope { get; }
-        string CloseScope { get; }
         bool SpaceAroundOperators { get; }
         bool SpaceInsideParentheses { get; }
         bool SpaceOutsideParentheses { get; }
@@ -33,12 +30,5 @@
         CaseConversionStyle RegionCaseConversionStyle { get; }
         CaseConversionStyle StructCaseConversionStyle { get; }
         CaseConversionStyle VariableCaseConversionStyle { get; }
-
-
-        string GetIndent();
-        string GetAccessModifier(AccessModifier modifier);
-        string GetGenericType(string typeName, params string[] typeArguments);
-        string GetAttributeSyntax(string attributeName, params string[] args);
-        string GetCommentSyntax(string comment, CommentType commentType);
     }
 }

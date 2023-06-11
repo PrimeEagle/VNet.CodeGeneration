@@ -39,14 +39,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines.Clear();
 
-            _codeLines.AddRange(GenerateOpenScope());
-
             foreach (var childScope in _scopes)
             {
                 _codeLines.AddRange(childScope.GenerateCode());
             }
-
-            _codeLines.AddRange(GenerateCloseScope());
 
             return _codeLines;
         }
@@ -147,36 +143,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual void Dispose()
         {
             IndentLevel.Decrease();
-            _codeLines.Add($"{LanguageSettings.Style.GetIndent()}{LanguageSettings.Style.CloseScope}");
+            _codeLines.Add($"{LanguageSettings.StyledSyntax.GetIndentCode(IndentLevel.Current)}{LanguageSettings.StyledSyntax.GetCloseScope(IndentLevel.Current)}");
         }
 
         protected virtual void Dispose(bool disposing)
         {
             Dispose();
-        }
-
-        protected virtual IEnumerable<string> GenerateOpenScope()
-        {
-            var result = new List<string>
-            {
-                LanguageSettings.Style.BraceStyle == BraceStyle.EndOfLine
-                    ? " " + LanguageSettings.Style.OpenScope
-                    : LanguageSettings.Style.LineBreakCharacter + LanguageSettings.Style.GetIndent() + LanguageSettings.Style.OpenScope
-            };
-
-            return result;
-        }
-
-        protected virtual IEnumerable<string> GenerateCloseScope()
-        {
-            var result = new List<string>
-            {
-                LanguageSettings.Style.BraceStyle == BraceStyle.EndOfLine
-                    ? " " + LanguageSettings.Style.CloseScope
-                    : LanguageSettings.Style.LineBreakCharacter + LanguageSettings.Style.GetIndent() + LanguageSettings.Style.CloseScope
-            };
-
-            return result;
         }
 
         protected void ValidateScope(string name, Type childScopeType)

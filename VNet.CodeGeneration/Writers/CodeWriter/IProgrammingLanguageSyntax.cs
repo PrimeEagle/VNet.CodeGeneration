@@ -2,7 +2,7 @@
 {
     public interface IProgrammingLanguageSyntax
     {
-        string UseStatementKeyword { get; }
+        string UsingKeyword { get; }
         string NamespaceKeyword { get; }
         string ClassKeyword { get; }
         string MethodKeyword { get; }

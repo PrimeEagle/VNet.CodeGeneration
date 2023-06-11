@@ -6,5 +6,6 @@
         IProgrammingLanguageFeatures Features { get; }
         IProgrammingLanguageSyntax Syntax { get; }
         IProgrammingLanguageStyle Style { get; }
+        IProgrammingLanguageStyledSyntax StyledSyntax { get; }
     }
 }
