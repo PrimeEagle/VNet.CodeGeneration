@@ -3,11 +3,11 @@
     public class CSharpLanguageSettings : IProgrammingLanguageSettings
     {
         public string LanguageName => "C#";
-        public IProgrammingLanguageFeatureSettings Features { get; }
-        public IProgrammingLanguageSyntaxSettings Syntax { get; }
-        public IProgrammingLanguageStyleSettings Style { get; }
+        public IProgrammingLanguageFeatures Features { get; }
+        public IProgrammingLanguageSyntax Syntax { get; }
+        public IProgrammingLanguageStyle Style { get; }
 
-        public CSharpLanguageSettings(IProgrammingLanguageStyleSettings style)
+        public CSharpLanguageSettings(IProgrammingLanguageStyle style)
         {
             Features = new CSharpFeatures();
             Syntax = new CSharpSyntax();

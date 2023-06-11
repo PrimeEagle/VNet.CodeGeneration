@@ -3,8 +3,8 @@
     public interface IProgrammingLanguageSettings
     {
         string LanguageName { get; }
-        IProgrammingLanguageFeatureSettings Features { get; }
-        IProgrammingLanguageSyntaxSettings Syntax { get; }
-        IProgrammingLanguageStyleSettings Style { get; }
+        IProgrammingLanguageFeatures Features { get; }
+        IProgrammingLanguageSyntax Syntax { get; }
+        IProgrammingLanguageStyle Style { get; }
     }
 }

@@ -1,22 +1,21 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace VNet.CodeGeneration.Writers.CodeWriter
+﻿namespace VNet.CodeGeneration.Writers.CodeWriter
 {
-    public interface IProgrammingLanguageStyleSettings
+    public interface IProgrammingLanguageStyle
     {
-        IProgrammingLanguageSyntaxSettings Syntax { get; set; }
+        IProgrammingLanguageSyntax Syntax { get; set; }
         int IndentationWidth { get; }
         bool UseSpacesForIndentation { get; }
         BraceStyle BraceStyle { get; }
+        CommentType DefaultCommentType { get; }
+        MultilineCommentStyle MultilineCommentStyle { get; }
         string LineBreakCharacter { get; }
-        int IndentLevel { get; set; }
-        string Indent { get; }
         string OpenScope { get; }
         string CloseScope { get; }
         bool SpaceAroundOperators { get; }
         bool SpaceInsideParentheses { get; }
         bool SpaceOutsideParentheses { get; }
         bool SpaceAfterComma { get; }
+        bool SpaceAfterCommentCharacter { get; }
         NamespaceStyle NamespaceStyle { get; }
         bool BreakLongLines { get; }
         int MaxLineLength { get; }
@@ -37,6 +36,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 
 
         string GetIndent();
-        string GetOperatorSpacing();
+        string GetAccessModifier(AccessModifier modifier);
+        string GetGenericType(string typeName, params string[] typeArguments);
+        string GetAttributeSyntax(string attributeName, params string[] args);
+        string GetCommentSyntax(string comment, CommentType commentType);
     }
 }

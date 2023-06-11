@@ -4,10 +4,17 @@ using VNet.CodeGeneration.Writers.CodeWriter.Scopes;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class CSharpFeatures : IProgrammingLanguageFeatureSettings
+    public class CSharpFeatures : IProgrammingLanguageFeatures
     {
-        public IDictionary<Type, IList<Type>> ScopeContainmentRules { get; }
+        #region Comment Features
+        public bool SupportForSingleLineComments => true;
+        public bool SupportForMultilineComments => true;
+        public bool SupportForDocumentationComments => true;
+        #endregion Comment Features
 
+
+        public IDictionary<Type, IList<Type>> ScopeContainmentRules { get; }
+        
 
         public CSharpFeatures()
         {

@@ -20,6 +20,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
+            IndentLevel = new IndentationManager();
         }
 
         public CodeFile UsingLanguageSettings(IProgrammingLanguageSettings languageSettings)

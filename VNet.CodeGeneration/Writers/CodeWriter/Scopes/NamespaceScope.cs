@@ -20,15 +20,17 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _namespaceStyle = LanguageSettings.Style.NamespaceStyle;
         }
 
-        public NamespaceScope UseSingleLineStyle()
+        public NamespaceScope WithSingleLineStyle()
         {
             _namespaceStyle = NamespaceStyle.SingleLine;
+
             return this;
         }
 
-        public NamespaceScope UseScopedStyle()
+        public NamespaceScope WithScopedStyle()
         {
             _namespaceStyle = NamespaceStyle.Scoped;
+
             return this;
         }
 
@@ -46,7 +48,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
                         foreach (var childScope in _scopes) _codeLines.AddRange(childScope.GenerateCode());
 
                         _codeLines.AddRange(GenerateCloseScope());
-                        LanguageSettings.Style.IndentLevel++;
+                        IndentLevel.Increase();
                         break;
                     }
                 case NamespaceStyle.SingleLine:

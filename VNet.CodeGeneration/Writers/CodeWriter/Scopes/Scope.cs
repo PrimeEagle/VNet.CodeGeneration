@@ -13,6 +13,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public string Name { get; private set; }
         public string StyledName => GetStyledName();
         public Scope Parent { get; private set; }
+        protected IndentationManager IndentLevel { get; set; }
 
 
         private readonly List<Scope> _scopes;
@@ -145,7 +146,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         public virtual void Dispose()
         {
-            LanguageSettings.Style.IndentLevel--;
+            IndentLevel.Decrease();
             _codeLines.Add($"{LanguageSettings.Style.GetIndent()}{LanguageSettings.Style.CloseScope}");
         }
 
@@ -154,7 +155,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Dispose();
         }
 
-        protected virtual List<string> GenerateOpenScope()
+        protected virtual IEnumerable<string> GenerateOpenScope()
         {
             var result = new List<string>
             {
@@ -166,7 +167,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return result;
         }
 
-        protected virtual List<string> GenerateCloseScope()
+        protected virtual IEnumerable<string> GenerateCloseScope()
         {
             var result = new List<string>
             {
@@ -180,12 +181,17 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         protected void ValidateScope(string name, Type childScopeType)
         {
-            if (!(LanguageSettings.Syntax.ValidNaming(name) &&
+            if (!(LanguageSettings.Syntax.IsValidNaming(name) &&
                 LanguageSettings.Features.ScopeContainmentRules.ContainsKey(this.GetType()) &&
                 LanguageSettings.Features.ScopeContainmentRules[this.GetType()].Contains(childScopeType)))
             {
                 throw new InvalidOperationException($"Creating a {childScopeType.Name} scope named '{name}' inside a {this.GetType().Name} scope is not allowed in {LanguageSettings.LanguageName}.");
             }
+        }
+
+        protected string GetOperatorSpacing()
+        {
+            return LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
         }
 
         public virtual RegionScope AddRegion(string name)

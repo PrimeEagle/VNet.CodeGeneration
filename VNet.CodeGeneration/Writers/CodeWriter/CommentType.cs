@@ -2,7 +2,8 @@
 {
     public enum CommentType
     {
-        Regular,
+        SingleLine,
+        MultiLine,
         Documentation
     }
 }
