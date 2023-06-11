@@ -1,6 +1,6 @@
-﻿namespace VNet.CodeGeneration.Writers
+﻿namespace VNet.CodeGeneration.Writers.CodeWriter
 {
-    public interface ILanguageKeywordsSettings
+    public interface IProgrammingLanguageSyntaxSettings
     {
         string NamespaceKeyword { get; }
         string ClassKeyword { get; }
@@ -19,5 +19,7 @@
         string GetCommentSyntax(string comment, CommentType commentType);
         string GetAttributeSyntax(string attributeName, params string[] args);
         string GetAccessModifier(AccessModifier modifier);
+        string EnumSeparatorCharacter { get; }
+        bool ValidNaming(string name);
     }
 }

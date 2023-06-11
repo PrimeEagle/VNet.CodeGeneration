@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.CSharp;
+using System;
 using System.Linq;
 
-namespace VNet.CodeGeneration.Writers.CodeWriter
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class CSharpKeywords : ILanguageKeywordsSettings
+    public class CSharpSyntax : IProgrammingLanguageSyntaxSettings
     {
         public string NamespaceKeyword => "namespace";
         public string ClassKeyword => "class";
@@ -84,5 +85,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
                 }
             }
         }
+
+        public bool ValidNaming(string name)
+        {
+            return new CSharpCodeProvider().IsValidIdentifier(name);
+        }
+
+        public string EnumSeparatorCharacter => "=";
     }
 }

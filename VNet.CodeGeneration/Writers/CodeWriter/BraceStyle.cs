@@ -1,4 +1,4 @@
-﻿namespace VNet.CodeGeneration.Writers
+﻿namespace VNet.CodeGeneration.Writers.CodeWriter
 {
     public enum BraceStyle
     {

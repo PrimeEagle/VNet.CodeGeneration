@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers
 {
@@ -28,7 +29,7 @@ namespace VNet.CodeGeneration.Writers
             return sb;
         }
 
-        public static string ApplyWhitespaceSettings(this string code, ILanguageSettings languageSettings)
+        public static string ApplyWhitespaceSettings(this string code, IProgrammingLanguageSettings languageSettings)
         {
             if (!languageSettings.Style.SpaceInsideParentheses)
                 code = Regex.Replace(code, @"\(\s+", "(");

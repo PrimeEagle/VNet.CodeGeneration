@@ -10,29 +10,49 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SyntaxNodeExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\AccessModifier.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\BraceStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\ClassScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\AccessModifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\BraceStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CaseConversionStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ConvertCase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\NamespaceStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\ClassScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeWriter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CSharpDefaultStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CSharpFeatures.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CSharpKeywords.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CSharpLanguageSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\DelegateScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CommentType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\ConstructorScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\EnumScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\ILanguageFeatureSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\ILanguageKeywordSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\ILanguageSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\ILanguageStyleSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\InterfaceScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\MethodScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\NamespaceScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\PropertyScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\Scope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeWriterExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\CommentScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpDefaultStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpFeatures.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\DelegateScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CommentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\ConstructorScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\EnumMember.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\EnumScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\PropertyGetterScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\RegionScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\VariableScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\PropertySetterScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\CodeBlockScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\FieldScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageFeatureSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageSyntaxSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageStyleSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\InterfaceScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\MethodScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\NamespaceScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\PropertyScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\Scope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\UsingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StringBuilderExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\StructScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageFeatureSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageKeywordSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageStyleSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\" />
   </ItemGroup>
 </Project>
