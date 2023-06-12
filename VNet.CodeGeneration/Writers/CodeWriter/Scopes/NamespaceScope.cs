@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 // ReSharper disable NotAccessedField.Local
 // ReSharper disable CollectionNeverUpdated.Local
@@ -11,8 +12,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         private readonly List<string> _codeLines;
         private NamespaceStyle _namespaceStyle;
 
-        internal NamespaceScope(string name, Scope parent, IProgrammingLanguageSettings languageSettings)
-            : base(name, parent, languageSettings)
+        internal NamespaceScope(string value, Scope parent)
+            : base(value, parent)
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
@@ -36,7 +37,32 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetNamespaceCode(StyledName, _namespaceStyle, _scopes, IndentLevel));
+
+            switch (_namespaceStyle)
+            {
+                case NamespaceStyle.Scoped:
+                    {
+                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetNamespaceStyledSyntax(StyledValue, _namespaceStyle, IndentLevel));
+                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetOpenScope(IndentLevel.Current));
+                        IndentLevel.Increase();
+
+                        foreach (var childScope in _scopes)
+                            _codeLines.AddRange(childScope.GenerateCode());
+                        break;
+                    }
+                case NamespaceStyle.SingleLine:
+                    {
+                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetNamespaceStyledSyntax(StyledValue, _namespaceStyle, IndentLevel));
+
+                        foreach (var childScope in _scopes)
+                            _codeLines.AddRange(childScope.GenerateCode());
+                        break;
+                    }
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            Dispose();
 
             return _codeLines;
         }

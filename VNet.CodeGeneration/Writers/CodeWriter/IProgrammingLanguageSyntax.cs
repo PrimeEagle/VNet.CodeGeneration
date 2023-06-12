@@ -26,6 +26,8 @@
         string MultilineCommentOpenScopeCharacter { get; }
         string MultilineCommentCloseScopeCharacter { get; }
         string DocumentationCommentCharacter { get; }
+        string DocumentationCommentOpenScopeCharacter { get; }
+        string DocumentationCommentCloseScopeCharacter { get; }
         bool IsValidNaming(string name);
     }
 }

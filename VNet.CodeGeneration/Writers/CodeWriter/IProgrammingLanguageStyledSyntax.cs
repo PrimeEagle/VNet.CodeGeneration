@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter.Scopes;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter
 {
@@ -13,6 +12,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         string GetIndentCode(int numberOfIndents);
         IEnumerable<string> GetOpenScope(int currentIndentLevel);
         IEnumerable<string> GetCloseScope(int currentIndentLevel);
-        IEnumerable<string> GetNamespaceCode(string styledName, NamespaceStyle namespaceStyle, List<Scope> scopes, IndentationManager indentLevel);
+        IEnumerable<string> GetNamespaceStyledSyntax(string styledName, NamespaceStyle namespaceStyle, IndentationManager indentLevel);
+        IEnumerable<string> GetCommentStyledSyntax(string styledValue, CommentType commentType, IndentationManager indentLevel);
+        IEnumerable<string> GetUsingStyledSyntax(string styledValue, IndentationManager indentLevel);
     }
 }

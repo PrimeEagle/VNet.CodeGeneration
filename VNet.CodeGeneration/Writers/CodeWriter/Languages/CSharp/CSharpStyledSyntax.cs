@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VNet.CodeGeneration.Writers.CodeWriter.Scopes;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
@@ -56,7 +55,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return result;
         }
 
-        public IEnumerable<string> GetNamespaceCode(string styledName, NamespaceStyle namespaceStyle, List<Scope> scopes, IndentationManager indentLevel)
+        public IEnumerable<string> GetNamespaceStyledSyntax(string styledValue, NamespaceStyle namespaceStyle, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
 
@@ -64,26 +63,81 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             {
                 case NamespaceStyle.Scoped:
                     {
-                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.UsingKeyword} {styledName}");
-                        codeLines.AddRange(GetOpenScope(indentLevel.Current));
-
-                        foreach (var childScope in scopes) codeLines.AddRange(childScope.GenerateCode());
-
-                        codeLines.AddRange(GetCloseScope(indentLevel.Current));
-                        indentLevel.Increase();
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.NamespaceKeyword} {styledValue}");
                         break;
                     }
                 case NamespaceStyle.SingleLine:
                     {
-                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.UsingKeyword} {styledName};");
-
-                        foreach (var childScope in scopes) codeLines.AddRange(childScope.GenerateCode());
-
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.NamespaceKeyword} {styledValue}{Syntax.StatementEnd}");
                         break;
                     }
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, CommentType commentType, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+            var values = styledValue.Split(CodeWriter.NewLineDelimiters, StringSplitOptions.None);
+
+            switch (commentType)
+            {
+                case CommentType.SingleLine:
+                    {
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.SingleLineCommentCharacter}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{styledValue}");
+                        break;
+                    }
+                case CommentType.MultiLine:
+                    {
+                        if (Style.MultilineCommentStyle == MultilineCommentStyle.SameLine)
+                        {
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeCharacter}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{values[0]}");
+                            for (var i = 1; i <= values.Length - 3; i++)
+                            {
+                                codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[i]}");
+                            }
+
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{Syntax.MultilineCommentCloseScopeCharacter}");
+                        }
+
+                        if (Style.MultilineCommentStyle == MultilineCommentStyle.NewLine)
+                        {
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeCharacter}{values[0]}");
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[0]}");
+                            for (var i = 1; i <= values.Length - 3; i++)
+                            {
+                                codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[i]}");
+                            }
+
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}");
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentCloseScopeCharacter}");
+                        }
+                    }
+                    break;
+                case CommentType.Documentation:
+                    codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentOpenScopeCharacter}{values[0]}");
+                    foreach (var t in values)
+                    {
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentCharacter}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{t}");
+                    }
+
+                    // TODO: doesn't support documentation for parameters
+                    codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentCloseScopeCharacter}");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetUsingStyledSyntax(string styledValue, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.UsingKeyword} {styledValue}{Syntax.StatementEnd}");
 
             return codeLines;
         }

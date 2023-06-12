@@ -10,8 +10,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
     public abstract class Scope
     {
         public IProgrammingLanguageSettings LanguageSettings { get; private set; }
-        public string Name { get; private set; }
-        public string StyledName => GetStyledName();
+        public string Value { get; private set; }
+        public string StyledValue => GetStyledValue();
         public Scope Parent { get; private set; }
         protected IndentationManager IndentLevel { get; set; }
 
@@ -22,14 +22,21 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         protected Scope()
         {
-
+            IndentLevel = new IndentationManager();
+            _scopes = new List<Scope>();
+            _codeLines = new List<string>();
         }
 
-        protected Scope(string name, Scope parent, IProgrammingLanguageSettings languageSettings)
+        
+        protected Scope(string value, Scope parent)
         {
-            Name = name;
-            LanguageSettings = languageSettings;
             Parent = parent;
+            Value = value;
+            LanguageSettings = Parent.LanguageSettings;
+            IndentLevel = new IndentationManager
+            {
+                Current = Parent.IndentLevel.Current
+            };
 
             _scopes = new List<Scope>();
             _codeLines = new List<string>();
@@ -50,13 +57,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         private List<string> ExpandCodeLines(List<string> list)
         {
             var result = new List<string>();
-            var delimiters = new string[] { Environment.NewLine, "\r\n", "\r", "\n" };
 
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var line in list)
             {
-                var sublines = line.Split(delimiters, StringSplitOptions.None);
+                var sublines = line.Split(CodeWriter.NewLineDelimiters, StringSplitOptions.None);
 
                 result.AddRange(sublines);
             }
@@ -143,7 +149,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual void Dispose()
         {
             IndentLevel.Decrease();
-            _codeLines.Add($"{LanguageSettings.StyledSyntax.GetIndentCode(IndentLevel.Current)}{LanguageSettings.StyledSyntax.GetCloseScope(IndentLevel.Current)}");
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCloseScope(IndentLevel.Current));
         }
 
         protected virtual void Dispose(bool disposing)
@@ -169,7 +175,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual RegionScope AddRegion(string name)
         {
             ValidateScope(name, typeof(RegionScope));
-            var newScope = new RegionScope(name, this, LanguageSettings);
+            var newScope = new RegionScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -178,7 +184,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual UsingScope AddUsingStatement(string name)
         {
             ValidateScope(name, typeof(UsingScope));
-            var newScope = new UsingScope(name, this, LanguageSettings);
+            var newScope = new UsingScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -187,7 +193,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual NamespaceScope AddNamespace(string name)
         {
             ValidateScope(name, typeof(NamespaceScope));
-            var newScope = new NamespaceScope(name, this, LanguageSettings);
+            var newScope = new NamespaceScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -195,7 +201,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual CommentScope AddComment(string name)
         {
             ValidateScope(name, typeof(CommentScope));
-            var newScope = new CommentScope(name, this, LanguageSettings);
+            var newScope = new CommentScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -203,7 +209,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual EnumScope AddEnum(string name)
         {
             ValidateScope(name, typeof(EnumScope));
-            var newScope = new EnumScope(name, this, LanguageSettings);
+            var newScope = new EnumScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -211,7 +217,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual StructScope AddStruct(string name)
         {
             ValidateScope(name, typeof(StructScope));
-            var newScope = new StructScope(name, this, LanguageSettings);
+            var newScope = new StructScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -219,7 +225,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual InterfaceScope AddInterface(string name)
         {
             ValidateScope(name, typeof(InterfaceScope));
-            var newScope = new InterfaceScope(name, this, LanguageSettings);
+            var newScope = new InterfaceScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -227,7 +233,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual ClassScope AddClass(string name)
         {
             ValidateScope(name, typeof(ClassScope));
-            var newScope = new ClassScope(name, this, LanguageSettings);
+            var newScope = new ClassScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -235,7 +241,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual PropertyScope AddProperty(string name)
         {
             ValidateScope(name, typeof(PropertyScope));
-            var newScope = new PropertyScope(name, this, LanguageSettings);
+            var newScope = new PropertyScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -243,7 +249,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual PropertyGetterScope AddPropertyGetter(string name)
         {
             ValidateScope(name, typeof(PropertyGetterScope));
-            var newScope = new PropertyGetterScope(name, this, LanguageSettings);
+            var newScope = new PropertyGetterScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -251,7 +257,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual PropertySetterScope AddPropertySetter(string name)
         {
             ValidateScope(name, typeof(PropertySetterScope));
-            var newScope = new PropertySetterScope(name, this, LanguageSettings);
+            var newScope = new PropertySetterScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -259,7 +265,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual ConstructorScope AddConstructor(string name)
         {
             ValidateScope(name, typeof(ConstructorScope));
-            var newScope = new ConstructorScope(name, this, LanguageSettings);
+            var newScope = new ConstructorScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -267,7 +273,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual DelegateScope AddDelegate(string name)
         {
             ValidateScope(name, typeof(DelegateScope));
-            var newScope = new DelegateScope(name, this, LanguageSettings);
+            var newScope = new DelegateScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -275,7 +281,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual FieldScope AddField(string name)
         {
             ValidateScope(name, typeof(FieldScope));
-            var newScope = new FieldScope(name, this, LanguageSettings);
+            var newScope = new FieldScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -283,7 +289,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual MethodScope AddMethod(string name)
         {
             ValidateScope(name, typeof(MethodScope));
-            var newScope = new MethodScope(name, this, LanguageSettings);
+            var newScope = new MethodScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -291,7 +297,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual CodeBlockScope AddCodeBlock(string name)
         {
             ValidateScope(name, typeof(CodeBlockScope));
-            var newScope = new CodeBlockScope(name, this, LanguageSettings);
+            var newScope = new CodeBlockScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -300,15 +306,15 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public virtual VariableScope AddVariable(string name)
         {
             ValidateScope(name, typeof(VariableScope));
-            var newScope = new VariableScope(name, this, LanguageSettings);
+            var newScope = new VariableScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
         }
 
-        protected string GetStyledName()
+        protected virtual string GetStyledValue()
         {
-            var result = Name;
+            var result = Value;
 
             if (!LanguageSettings.Style.EnableCaseConversion) return result;
 

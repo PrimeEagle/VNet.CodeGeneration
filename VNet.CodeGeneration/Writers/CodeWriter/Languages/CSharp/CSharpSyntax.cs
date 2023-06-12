@@ -28,6 +28,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public string MultilineCommentOpenScopeCharacter => "/*";
         public string MultilineCommentCloseScopeCharacter => "*/";
         public string DocumentationCommentCharacter => "///";
+        public string DocumentationCommentOpenScopeCharacter => "/// <summary>";
+        public string DocumentationCommentCloseScopeCharacter => "/// </summary>";
 
         public bool IsValidNaming(string name)
         {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter.Scopes;
+﻿using System;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -11,5 +10,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         {
             return new CodeFile();
         }
+
+        internal static string[] NewLineDelimiters => new string[]{ Environment.NewLine, "\r\n", "\r", "\n" };
     }
 }

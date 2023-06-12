@@ -7,8 +7,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
 
-        internal DelegateScope(string name, Scope parent, IProgrammingLanguageSettings languageSettings)
-            : base(name, parent, languageSettings)
+        internal DelegateScope(string name, Scope parent)
+            : base(name, parent)
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();

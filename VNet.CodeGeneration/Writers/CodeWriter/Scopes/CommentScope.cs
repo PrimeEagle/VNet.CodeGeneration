@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 // ReSharper disable NotAccessedField.Local
 #pragma warning disable CS0414
-#pragma warning disable IDE0052
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -11,8 +10,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         private CommentType _commentType;
         private readonly List<Scope> _scopes;
 
-        internal CommentScope(string name, Scope parent, IProgrammingLanguageSettings languageSettings)
-            : base(name, parent, languageSettings)
+        internal CommentScope(string name, Scope parent)
+            : base(name, parent)
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
@@ -39,9 +38,18 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
+        protected override string GetStyledValue()
+        {
+            return Value;
+        }
+
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCommentStyledSyntax(StyledValue, _commentType, IndentLevel));
+
+            foreach (var childScope in _scopes)
+                _codeLines.AddRange(childScope.GenerateCode());
 
             return _codeLines;
         }
