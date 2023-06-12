@@ -14,6 +14,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public string StyledValue => GetStyledValue();
         public Scope Parent { get; private set; }
         protected IndentationManager IndentLevel { get; set; }
+        protected List<string> _modifiers;
 
 
         private readonly List<Scope> _scopes;
@@ -25,6 +26,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             IndentLevel = new IndentationManager();
             _scopes = new List<Scope>();
             _codeLines = new List<string>();
+            _modifiers = new List<string>();
         }
 
         
@@ -318,74 +320,66 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             if (!LanguageSettings.Style.EnableCaseConversion) return result;
 
-            if (this is ClassScope) result = ConvertStyleCase(result, LanguageSettings.Style.ClassCaseConversionStyle);
-            if (this is ConstructorScope) result = ConvertStyleCase(result, LanguageSettings.Style.ConstructorCaseConversionStyle);
-            if (this is DelegateScope) result = ConvertStyleCase(result, LanguageSettings.Style.DelegateCaseConversionStyle);
-            if (this is EnumScope) result = ConvertStyleCase(result, LanguageSettings.Style.EnumCaseConversionStyle);
-            if (this is FieldScope) result = ConvertStyleCase(result, LanguageSettings.Style.FieldCaseConversionStyle);
-            if (this is InterfaceScope) result = ConvertStyleCase(result, LanguageSettings.Style.InterfaceCaseConversionStyle);
-            if (this is MethodScope) result = ConvertStyleCase(result, LanguageSettings.Style.MethodCaseConversionStyle);
-            if (this is NamespaceScope) result = ConvertStyleCase(result, LanguageSettings.Style.NamespaceCaseConversionStyle);
-            if (this is PropertyScope) result = ConvertStyleCase(result, LanguageSettings.Style.PropertyCaseConversionStyle);
-            if (this is RegionScope) result = ConvertStyleCase(result, LanguageSettings.Style.RegionCaseConversionStyle);
-            if (this is StructScope) result = ConvertStyleCase(result, LanguageSettings.Style.StructCaseConversionStyle);
-            if (this is VariableScope) result = ConvertStyleCase(result, LanguageSettings.Style.VariableCaseConversionStyle);
+            if (this is ClassScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ClassCaseConversionStyle);
+            if (this is ConstructorScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ConstructorCaseConversionStyle);
+            if (this is DelegateScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.DelegateCaseConversionStyle);
+            if (this is EnumScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.EnumCaseConversionStyle);
+            if (this is FieldScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.FieldCaseConversionStyle);
+            if (this is InterfaceScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.InterfaceCaseConversionStyle);
+            if (this is MethodScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.MethodCaseConversionStyle);
+            if (this is NamespaceScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.NamespaceCaseConversionStyle);
+            if (this is PropertyScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.PropertyCaseConversionStyle);
+            if (this is RegionScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.RegionCaseConversionStyle);
+            if (this is StructScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.StructCaseConversionStyle);
+            if (this is VariableScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.VariableCaseConversionStyle);
 
             return result;
         }
 
-        private static string ConvertStyleCase(string name, CaseConversionStyle conversionStyle)
+        protected void ValidateModifiers(IEnumerable<string> modifiers)
         {
-            string result;
+            ValidateTypeModifiers(modifiers);
+            ValidateModifierCombinations(modifiers);
+        }
 
-            switch (conversionStyle)
+        private void ValidateTypeModifiers(IEnumerable<string> modifiers)
+        {
+            var scopeType = this.GetType();
+
+            if (!LanguageSettings.Features.AllowedModifiers.ContainsKey(scopeType)) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifiers for type '{scopeType.Name}' are not allowd.");
+
+            var validModifiers = LanguageSettings.Features.AllowedModifiers[scopeType].Select(m => m.ToLower());
+
+            var invalidModifier = modifiers.FirstOrDefault(m => !validModifiers.Contains(m.ToLower()));
+                if(invalidModifier != null) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifier '{invalidModifier}' is not valid for type '{scopeType.Name}'.");
+        }
+
+        private void ValidateModifierCombinations(IEnumerable<string> modifiers)
+        {
+            foreach (var modifier in modifiers)
             {
-                case CaseConversionStyle.None:
-                    result = name;
-                    break;
-                case CaseConversionStyle.AllLower:
-                    result = ConvertCase.ToAlLLower(name);
-                    break;
-                case CaseConversionStyle.AllUpper:
-                    result = ConvertCase.ToAllUpper(name);
-                    break;
-                case CaseConversionStyle.Pascal:
-                    result = ConvertCase.ToPascal(name);
-                    break;
-                case CaseConversionStyle.Camel:
-                    result = ConvertCase.ToCamel(name);
-                    break;
-                case CaseConversionStyle.Snake:
-                    result = ConvertCase.ToSnake(name);
-                    break;
-                case CaseConversionStyle.Kebab:
-                    result = ConvertCase.ToKebab(name);
-                    break;
-                case CaseConversionStyle.ScreamingSnake:
-                    result = ConvertCase.ToScreamingSnake(name);
-                    break;
-                case CaseConversionStyle.ScreamingKebab:
-                    result = ConvertCase.ToScreamingKebab(name);
-                    break;
-                case CaseConversionStyle.Title:
-                    result = ConvertCase.ToTitle(name);
-                    break;
-                case CaseConversionStyle.TitleDot:
-                    result = ConvertCase.ToTitleDot(name);
-                    break;
-                case CaseConversionStyle.LowerDot:
-                    result = ConvertCase.ToLowerDot(name);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(conversionStyle), conversionStyle, null);
-            }
+                if (!LanguageSettings.Features.DisallowedModifierCombinations.ContainsKey(modifier)) continue;
 
-            return result;
+                foreach (var disallowed in LanguageSettings.Features.DisallowedModifierCombinations[modifier])
+                {
+                    if (modifier.Contains(disallowed)) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifier '{modifier}' cannot be combined with modifier '{disallowed}'.");
+                }
+            }
         }
 
         public virtual Scope Up()
         {
             return Parent;
+        }
+
+        protected void AddModifier(string modifier)
+        {
+            if (LanguageSettings.Features.DisallowedModifierCombinations.TryGetValue(modifier, out var combination))
+            {
+                _modifiers.RemoveAll(m => combination.Select(d => d.ToLower()).Contains(m.ToLower()));
+            }
+
+            if (!_modifiers.Contains(modifier)) _modifiers.Add(modifier);
         }
     }
 }

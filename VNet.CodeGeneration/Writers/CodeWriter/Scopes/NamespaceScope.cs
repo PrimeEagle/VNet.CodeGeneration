@@ -18,6 +18,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
             _namespaceStyle = LanguageSettings.Style.NamespaceStyle;
+            _modifiers = new List<string>();
         }
 
         public NamespaceScope WithSingleLineStyle()
@@ -42,7 +43,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             {
                 case NamespaceStyle.Scoped:
                     {
-                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetNamespaceStyledSyntax(StyledValue, _namespaceStyle, IndentLevel));
+                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetNamespaceStyledSyntax(StyledValue, _modifiers, IndentLevel, _namespaceStyle));
                         _codeLines.AddRange(LanguageSettings.StyledSyntax.GetOpenScope(IndentLevel.Current));
                         IndentLevel.Increase();
 
@@ -52,7 +53,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
                     }
                 case NamespaceStyle.SingleLine:
                     {
-                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetNamespaceStyledSyntax(StyledValue, _namespaceStyle, IndentLevel));
+                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetNamespaceStyledSyntax(StyledValue, _modifiers, IndentLevel, _namespaceStyle));
 
                         foreach (var childScope in _scopes)
                             _codeLines.AddRange(childScope.GenerateCode());

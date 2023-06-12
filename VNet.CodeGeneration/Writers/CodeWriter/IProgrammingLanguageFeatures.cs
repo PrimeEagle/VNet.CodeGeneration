@@ -11,7 +11,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         bool SupportForDocumentationComments { get; }
         #endregion Comment Feature
 
-
+        IDictionary<Type, IList<string>> AllowedModifiers { get; }
+        IDictionary<string, IList<string>> DisallowedModifierCombinations { get; }
         IDictionary<Type, IList<Type>> ScopeContainmentRules { get; }
     }
 }

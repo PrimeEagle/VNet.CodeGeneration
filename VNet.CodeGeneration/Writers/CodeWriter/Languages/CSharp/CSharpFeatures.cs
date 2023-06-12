@@ -12,12 +12,229 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public bool SupportForDocumentationComments => true;
         #endregion Comment Features
 
-
+        public IDictionary<Type, IList<string>> AllowedModifiers { get; }
+        public IDictionary<string, IList<string>> DisallowedModifierCombinations { get; }
         public IDictionary<Type, IList<Type>> ScopeContainmentRules { get; }
-        
+
 
         public CSharpFeatures()
         {
+            AllowedModifiers = new Dictionary<Type, IList<string>>()
+            {
+                { typeof(FieldScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected",
+                        "static",
+                        "readonly",
+                        "const",
+                        "volatile",
+                        "new"
+                    }
+                },
+                { typeof(PropertyScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected",
+                        "static",
+                        "readonly",
+                        "const",
+                        "volatile",
+                        "new",
+                        "virtual",
+                        "abstract",
+                        "override"
+                    }
+                },
+                { typeof(StructScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected",
+                        "static",
+                        "readonly",
+                        "const",
+                        "volatile"
+                    }
+                },
+                { typeof(EnumScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected",
+                        "static",
+                        "readonly",
+                        "const",
+                        "volatile"
+                    }
+                },
+                { typeof(ClassScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected",
+                        "static",
+                        "readonly",
+                        "const",
+                        "volatile",
+                        "new",
+                        "virtual",
+                        "abstract",
+                        "override"
+                    }
+                },
+                { typeof(InterfaceScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected"
+                    }
+                },
+                { typeof(MethodScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected",
+                        "static",
+                        "readonly",
+                        "const",
+                        "volatile",
+                        "new",
+                        "virtual",
+                        "abstract",
+                        "override",
+                        "async"
+                    }
+                }
+            };
+
+            DisallowedModifierCombinations = new Dictionary<string, IList<string>>()
+            {
+                { "public", new List<string>()
+                    {
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected"
+                    }
+                },
+                { "private", new List<string>()
+                    {
+                        "public",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected"
+                    }
+                },
+                { "internal", new List<string>()
+                    {
+                        "private",
+                        "public",
+                        "protected",
+                        "protected internal",
+                        "private protected"
+                    }
+                },
+                { "protected", new List<string>()
+                    {
+                        "private",
+                        "internal",
+                        "public",
+                        "protected internal",
+                        "private protected"
+                    }
+                },
+                { "protected internal", new List<string>()
+                    {
+                        "private",
+                        "internal",
+                        "protected",
+                        "public",
+                        "private protected"
+                    }
+                },
+                { "private protected", new List<string>()
+                    {
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "public"
+                    }
+                },
+                { "readonly", new List<string>()
+                    {
+                        "const",
+                        "volatile"
+                    }
+                },
+                { "const", new List<string>()
+                    {
+                        "readonly",
+                        "volatile",
+                    }
+                },
+                { "volatile", new List<string>()
+                    {
+                        "readonly",
+                        "const"
+                    }
+                },
+                { "abstract", new List<string>()
+                    {
+                        "virtual",
+                        "override",
+                        "new"
+                    }
+                },
+                { "abstract", new List<string>()
+                    {
+                        "virtual",
+                        "override",
+                        "new"
+                    }
+                },
+                { "override", new List<string>()
+                    {
+                        "abstract",
+                        "virtual",
+                        "new"
+                    }
+                },
+                { "new", new List<string>()
+                    {
+                        "virtual",
+                        "override",
+                        "abstract"
+                    }
+                },
+            };
+
             ScopeContainmentRules = new Dictionary<Type, IList<Type>>()
             {
                 { typeof(CodeFile), new List<Type>()
@@ -116,6 +333,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(VariableScope),
                         typeof(CodeBlockScope),
                         typeof(RegionScope)
+                    }
+                },
+                { typeof(StructScope), new List<Type>()
+                    {
+                        typeof(CommentScope),
+                        typeof(FieldScope),
+                        typeof(ClassScope),
+                        typeof(InterfaceScope),
+                        typeof(MethodScope),
+                        typeof(PropertyScope),
+                        typeof(StructScope),
+                        typeof(DelegateScope),
+                        typeof(ConstructorScope),
+                        typeof(RegionScope)
+                    }
+                },
+                { typeof(EnumScope), new List<Type>()
+                    {
+                        typeof(CommentScope)
                     }
                 }
             };

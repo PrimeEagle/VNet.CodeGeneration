@@ -3,9 +3,9 @@
     public class EnumMember
     {
         public string Name { get; }
-        public string Value { get; }
+        public int? Value { get; }
 
-        public EnumMember(string name, string value)
+        public EnumMember(string name, int? value = null)
         {
             Name = name;
             Value = value;

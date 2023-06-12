@@ -7,6 +7,10 @@
         string ClassKeyword { get; }
         string MethodKeyword { get; }
         string StaticKeyword { get; }
+        string ReadOnlyKeyword { get; }
+        string ConstantKeyword { get; }
+        string VolatileKeyword { get; }
+        string NewKeyword { get; }
         string InterfaceKeyword { get; }
         string StructKeyword { get; }
         string EnumKeyword { get; }
@@ -21,13 +25,15 @@
         string PropertySetterGetter { get; }
         string GetKeyword { get; }
         string SetKeyword { get; }
-        string EnumSeparatorCharacter { get; }
+        string EnumValueSeparatorCharacter { get; }
+        string EnumMemberSeparatorCharacter { get; }
         string SingleLineCommentCharacter { get; }
         string MultilineCommentOpenScopeCharacter { get; }
         string MultilineCommentCloseScopeCharacter { get; }
         string DocumentationCommentCharacter { get; }
         string DocumentationCommentOpenScopeCharacter { get; }
         string DocumentationCommentCloseScopeCharacter { get; }
+        CaseConversionStyle AccessModifierCaseStyle { get; }
         bool IsValidNaming(string name);
     }
 }

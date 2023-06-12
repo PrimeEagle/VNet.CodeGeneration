@@ -15,6 +15,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
+            _modifiers = new List<string>();
         }
 
         public CommentScope ThatIsSingleLine()
@@ -46,7 +47,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCommentStyledSyntax(StyledValue, _commentType, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCommentStyledSyntax(StyledValue, _modifiers, IndentLevel, _commentType));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable UnusedParameter.Global
+#pragma warning disable IDE0060
+#pragma warning disable IDE0060
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
@@ -55,7 +58,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return result;
         }
 
-        public IEnumerable<string> GetNamespaceStyledSyntax(string styledValue, NamespaceStyle namespaceStyle, IndentationManager indentLevel)
+        private string GetModifiers(IEnumerable<string> modifiers)
+        {
+            return string.Join(" ", modifiers).Trim();
+        }
+
+        public IEnumerable<string> GetNamespaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, NamespaceStyle namespaceStyle)
         {
             var codeLines = new List<string>();
 
@@ -78,7 +86,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return codeLines;
         }
 
-        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, CommentType commentType, IndentationManager indentLevel)
+        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, CommentType commentType)
         {
             var codeLines = new List<string>();
             var values = styledValue.Split(CodeWriter.NewLineDelimiters, StringSplitOptions.None);
@@ -119,6 +127,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                     break;
                 case CommentType.Documentation:
                     codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentOpenScopeCharacter}{values[0]}");
+                    // ReSharper disable once LoopCanBeConvertedToQuery
                     foreach (var t in values)
                     {
                         codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentCharacter}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{t}");
@@ -134,10 +143,39 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return codeLines;
         }
 
-        public IEnumerable<string> GetUsingStyledSyntax(string styledValue, IndentationManager indentLevel)
+        public IEnumerable<string> GetUsingStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
+            var codeLines = new List<string>
+            {
+                $"{GetIndentCode(indentLevel.Current)}{Syntax.UsingKeyword} {styledValue}{Syntax.StatementEnd}"
+            };
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetEnumStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, IEnumerable<EnumMember> members)
+        {
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.UsingKeyword} {styledValue}{Syntax.StatementEnd}");
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.EnumKeyword}{GetOpenScope(indentLevel.Current)}");
+            
+            indentLevel.Increase();
+            foreach (var member in members)
+            {
+                var memberValue = string.Empty;
+                if (member.Value.HasValue)
+                {
+                    memberValue += Style.SpaceAroundOperators ? " " : string.Empty;
+                    memberValue += Syntax.EnumValueSeparatorCharacter;
+                    memberValue += Style.SpaceAroundOperators ? " " : string.Empty;
+                    memberValue += member.Value.ToString();
+                }
+
+                codeLines.Add($"{member.Name}{memberValue}{Syntax.EnumMemberSeparatorCharacter}");
+            }
+            indentLevel.Decrease();
+
 
             return codeLines;
         }
