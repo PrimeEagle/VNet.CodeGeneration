@@ -158,7 +158,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.EnumKeyword}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.EnumKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
             
             indentLevel.Increase();
             foreach (var member in members)
@@ -176,6 +176,17 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             }
             indentLevel.Decrease();
 
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetStructStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.StructKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            indentLevel.Increase();
 
             return codeLines;
         }

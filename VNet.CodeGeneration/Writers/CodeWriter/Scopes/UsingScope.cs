@@ -12,13 +12,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
-            _modifiers = new List<string>();
+            Modifiers = new List<string>();
         }
 
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetUsingStyledSyntax(StyledValue, _modifiers, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetUsingStyledSyntax(StyledValue, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

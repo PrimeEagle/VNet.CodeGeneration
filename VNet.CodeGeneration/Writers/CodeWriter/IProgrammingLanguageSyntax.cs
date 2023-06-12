@@ -11,6 +11,7 @@
         string ConstantKeyword { get; }
         string VolatileKeyword { get; }
         string NewKeyword { get; }
+        string PublicKeyword { get; }
         string InterfaceKeyword { get; }
         string StructKeyword { get; }
         string EnumKeyword { get; }

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-#pragma warning disable IDE0052
 
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable NotAccessedField.Local
 // ReSharper disable CollectionNeverUpdated.Local
-#pragma warning disable CS0169
+#pragma warning disable CS0108, CS0114, CS0169, IDE0052
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -22,37 +21,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _modifiers = new List<string>();
         }
 
-        public FieldScope WithStatic()
+        public FieldScope WithModifier(string modifier)
         {
-            AddModifier(LanguageSettings.Syntax.StaticKeyword);
-
-            return this;
-        }
-
-        public FieldScope WithReadOnly()
-        {
-            AddModifier(LanguageSettings.Syntax.ReadOnlyKeyword);
-
-            return this;
-        }
-
-        public FieldScope WithConstant()
-        {
-            AddModifier(LanguageSettings.Syntax.ConstantKeyword);
-
-            return this;
-        }
-
-        public FieldScope WithVolatile()
-        {
-            AddModifier(LanguageSettings.Syntax.VolatileKeyword);
-
-            return this;
-        }
-
-        public FieldScope WithNew()
-        {
-            AddModifier(LanguageSettings.Syntax.NewKeyword);
+            AddModifier(modifier);
 
             return this;
         }

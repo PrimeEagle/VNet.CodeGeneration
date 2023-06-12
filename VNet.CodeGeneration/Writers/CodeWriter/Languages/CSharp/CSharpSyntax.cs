@@ -13,6 +13,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public string ConstantKeyword => "const";
         public string VolatileKeyword => "volatile";
         public string NewKeyword => "new";
+        public string PublicKeyword => "public";
         public string InterfaceKeyword => "interface";
         public string StructKeyword => "struct";
         public string EnumKeyword => "enum";

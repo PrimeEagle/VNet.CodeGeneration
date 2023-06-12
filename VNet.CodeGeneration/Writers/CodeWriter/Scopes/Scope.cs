@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable PossibleMultipleEnumeration
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -14,7 +15,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public string StyledValue => GetStyledValue();
         public Scope Parent { get; private set; }
         protected IndentationManager IndentLevel { get; set; }
-        protected List<string> _modifiers;
+        protected List<string> Modifiers;
 
 
         private readonly List<Scope> _scopes;
@@ -26,7 +27,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             IndentLevel = new IndentationManager();
             _scopes = new List<Scope>();
             _codeLines = new List<string>();
-            _modifiers = new List<string>();
+            Modifiers = new List<string>();
         }
 
         
@@ -42,6 +43,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             _scopes = new List<Scope>();
             _codeLines = new List<string>();
+            Modifiers = new List<string>() { LanguageSettings.Syntax.PublicKeyword };
         }
 
         internal virtual List<string> GenerateCode()
@@ -376,10 +378,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             if (LanguageSettings.Features.DisallowedModifierCombinations.TryGetValue(modifier, out var combination))
             {
-                _modifiers.RemoveAll(m => combination.Select(d => d.ToLower()).Contains(m.ToLower()));
+                Modifiers.RemoveAll(m => combination.Select(d => d.ToLower()).Contains(m.ToLower()));
             }
 
-            if (!_modifiers.Contains(modifier)) _modifiers.Add(modifier);
+            if (!Modifiers.Contains(modifier)) Modifiers.Add(modifier);
         }
     }
 }

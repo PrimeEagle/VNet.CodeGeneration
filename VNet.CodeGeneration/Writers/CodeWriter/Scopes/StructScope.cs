@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Text;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable CollectionNeverUpdated.Local
+#pragma warning disable IDE0060
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -13,13 +15,34 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
-            _modifiers = new List<string>();
+            Modifiers = new List<string>();
+        }
+
+        public StructScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public StructScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public StructScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
         }
 
         internal override List<string> GenerateCode()
         {
+            ValidateModifiers(Modifiers);
+
             _codeLines.Clear();
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetStructStyledSyntax(StyledValue, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetStructStyledSyntax(StyledValue, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

@@ -18,7 +18,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _members = new List<EnumMember>();
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
-            _modifiers = new List<string>();
+            Modifiers = new List<string>();
         }
 
         public EnumScope WithAccessModifier(AccessModifier accessModifier)
@@ -45,7 +45,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines.Clear();
 
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumStyledSyntax(StyledValue, _modifiers, IndentLevel, _members));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumStyledSyntax(StyledValue, Modifiers, IndentLevel, _members));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

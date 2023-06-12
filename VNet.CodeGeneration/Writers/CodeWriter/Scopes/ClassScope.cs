@@ -12,7 +12,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
-            _modifiers = new List<string>();
+            Modifiers = new List<string>();
         }
 
         internal override List<string> GenerateCode()
