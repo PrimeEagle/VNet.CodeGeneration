@@ -97,7 +97,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "new",
                         "virtual",
                         "abstract",
-                        "override"
+                        "override",
+                        "sealed"
                     }
                 },
                 { typeof(InterfaceScope), new List<string>()
@@ -209,14 +210,16 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                     {
                         "virtual",
                         "override",
-                        "new"
+                        "new",
+                        "sealed"
                     }
                 },
                 { "abstract", new List<string>()
                     {
                         "virtual",
                         "override",
-                        "new"
+                        "new",
+                        "sealed"
                     }
                 },
                 { "override", new List<string>()
@@ -233,6 +236,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "abstract"
                     }
                 },
+
+                { "sealed", new List<string>()
+                    {
+                        "virtual",
+                        "abstract"
+                    }
+                }
             };
 
             ScopeContainmentRules = new Dictionary<Type, IList<Type>>()
@@ -250,7 +260,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(ClassScope),
                         typeof(CodeBlockScope),
                         typeof(CommentScope),
-                        typeof(ConstructorScope),
                         typeof(DelegateScope),
                         typeof(EnumScope),
                         typeof(FieldScope),
@@ -287,7 +296,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(PropertyScope),
                         typeof(StructScope),
                         typeof(DelegateScope),
-                        typeof(ConstructorScope),
                         typeof(RegionScope)
                     }
                 },
@@ -345,7 +353,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(PropertyScope),
                         typeof(StructScope),
                         typeof(DelegateScope),
-                        typeof(ConstructorScope),
                         typeof(RegionScope)
                     }
                 },

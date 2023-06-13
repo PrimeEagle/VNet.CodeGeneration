@@ -35,6 +35,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
+        public NamespaceScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+
+            return this;
+        }
+
+        public NamespaceScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public NamespaceScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
+        }
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();

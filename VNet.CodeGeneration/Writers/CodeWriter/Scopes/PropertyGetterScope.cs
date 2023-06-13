@@ -15,6 +15,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public PropertyGetterScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public PropertyGetterScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public PropertyGetterScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
+        }
+
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();

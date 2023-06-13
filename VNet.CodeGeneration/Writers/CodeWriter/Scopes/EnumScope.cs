@@ -21,6 +21,21 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public EnumScope WithMember(string name, int? value = null)
+        {
+            var member = new EnumMember(name, value);
+            _members.Add(member);
+
+            return this;
+        }
+
+        public EnumScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
         public EnumScope WithAccessModifier(AccessModifier accessModifier)
         {
             return WithAccessModifier(accessModifier.ToString());
@@ -29,14 +44,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public EnumScope WithAccessModifier(string accessModifier)
         {
             AddModifier(accessModifier);
-
-            return this;
-        }
-
-        public EnumScope WithMember(string name, int? value = null)
-        {
-            var member = new EnumMember(name, value);
-            _members.Add(member);
 
             return this;
         }

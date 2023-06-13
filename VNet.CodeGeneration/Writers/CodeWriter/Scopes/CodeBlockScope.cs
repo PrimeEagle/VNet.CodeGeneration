@@ -17,6 +17,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public CodeBlockScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public CodeBlockScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public CodeBlockScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
+        }
+
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();

@@ -37,6 +37,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
+
         internal override List<string> GenerateCode()
         {
             ValidateModifiers(Modifiers);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable CollectionNeverUpdated.Local
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -13,6 +14,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
             Modifiers = new List<string>();
+        }
+
+        public UsingScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public UsingScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public UsingScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
         }
 
         internal override List<string> GenerateCode()

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable NotAccessedField.Local
+#pragma warning disable IDE0052
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -13,6 +15,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
             Modifiers = new List<string>();
+        }
+
+        public VariableScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public VariableScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public VariableScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
         }
 
         internal override List<string> GenerateCode()

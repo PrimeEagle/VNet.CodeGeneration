@@ -266,14 +266,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return newScope;
         }
-        public virtual ConstructorScope AddConstructor(string name)
-        {
-            ValidateScope(name, typeof(ConstructorScope));
-            var newScope = new ConstructorScope(name, this);
-            AddNestedScope(newScope);
 
-            return newScope;
-        }
         public virtual DelegateScope AddDelegate(string name)
         {
             ValidateScope(name, typeof(DelegateScope));
@@ -323,7 +316,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             if (!LanguageSettings.Style.EnableCaseConversion) return result;
 
             if (this is ClassScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ClassCaseConversionStyle);
-            if (this is ConstructorScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ConstructorCaseConversionStyle);
             if (this is DelegateScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.DelegateCaseConversionStyle);
             if (this is EnumScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.EnumCaseConversionStyle);
             if (this is FieldScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.FieldCaseConversionStyle);

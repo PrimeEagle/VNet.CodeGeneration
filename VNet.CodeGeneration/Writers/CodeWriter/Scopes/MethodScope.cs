@@ -15,6 +15,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public MethodScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public MethodScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public MethodScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
+        }
+
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 // ReSharper disable NotAccessedField.Local
+// ReSharper disable CollectionNeverUpdated.Local
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -19,6 +20,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public override void Dispose()
         {
             _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionCloseScope(StyledValue, IndentLevel.Current));
+        }
+
+        public RegionScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public RegionScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public RegionScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
         }
 
         internal override List<string> GenerateCode()

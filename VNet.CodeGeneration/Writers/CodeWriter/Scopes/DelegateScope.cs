@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable NotAccessedField.Local
+#pragma warning disable IDE0052
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -15,6 +17,24 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public DelegateScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public DelegateScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public DelegateScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
+        }
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
@@ -23,46 +43,5 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return _codeLines;
         }
-        //private readonly List<string> _codeLines;
-        //private AccessModifier _accessModifier;
-        //private string _delegateName;
-        //private string _returnType;
-        //private (string Type, string Name)[] _parameters;
-
-        //public DelegateScope(string delegateName, string returnType, AccessModifier modifier, (string Type, string Name)[] parameters, StringBuilder sb, IProgrammingLanguageSettings languageSettings)
-        //    : base(languageSettings)
-        //{
-        //    _accessModifier = modifier;
-        //    _delegateName = delegateName;
-        //    _returnType = returnType;
-        //    _parameters = parameters ?? new (string Type, string Name)[0];
-        //}
-
-        //public DelegateScope(string delegateName, string returnType, StringBuilder sb, IProgrammingLanguageSettings languageSettings)
-        //    : this(delegateName, returnType, AccessModifier.Public, null, sb, languageSettings)
-        //{
-        //}
-
-        //public DelegateScope WithAccessModifier(AccessModifier modifier)
-        //{
-        //    _accessModifier = modifier;
-        //    return this;
-        //}
-
-        //public DelegateScope WithParameters(params (string Type, string Name)[] parameters)
-        //{
-        //    _parameters = parameters;
-        //    return this;
-        //}
-
-        //public override void GenerateCode()
-        //{
-        //    _stringBuilder.AppendLine($"{LanguageSettings.Style.GetIndent()}{LanguageSettings.Syntax.GetAccessModifier(_accessModifier)} delegate {_returnType} {_delegateName}({GetParameters()});");
-        //}
-
-        //private string GetParameters()
-        //{
-        //    return string.Join(", ", _parameters.Select(p => $"{p.Type} {p.Name}"));
-        //}
     }
 }

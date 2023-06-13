@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 // ReSharper disable NotAccessedField.Local
+// ReSharper disable CollectionNeverUpdated.Local
 #pragma warning disable CS0414
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
@@ -42,6 +43,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         protected override string GetStyledValue()
         {
             return Value;
+        }
+
+        public CommentScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public CommentScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public CommentScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
         }
 
         internal override List<string> GenerateCode()

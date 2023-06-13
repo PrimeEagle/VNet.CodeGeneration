@@ -30,7 +30,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\DelegateScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CommentType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\ConstructorScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\EnumMember.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\EnumScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\PropertyGetterScope.cs" />
