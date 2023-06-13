@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {

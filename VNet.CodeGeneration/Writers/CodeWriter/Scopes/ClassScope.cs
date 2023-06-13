@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -15,11 +16,39 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public ClassScope WithModifier(string modifier)
+        {
+            AddModifier(modifier);
+
+            return this;
+        }
+
+        public ClassScope WithAccessModifier(AccessModifier accessModifier)
+        {
+            return WithAccessModifier(accessModifier.ToString());
+        }
+
+        public ClassScope WithAccessModifier(string accessModifier)
+        {
+            AddModifier(accessModifier);
+
+            return this;
+        }
+
         internal override List<string> GenerateCode()
         {
-            _codeLines.Clear();
+            ValidateModifiers(Modifiers);
 
+            _codeLines.Clear();
             
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetClassStyledSyntax(StyledValue, Modifiers, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetOpenScope(IndentLevel.Current));
+            IndentLevel.Increase();
+
+            foreach (var childScope in _scopes)
+                _codeLines.AddRange(childScope.GenerateCode());
+
+            Dispose();
 
             return _codeLines;
         }

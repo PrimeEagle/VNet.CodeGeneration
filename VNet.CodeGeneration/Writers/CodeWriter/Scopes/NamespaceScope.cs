@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+// ReSharper disable MemberCanBePrivate.Global
 
 // ReSharper disable NotAccessedField.Local
 // ReSharper disable CollectionNeverUpdated.Local

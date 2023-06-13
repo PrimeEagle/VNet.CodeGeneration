@@ -98,7 +98,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "virtual",
                         "abstract",
                         "override",
-                        "sealed"
+                        "sealed",
+                        "partial"
                     }
                 },
                 { typeof(InterfaceScope), new List<string>()
@@ -108,7 +109,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "internal",
                         "protected",
                         "protected internal",
-                        "private protected"
+                        "private protected",
+                        "partial"
                     }
                 },
                 { typeof(MethodScope), new List<string>()
@@ -127,7 +129,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "virtual",
                         "abstract",
                         "override",
-                        "async"
+                        "async",
+                        "sealed",
+                        "partial"
                     }
                 }
             };

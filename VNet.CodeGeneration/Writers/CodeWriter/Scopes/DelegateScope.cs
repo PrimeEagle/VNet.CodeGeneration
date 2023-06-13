@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 // ReSharper disable NotAccessedField.Local
+// ReSharper disable MemberCanBePrivate.Global
 #pragma warning disable IDE0052
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes

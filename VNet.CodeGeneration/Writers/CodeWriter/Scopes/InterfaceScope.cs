@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -36,46 +37,20 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         internal override List<string> GenerateCode()
         {
+            ValidateModifiers(Modifiers);
+
             _codeLines.Clear();
 
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetInterfaceStyledSyntax(StyledValue, Modifiers, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetOpenScope(IndentLevel.Current));
+            IndentLevel.Increase();
 
+            foreach (var childScope in _scopes)
+                _codeLines.AddRange(childScope.GenerateCode());
+
+            Dispose();
 
             return _codeLines;
         }
-        //private readonly List<string> _codeLines;
-        //private AccessModifier _accessModifier;
-        //private string _interfaceName;
-
-        //public InterfaceScope(string interfaceName, AccessModifier modifier, IProgrammingLanguageSettings languageSettings)
-        //    : base(languageSettings)
-        //{
-        //    _accessModifier = modifier;
-        //    _interfaceName = interfaceName;
-        //}
-
-        //public InterfaceScope(string interfaceName, IProgrammingLanguageSettings languageSettings)
-        //    : this(interfaceName, AccessModifier.Public, languageSettings)
-        //{
-        //}
-
-        //public InterfaceScope WithAccessModifier(AccessModifier modifier)
-        //{
-        //    _accessModifier = modifier;
-        //    return this;
-        //}
-
-        //public MethodScope WithMethod(string methodName, string returnType, params (string Type, string Name)[] parameters)
-        //{
-        //    var methodScope = new MethodScope(methodName, returnType, false, AccessModifier.Public, parameters, _stringBuilder, LanguageSettings);
-        //    AddNestedScope(methodScope);
-        //    return methodScope;
-        //}
-
-        //public InterfaceScope WithProperty(string propertyName, string propertyType)
-        //{
-        //    var propertyScope = new PropertyScope(propertyName, propertyType, false, AccessModifier.Public, null, null, _stringBuilder, LanguageSettings);
-        //    AddNestedScope(propertyScope);
-        //    return this;
-        //}
     }
 }
