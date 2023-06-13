@@ -113,6 +113,33 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "partial"
                     }
                 },
+                { typeof(DelegateScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected",
+                        "static"
+                    }
+                },
+                { typeof(EventScope), new List<string>()
+                    {
+                        "public",
+                        "private",
+                        "internal",
+                        "protected",
+                        "protected internal",
+                        "private protected",
+                        "static",
+                        "virtual",
+                        "override",
+                        "abstract",
+                        "extern",
+                        "sealed"
+                    }
+                },
                 { typeof(MethodScope), new List<string>()
                     {
                         "public",
@@ -131,7 +158,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "override",
                         "async",
                         "sealed",
-                        "partial"
+                        "partial",
+                        "extern"
                     }
                 }
             };
@@ -300,6 +328,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(PropertyScope),
                         typeof(StructScope),
                         typeof(DelegateScope),
+                        typeof(EventScope),
                         typeof(RegionScope)
                     }
                 },
@@ -334,6 +363,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                     {
                         typeof(CommentScope),
                         typeof(DelegateScope),
+                        typeof(EventScope),
                         typeof(VariableScope),
                         typeof(CodeBlockScope),
                         typeof(RegionScope)
@@ -357,6 +387,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(PropertyScope),
                         typeof(StructScope),
                         typeof(DelegateScope),
+                        typeof(EventScope),
                         typeof(RegionScope)
                     }
                 },

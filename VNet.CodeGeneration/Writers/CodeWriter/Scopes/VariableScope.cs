@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-// ReSharper disable NotAccessedField.Local
+﻿using System;
+using System.Collections.Generic;
+
 // ReSharper disable MemberCanBePrivate.Global
-#pragma warning disable IDE0052
+// ReSharper disable NotAccessedField.Local
+// ReSharper disable CollectionNeverUpdated.Local
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -9,13 +11,15 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
+        private readonly List<string> _modifiers;
+        private string _type;
 
         internal VariableScope(string name, Scope parent)
             : base(name, parent)
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
-            Modifiers = new List<string>();
+            _modifiers = new List<string>();
         }
 
         public VariableScope WithModifier(string modifier)
@@ -37,11 +41,31 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
+        public VariableScope OfType(string type)
+        {
+            _type = type;
+
+            return this;
+        }
+
+        public override void Dispose()
+        {
+
+        }
+
         internal override List<string> GenerateCode()
         {
+            ValidateModifiers(Modifiers);
+            if (string.IsNullOrEmpty(_type)) throw new ArgumentException($"Variable type cannot be empty or null.");
+
             _codeLines.Clear();
 
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetVariableStyledSyntax(StyledValue, _type, Modifiers, IndentLevel));
 
+            foreach (var childScope in _scopes)
+                _codeLines.AddRange(childScope.GenerateCode());
+
+            Dispose();
 
             return _codeLines;
         }

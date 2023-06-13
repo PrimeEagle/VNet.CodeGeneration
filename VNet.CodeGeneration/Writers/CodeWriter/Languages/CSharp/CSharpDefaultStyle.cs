@@ -21,6 +21,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public int LineBreakIndentationWidth => 8;
         public NamespaceStyle NamespaceStyle => NamespaceStyle.Scoped;
         public bool EnableCaseConversion => true;
+        public bool GenericConstraintsOnSingleLine => false;
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle DelegateCaseConversionStyle => CaseConversionStyle.Pascal;

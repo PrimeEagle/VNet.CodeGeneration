@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\EventScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\DelegateScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CommentType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\EnumMember.cs" />

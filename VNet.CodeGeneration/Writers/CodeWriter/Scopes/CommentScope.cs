@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 // ReSharper disable NotAccessedField.Local
 // ReSharper disable CollectionNeverUpdated.Local
+// ReSharper disable MemberCanBePrivate.Global
 #pragma warning disable CS0414
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
@@ -62,6 +63,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             AddModifier(accessModifier);
 
             return this;
+        }
+
+        public override void Dispose()
+        {
+
         }
 
         internal override List<string> GenerateCode()

@@ -39,7 +39,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines.Clear();
 
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetPropertyGetterStyledSyntax(StyledValue, Modifiers, IndentLevel));
 
+            foreach (var childScope in _scopes)
+                _codeLines.AddRange(childScope.GenerateCode());
+
+            Dispose();
 
             return _codeLines;
         }

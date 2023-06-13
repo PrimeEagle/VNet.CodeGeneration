@@ -55,6 +55,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return this;
         }
+
+        public override void Dispose()
+        {
+            if(_namespaceStyle == NamespaceStyle.Scoped) base.Dispose();
+        }
+
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();

@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Reflection.Metadata;
 // ReSharper disable UnusedParameter.Global
-#pragma warning disable IDE0060
-#pragma warning disable IDE0060
+// ReSharper disable UseObjectOrCollectionInitializer
+// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable UnusedMember.Local
+#pragma warning disable IDE0028
+
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
@@ -80,7 +85,39 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
     
         private string GetModifiers(IEnumerable<string> modifiers)
         {
-            return string.Join(" ", modifiers).Trim();
+            return !modifiers.Any() ? string.Empty : string.Join(" ", modifiers).Trim();
+        }
+
+        private string GetGenericTypes(IEnumerable<string> genericTypes)
+        {
+            return !genericTypes.Any() ? string.Empty : $"{Syntax.GenericStart}{GetParameters(genericTypes)}{Syntax.GenericEnd}";
+        }
+
+        private string GetGenericConstraints(IEnumerable<string> constraints)
+        {
+            if (!constraints.Any()) return string.Empty;
+
+            var styled = constraints.Select(c => $" where {c}");
+            var joinString = Style.GenericConstraintsOnSingleLine ? " " : Style.LineBreakCharacter;
+
+            return string.Join(joinString, styled);
+        }
+
+        private string GetParameters(IEnumerable<string> parameters)
+        {
+            return string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)} ", parameters).Trim();
+        }
+
+        private string GetCombinedDerived(IList<string> derivedClasses, IEnumerable<string> interfaces)
+        {
+            if(!derivedClasses.Any() && !interfaces.Any()) return string.Empty;
+
+            var baseClass = derivedClasses.Any() ? new List<string>() { derivedClasses[0] } : new List<string>();
+            var combined = baseClass.Concat(interfaces);
+            var separator = Style.SpaceAroundOperators ? " " : string.Empty;
+
+            return $"{separator}:{separator}{string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)}", combined)}";
+
         }
 
         public IEnumerable<string> GetNamespaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, NamespaceStyle namespaceStyle)
@@ -206,6 +243,108 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             var codeLines = new List<string>();
 
             codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.StructKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetInterfaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.InterfaceKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetClassStyledSyntax(string styledValue, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> derivedFrom, IEnumerable<string> implements, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.ClassKeyword} {styledValue}{GetGenericTypes(genericTypes)}{GetCombinedDerived(derivedFrom, implements)}{GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetDelegateStyledSyntax(string styledValue, string returnType, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {returnType} {Syntax.DelegateKeyword} {styledValue}({GetParameters(parameters)}){Syntax.StatementEnd}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetEventStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {returnType} {Syntax.EventKeyword} {styledValue}{Syntax.StatementEnd}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetMethodStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {returnType} {Syntax.MethodKeyword} {styledValue}{GetGenericTypes(genericTypes)}({GetParameters(parameters)}){GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetFieldStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {returnType} {styledValue}{Syntax.StatementEnd}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetVariableStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{returnType} {styledValue}{Syntax.StatementEnd}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetPropertyStyledSyntax(string styledValue, string type, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {type} {Syntax.PropertyKeyword} {CodeWriter.ConvertStyleCase(styledValue, Style.PropertyCaseConversionStyle)}{GetOpenScope(indentLevel.Current)}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetPropertyGetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.PropertyGetterKeyword}{GetOpenScope(indentLevel.Current)}");
+            indentLevel.Increase();
+
+            return codeLines;
+        }
+
+        public IEnumerable<string> GetPropertySetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.PropertySetterKeyword}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;

@@ -10,22 +10,25 @@
         string ReadOnlyKeyword { get; }
         string ConstantKeyword { get; }
         string VolatileKeyword { get; }
+        string VoidKeyword { get; }
         string NewKeyword { get; }
         string PublicKeyword { get; }
         string InterfaceKeyword { get; }
         string StructKeyword { get; }
         string EnumKeyword { get; }
         string DelegateKeyword { get; }
+        string EventKeyword { get; }
         string StatementEnd { get; }
         string OpenScopeCharacter { get; }
         string CloseScopeCharacter { get; }
         string RegionOpenScopeCharacter { get; }
         string RegionCloseScopeCharacter { get; }
         string PropertyKeyword { get; }
+        string PropertyGetterKeyword { get; }
+        string PropertySetterKeyword { get; }
         string ConstructorKeyword { get; }
         string GenericStart { get; }
         string GenericEnd { get; }
-        string PropertySetterGetter { get; }
         string GetKeyword { get; }
         string SetKeyword { get; }
         string EnumValueSeparatorCharacter { get; }

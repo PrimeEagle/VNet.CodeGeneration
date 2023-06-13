@@ -18,6 +18,7 @@
         int MaxLineLength { get; }
         int LineBreakIndentationWidth { get; }
         bool EnableCaseConversion { get; }
+        bool GenericConstraintsOnSingleLine { get; }
         CaseConversionStyle ClassCaseConversionStyle { get; }
         CaseConversionStyle ConstructorCaseConversionStyle { get; }
         CaseConversionStyle DelegateCaseConversionStyle { get; }
