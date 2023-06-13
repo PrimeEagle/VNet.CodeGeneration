@@ -19,6 +19,8 @@
         string StatementEnd { get; }
         string OpenScopeCharacter { get; }
         string CloseScopeCharacter { get; }
+        string RegionOpenScopeCharacter { get; }
+        string RegionCloseScopeCharacter { get; }
         string PropertyKeyword { get; }
         string ConstructorKeyword { get; }
         string GenericStart { get; }

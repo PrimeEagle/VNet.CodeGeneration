@@ -21,6 +21,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public string StatementEnd => ";";
         public string OpenScopeCharacter => "{";
         public string CloseScopeCharacter => "}";
+        public string RegionOpenScopeCharacter => "#region";
+        public string RegionCloseScopeCharacter => "#endregion";
         public string PropertyKeyword => string.Empty;
         public string ConstructorKeyword => string.Empty;
         public string GenericStart => "<";

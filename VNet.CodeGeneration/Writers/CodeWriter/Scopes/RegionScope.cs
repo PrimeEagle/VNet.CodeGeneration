@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable NotAccessedField.Local
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -15,11 +16,19 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public override void Dispose()
+        {
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionCloseScope(StyledValue, IndentLevel.Current));
+        }
+
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
 
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionOpenScope(StyledValue, IndentLevel.Current));
 
+            foreach (var childScope in _scopes)
+                _codeLines.AddRange(childScope.GenerateCode());
 
             return _codeLines;
         }

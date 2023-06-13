@@ -58,6 +58,26 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return result;
         }
 
+        public IEnumerable<string> GetRegionOpenScope(string styledValue, int currentIndentLevel)
+        {
+            var result = new List<string>()
+            {
+                $"{GetIndentCode(currentIndentLevel)}{Syntax.RegionOpenScopeCharacter} {styledValue}"
+            };
+
+            return result;
+        }
+
+        public IEnumerable<string> GetRegionCloseScope(string styledValue, int currentIndentLevel)
+        {
+            var result = new List<string>()
+            {
+                $"{GetIndentCode(currentIndentLevel)}{Syntax.RegionCloseScopeCharacter} {styledValue}"
+            };
+
+            return result;
+        }
+    
         private string GetModifiers(IEnumerable<string> modifiers)
         {
             return string.Join(" ", modifiers).Trim();

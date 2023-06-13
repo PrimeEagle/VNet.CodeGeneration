@@ -17,5 +17,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         IEnumerable<string> GetUsingStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel);
         IEnumerable<string> GetEnumStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, IEnumerable<EnumMember> members);
         IEnumerable<string> GetStructStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel);
+        IEnumerable<string> GetRegionOpenScope(string styledValue, int currentIndentLevel);
+        IEnumerable<string> GetRegionCloseScope(string styledValue, int currentIndentLevel);
     }
 }
