@@ -215,7 +215,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.EnumKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.EnumKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
             
             indentLevel.Increase();
             foreach (var member in members)
@@ -242,7 +242,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.StructKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.StructKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;
@@ -253,7 +253,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.InterfaceKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.InterfaceKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;
@@ -264,7 +264,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {Syntax.ClassKeyword} {styledValue}{GetGenericTypes(genericTypes)}{GetCombinedDerived(derivedFrom, implements)}{GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetGenericTypes(genericTypes)}{GetCombinedDerived(derivedFrom, implements)}{GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;
@@ -274,7 +274,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {returnType} {Syntax.DelegateKeyword} {styledValue}({GetParameters(parameters)}){Syntax.StatementEnd}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.DelegateKeyword} {styledValue}({GetParameters(parameters)}){Syntax.StatementEnd}");
             indentLevel.Increase();
 
             return codeLines;
@@ -284,7 +284,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {returnType} {Syntax.EventKeyword} {styledValue}{Syntax.StatementEnd}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.EventKeyword} {styledValue}{Syntax.StatementEnd}");
             indentLevel.Increase();
 
             return codeLines;
@@ -294,7 +294,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {returnType} {Syntax.MethodKeyword} {styledValue}{GetGenericTypes(genericTypes)}({GetParameters(parameters)}){GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.MethodKeyword} {styledValue}{GetGenericTypes(genericTypes)}({GetParameters(parameters)}){GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;
@@ -304,7 +304,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {returnType} {styledValue}{Syntax.StatementEnd}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {styledValue}{Syntax.StatementEnd}");
             indentLevel.Increase();
 
             return codeLines;
@@ -324,7 +324,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{CodeWriter.ConvertStyleCase(GetModifiers(modifiers), Syntax.AccessModifierCaseStyle)} {type} {Syntax.PropertyKeyword} {CodeWriter.ConvertStyleCase(styledValue, Style.PropertyCaseConversionStyle)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {type} {Syntax.PropertyKeyword} {CodeWriter.ConvertStyleCase(styledValue, Style.PropertyCaseConversionStyle)}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;

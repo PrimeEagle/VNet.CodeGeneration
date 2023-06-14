@@ -11,7 +11,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             return new CodeFile();
         }
 
-        internal static string[] NewLineDelimiters => new string[]{ Environment.NewLine, "\r\n", "\r", "\n" };
+        internal static string[] NewLineDelimiters => new string[]{ "\r\n", "\r", "\n" };
 
         internal static string ConvertStyleCase(string name, CaseConversionStyle conversionStyle)
         {

@@ -22,6 +22,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public NamespaceScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
         public NamespaceScope WithSingleLineStyle()
         {
             _namespaceStyle = NamespaceStyle.SingleLine;

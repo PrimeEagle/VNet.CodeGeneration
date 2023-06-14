@@ -25,6 +25,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _implements = new List<string>();
         }
 
+        public ClassScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
         public ClassScope WithModifier(string modifier)
         {
             AddModifier(modifier);

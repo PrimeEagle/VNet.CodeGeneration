@@ -17,6 +17,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public InterfaceScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
         public InterfaceScope WithModifier(string modifier)
         {
             AddModifier(modifier);

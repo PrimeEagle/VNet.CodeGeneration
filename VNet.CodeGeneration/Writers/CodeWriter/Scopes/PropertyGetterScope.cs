@@ -16,6 +16,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public PropertyGetterScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
         public PropertyGetterScope WithModifier(string modifier)
         {
             AddModifier(modifier);

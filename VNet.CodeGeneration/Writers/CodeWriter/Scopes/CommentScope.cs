@@ -19,6 +19,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _scopes = new List<Scope>();
             Modifiers = new List<string>();
         }
+        public CommentScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
 
         public CommentScope ThatIsSingleLine()
         {

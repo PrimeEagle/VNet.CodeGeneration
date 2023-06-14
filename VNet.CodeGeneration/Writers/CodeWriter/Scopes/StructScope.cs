@@ -18,6 +18,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public StructScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
         public StructScope WithModifier(string modifier)
         {
             AddModifier(modifier);

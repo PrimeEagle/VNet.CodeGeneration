@@ -21,6 +21,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
+        public EnumScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
         public EnumScope WithMember(string name, int? value = null)
         {
             var member = new EnumMember(name, value);

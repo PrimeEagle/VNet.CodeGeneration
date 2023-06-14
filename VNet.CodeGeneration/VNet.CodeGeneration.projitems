@@ -9,6 +9,7 @@
     <Import_RootNamespace>VNet.CodeGeneration</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\GeneratorExecutionContextExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SyntaxNodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\AccessModifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IndentationManager.cs" />
@@ -20,7 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ConvertCase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\NamespaceStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\ClassScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\CodeFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeWriterExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\CommentScope.cs" />

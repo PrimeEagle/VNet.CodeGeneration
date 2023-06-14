@@ -6,12 +6,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CSharpFeatures : IProgrammingLanguageFeatures
     {
-        #region Comment Features
-        public bool SupportForSingleLineComments => true;
-        public bool SupportForMultilineComments => true;
-        public bool SupportForDocumentationComments => true;
-        #endregion Comment Features
-
         public IDictionary<Type, IList<string>> AllowedModifiers { get; }
         public IDictionary<string, IList<string>> DisallowedModifierCombinations { get; }
         public IDictionary<Type, IList<Type>> ScopeContainmentRules { get; }

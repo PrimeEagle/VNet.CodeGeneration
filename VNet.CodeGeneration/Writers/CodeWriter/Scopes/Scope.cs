@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable UnusedMember.Local
+#pragma warning disable IDE0051
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
@@ -16,6 +19,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         public Scope Parent { get; private set; }
         protected IndentationManager IndentLevel { get; set; }
         protected List<string> Modifiers;
+        protected int SortOrder;
 
 
         private readonly List<Scope> _scopes;
@@ -79,9 +83,18 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _scopes.Add(scope);
         }
 
-        public virtual string Generate()
+        public virtual void ToFile(string filename)
         {
-            return ToString();
+            var text = ToString();
+
+#pragma warning disable RS1035
+            if(File.Exists(filename)) File.Delete(filename);
+#pragma warning restore RS1035
+
+            using (var writer = new StreamWriter(filename))
+            {
+                writer.Write(text);
+            }
         }
 
         public override string ToString()
@@ -313,7 +326,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             var result = Value;
 
-            if (!LanguageSettings.Style.EnableCaseConversion) return result;
+            if (!LanguageSettings.Style.AutomaticCaseConversion) return result;
 
             if (this is ClassScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ClassCaseConversionStyle);
             if (this is DelegateScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.DelegateCaseConversionStyle);

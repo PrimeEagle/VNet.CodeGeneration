@@ -20,6 +20,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _returnType = LanguageSettings.Syntax.VoidKeyword;
         }
 
+        public EventScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
         public EventScope WithModifier(string modifier)
         {
             AddModifier(modifier);

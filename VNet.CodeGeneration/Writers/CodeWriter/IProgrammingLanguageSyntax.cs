@@ -6,12 +6,7 @@
         string NamespaceKeyword { get; }
         string ClassKeyword { get; }
         string MethodKeyword { get; }
-        string StaticKeyword { get; }
-        string ReadOnlyKeyword { get; }
-        string ConstantKeyword { get; }
-        string VolatileKeyword { get; }
         string VoidKeyword { get; }
-        string NewKeyword { get; }
         string PublicKeyword { get; }
         string InterfaceKeyword { get; }
         string StructKeyword { get; }
@@ -26,11 +21,8 @@
         string PropertyKeyword { get; }
         string PropertyGetterKeyword { get; }
         string PropertySetterKeyword { get; }
-        string ConstructorKeyword { get; }
         string GenericStart { get; }
         string GenericEnd { get; }
-        string GetKeyword { get; }
-        string SetKeyword { get; }
         string EnumValueSeparatorCharacter { get; }
         string EnumMemberSeparatorCharacter { get; }
         string SingleLineCommentCharacter { get; }
@@ -39,7 +31,8 @@
         string DocumentationCommentCharacter { get; }
         string DocumentationCommentOpenScopeCharacter { get; }
         string DocumentationCommentCloseScopeCharacter { get; }
-        CaseConversionStyle AccessModifierCaseStyle { get; }
+
+
         bool IsValidNaming(string name);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
@@ -10,7 +9,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.SameLine;
         public int IndentationWidth => 4;
         public bool UseSpacesForIndentation => false;
-        public string LineBreakCharacter => Environment.NewLine;
+        public string LineBreakCharacter => "\r\n";
         public bool SpaceAroundOperators => true;
         public bool SpaceInsideParentheses => false;
         public bool SpaceOutsideParentheses => false;
@@ -20,7 +19,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public int MaxLineLength => 150;
         public int LineBreakIndentationWidth => 8;
         public NamespaceStyle NamespaceStyle => NamespaceStyle.Scoped;
-        public bool EnableCaseConversion => true;
+        public bool AutomaticCaseConversion => true;
         public bool GenericConstraintsOnSingleLine => false;
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal;
@@ -34,60 +33,5 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public CaseConversionStyle RegionCaseConversionStyle => CaseConversionStyle.Title;
         public CaseConversionStyle StructCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle VariableCaseConversionStyle => CaseConversionStyle.Camel;
-        
-        
-
-        
-        public string GetAccessModifier(AccessModifier modifier)
-        {
-            return modifier.ToString().ToLower();
-        }
-        public string GetGenericType(string typeName, params string[] typeArguments)
-        {
-            if (typeArguments.Length == 0)
-                return typeName;
-
-            var arguments = string.Join(", ", typeArguments);
-            return $"{typeName}<{arguments}>";
-        }
-
-        public string GetAttributeSyntax(string attributeName, params string[] args)
-        {
-            var formattedArgs = string.Join(", ", args.Select(arg => $"\"{arg}\""));
-            
-            return $"{attributeName}({formattedArgs})";
-        }
-
-        public string GetCommentSyntax(string comment, CommentType commentType)
-        {
-            var isMultiline = comment.Contains("\r") || comment.Contains("\n");
-
-            if (commentType == CommentType.Documentation)
-            {
-                if (isMultiline)
-                {
-                    var lines = comment.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-                    var formattedLines = lines.Select(line => $"/// {line}");
-                    return $"/**\n{string.Join("\n", formattedLines)}\n**/";
-                }
-                else
-                {
-                    return $"/// {comment}";
-                }
-            }
-            else
-            {
-                if (isMultiline)
-                {
-                    var lines = comment.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-                    var formattedLines = lines.Select(line => $"* {line}");
-                    return $"/**\n{string.Join("\n", formattedLines)}\n**/";
-                }
-                else
-                {
-                    return $"// {comment}";
-                }
-            }
-        }
     }
 }

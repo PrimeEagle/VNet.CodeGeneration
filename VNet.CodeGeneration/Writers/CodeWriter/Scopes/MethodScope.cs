@@ -27,6 +27,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _genericConstraints = new List<string>();
         }
 
+        public MethodScope AddBlankLine()
+        {
+            _codeLines.Add(string.Empty);
+
+            return this;
+        }
+
         public MethodScope WithModifier(string modifier)
         {
             AddModifier(modifier);
