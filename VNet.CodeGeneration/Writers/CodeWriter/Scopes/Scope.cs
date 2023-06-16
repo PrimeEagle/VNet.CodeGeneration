@@ -87,9 +87,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             var text = ToString();
 
-#pragma warning disable RS1035
             if(File.Exists(filename)) File.Delete(filename);
-#pragma warning restore RS1035
 
             using (var writer = new StreamWriter(filename))
             {
@@ -156,8 +154,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             for (var i = maxIndex; i >= 0; i--)
             {
-                if (char.IsWhiteSpace(line[i])) result = i;
-                break;
+                if (char.IsWhiteSpace(line[i]))
+                {
+                    result = i;
+                    break;
+                }
             }
             
             return result;
@@ -353,7 +354,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             var scopeType = this.GetType();
 
-            if (!LanguageSettings.Features.AllowedModifiers.ContainsKey(scopeType)) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifiers for type '{scopeType.Name}' are not allowd.");
+            if (!LanguageSettings.Features.AllowedModifiers.ContainsKey(scopeType)) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifiers for type '{scopeType.Name}' are not allowed.");
 
             var validModifiers = LanguageSettings.Features.AllowedModifiers[scopeType].Select(m => m.ToLower());
 
