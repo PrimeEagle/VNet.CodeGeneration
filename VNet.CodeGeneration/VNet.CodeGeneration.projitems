@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Expressions\ExpressionEvaluator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GeneratorExecutionContextExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SyntaxNodeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparerEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\AccessModifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IndentationManager.cs" />

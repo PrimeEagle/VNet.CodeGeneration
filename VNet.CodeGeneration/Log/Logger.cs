@@ -12,7 +12,11 @@ namespace VNet.CodeGeneration.Log
         {
             _logFile = logFile;
 
-            if (!File.Exists(_logFile)) File.Create(logFile);
+            if (!File.Exists(_logFile))
+            {
+                var fs = File.Create(logFile);
+                fs.Close();
+            }
         }
 
         public void WriteLine(string message)
