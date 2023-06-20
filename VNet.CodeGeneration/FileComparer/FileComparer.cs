@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -114,7 +113,8 @@ namespace VNet.CodeGeneration.FileComparer
 
         public void Save()
         {
-            var json = VNetJsonSerializer.Serialize(Entries.Where(e => !e.Deleted).Select(e => new { e.FileName, e.Hash }), true);
+            var results = Entries.Where(e => !e.Deleted).Select(e => new { e.FileName, e.Hash });
+            var json = VNetJsonSerializer.Serialize(results, true);
             using (var writer = new StreamWriter(_fileName))
             {
                 writer.Write(json);

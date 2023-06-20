@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -27,23 +28,63 @@ namespace VNet.CodeGeneration.Json
 
         private static void Serialize(object obj, StringBuilder sb, bool formatted, int indentLevel)
         {
-            var objectType = obj.GetType();
-            var isPrimitive = IsPrimitiveType(objectType);
+            if (obj is IEnumerable collection && !(obj is string))  // Make sure it's not a string.
+            {
+                SerializeCollection(collection, sb, formatted, indentLevel);
+            }
+            else
+            {
+                SerializeObject(obj, sb, formatted, indentLevel);
+            }
+        }
 
-            if (!isPrimitive)
-                sb.Append("{");
 
-            var properties = GetSerializableProperties(objectType);
+        private static void SerializeCollection(IEnumerable collection, StringBuilder sb, bool formatted, int indentLevel)
+        {
+            sb.Append("[");
 
-            if (formatted && !isPrimitive)
+            if (formatted)
                 sb.AppendLine();
 
-            for (int i = 0; i < properties.Length; i++)
+            var items = collection.Cast<object>().ToList();
+            for (var i = 0; i < items.Count; i++)
+            {
+                var item = items[i];
+
+                if (formatted)
+                    AppendIndent(sb, indentLevel + 1);
+
+                Serialize(item, sb, formatted, indentLevel + 1);
+
+                if (i < items.Count - 1)
+                    sb.Append(",");
+
+                if (formatted)
+                    sb.AppendLine();
+            }
+
+            if (formatted)
+                AppendIndent(sb, indentLevel);
+
+            sb.Append("]");
+        }
+
+        private static void SerializeObject(object obj, StringBuilder sb, bool formatted, int indentLevel)
+        {
+            var objectType = obj.GetType();
+            var properties = TypeDescriptor.GetProperties(objectType);
+
+            sb.Append("{");
+
+            if (formatted)
+                sb.AppendLine();
+
+            for (int i = 0; i < properties.Count; i++)
             {
                 var property = properties[i];
                 var value = property.GetValue(obj);
-
                 var propertyName = GetJsonPropertyName(property);
+
                 if (formatted)
                     AppendIndent(sb, indentLevel + 1);
 
@@ -52,7 +93,12 @@ namespace VNet.CodeGeneration.Json
                 if (formatted)
                     sb.Append(" ");
 
-                if (isPrimitive)
+                // Update here: check if the property is a string.
+                if (property.PropertyType == typeof(string))
+                {
+                    sb.Append("\"").Append(value).Append("\"");  // Write the string value directly.
+                }
+                else if (IsPrimitiveType(property.PropertyType))
                 {
                     sb.Append(Serialize(value));
                 }
@@ -61,21 +107,19 @@ namespace VNet.CodeGeneration.Json
                     Serialize(value, sb, formatted, indentLevel + 1);
                 }
 
-                if (i < properties.Length - 1)
+                if (i < properties.Count - 1)
                     sb.Append(",");
 
                 if (formatted)
                     sb.AppendLine();
             }
 
-            if (!isPrimitive)
-            {
-                if (formatted)
-                    AppendIndent(sb, indentLevel);
+            if (formatted)
+                AppendIndent(sb, indentLevel);
 
-                sb.Append("}");
-            }
+            sb.Append("}");
         }
+
 
         public static T Deserialize<T>(string json)
         {
@@ -86,70 +130,150 @@ namespace VNet.CodeGeneration.Json
             throw new ArgumentException($"Invalid JSON: Cannot deserialize to type {typeof(T)}");
         }
 
-        private static object Deserialize(string json, Type targetType)
+        private static object Deserialize(object jsonObject, Type targetType)
         {
-            if (json == "null")
-                return null;
+            if (jsonObject == null)
+                throw new ArgumentException("Json object to deserialize is null");
 
-            if (!IsPrimitiveType(targetType))
+            if (targetType == null)
+                throw new ArgumentException("Target type is null");
+
+
+            if (jsonObject is string json)
             {
-                if (targetType.IsArray)
+                if (IsArrayJson(json))
                 {
-                    var elementType = targetType.GetElementType();
-                    if (elementType == null)
-                        throw new ArgumentException($"Invalid JSON: Cannot deserialize to array type {targetType}");
+                    Type elementType;
+                    IList list;
 
-                    var jsonArray = GetArrayElements(json);
-                    var array = Array.CreateInstance(elementType, jsonArray.Count);
-
-                    for (int i = 0; i < jsonArray.Count; i++)
+                    if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(List<>))
                     {
-                        var elementJson = jsonArray[i].ToString();
-                        var elementValue = Deserialize(elementJson, elementType);
-                        array.SetValue(elementValue, i);
+                        // Get the underlying type
+                        elementType = targetType.GetGenericArguments()[0];
+                        list = (IList)Activator.CreateInstance(targetType);
+                    }
+                    else
+                    {
+                        elementType = targetType.GetElementType();
+                        if (elementType == null)
+                            throw new Exception("Array has no element type");
+
+                        list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType));
                     }
 
+                    var jsonArrayItems = GetArrayElements(json);
+                    foreach (var item in jsonArrayItems)
+                    {
+                        if(item != null)
+                            list.Add(Deserialize(item.Trim(), elementType));
+                    }
+
+                    if (!targetType.IsArray)
+                        return list;
+
+                    Array array = Array.CreateInstance(elementType, list.Count);
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        array.SetValue(list[i], i);
+                    }
                     return array;
                 }
-                else if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(List<>))
+                else if (!IsPrimitiveType(targetType))
                 {
-                    var elementType = targetType.GetGenericArguments()[0];
-                    var jsonArray = GetArrayElements(json);
-                    var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType));
-
-                    for (int i = 0; i < jsonArray.Count; i++)
-                    {
-                        var elementJson = jsonArray[i].ToString();
-                        var elementValue = Deserialize(elementJson, elementType);
-                        list.Add(elementValue);
-                    }
-
-                    return list;
+                    var dict = ParseJsonDictionary(json);
+                    return Deserialize(dict, targetType);
                 }
                 else
                 {
-                    var obj = Activator.CreateInstance(targetType);
-                    var properties = GetSerializableProperties(targetType);
-                    var jsonDictionary = ParseJsonDictionary(json);
-
-                    foreach (var property in properties)
+                    return ParseJsonValue(json);
+                }
+            }
+            else if (jsonObject is Dictionary<string, object> dictionary)
+            {
+                var obj = Activator.CreateInstance(targetType);
+                foreach (var kv in dictionary)
+                {
+                    var property = targetType.GetProperty(kv.Key, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    if (property != null)
                     {
-                        var propertyName = GetJsonPropertyName(property);
-                        if (jsonDictionary.TryGetValue(propertyName, out var jsonValue))
+                        if (!IsPrimitiveType(property.PropertyType) || property.PropertyType.IsArray ||
+                            (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>)))
                         {
-                            var propertyValue = Deserialize(jsonValue.ToString(), property.PropertyType); // <-- Convert jsonValue to string
-                            property.SetValue(obj, propertyValue);
+                            if (kv.Value != null)
+                            {
+                                var value = Deserialize(kv.Value, property.PropertyType);
+                                property.SetValue(obj, value);
+                            }
+                        }
+                        else
+                        {
+                            var value = Convert.ChangeType(kv.Value, property.PropertyType);
+                            property.SetValue(obj, value);
                         }
                     }
-
-                    return obj;
                 }
+                return obj;
+            }
+            else if (jsonObject is List<object> objectList && targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(List<>))
+            {
+                Type elementType = targetType.GetGenericArguments()[0];
+                IList list = (IList)Activator.CreateInstance(targetType);
+
+                // Handle an empty list
+                if (objectList.Count == 0)
+                    return list;
+
+                foreach (var item in objectList)
+                {
+                    if(item != null)
+                        list.Add(Deserialize(item, elementType));
+                }
+
+                return list;
+            }
+            else if (jsonObject.GetType().IsGenericType && jsonObject.GetType().GetGenericTypeDefinition() == typeof(List<>))
+            {
+                var objList = ((IEnumerable)jsonObject).Cast<object>().ToList();
+                Type elementType = targetType.GetGenericArguments()[0];
+                IList list = (IList)Activator.CreateInstance(targetType);
+
+                if (elementType == typeof(string))
+                {
+                    foreach (var item in objList)
+                    {
+                        list.Add(Convert.ToString(item));
+                    }
+                }
+                else
+                {
+                    foreach (var item in objList)
+                    {
+                        if(item != null)
+                            list.Add(Deserialize(item, elementType));
+                    }
+                }
+
+                return list;
             }
             else
             {
-                return Convert.ChangeType(json, targetType, CultureInfo.InvariantCulture);
+                throw new Exception("Unexpected type of JSON object: " + jsonObject.GetType());
             }
         }
+
+
+        private static string DictionaryToJson(Dictionary<string, object> dict)
+        {
+            var keyValuePairs = dict.Select(kv =>
+            {
+                var valueStr = kv.Value is Dictionary<string, object>
+                    ? DictionaryToJson(kv.Value as Dictionary<string, object>)
+                    : kv.Value.ToString();
+                return $"\"{kv.Key}\": {valueStr}";
+            });
+            return "{" + string.Join(", ", keyValuePairs) + "}";
+        }
+
 
         private static bool IsArrayJson(string json)
         {
@@ -159,60 +283,44 @@ namespace VNet.CodeGeneration.Json
 
         private static List<string> GetArrayElements(string json)
         {
-            var elements = new List<string>();
+            var arrayElements = new List<string>();
 
-            json = json.Trim();
-            if (json.Length > 2)
+            int bracketsCount = 0;
+            int lastElementStartIndex = 1;
+
+            for (int i = 1; i < json.Length - 1; i++)
             {
-                var startIndex = json.IndexOf("[") + 1;
-                var endIndex = json.LastIndexOf("]");
-                if (startIndex >= 0 && endIndex >= 0)
+                if (json[i] == '{' || json[i] == '[')
                 {
-                    var elementsJson = json.Substring(startIndex, endIndex - startIndex);
-                    var depth = 0;
-                    var currentElement = new StringBuilder();
+                    bracketsCount++;
+                }
+                else if (json[i] == '}' || json[i] == ']')
+                {
+                    bracketsCount--;
+                }
 
-                    foreach (var ch in elementsJson)
-                    {
-                        if (ch == '[' || ch == '{')
-                        {
-                            depth++;
-                        }
-                        else if (ch == ']' || ch == '}')
-                        {
-                            depth--;
-                        }
-
-                        if (ch == ',' && depth == 0)
-                        {
-                            elements.Add(currentElement.ToString());
-                            currentElement.Clear();
-                        }
-                        else
-                        {
-                            currentElement.Append(ch);
-                        }
-                    }
-
-                    if (currentElement.Length > 0)
-                    {
-                        elements.Add(currentElement.ToString());
-                    }
+                if (json[i] == ',' && bracketsCount == 0)
+                {
+                    arrayElements.Add(json.Substring(lastElementStartIndex, i - lastElementStartIndex));
+                    lastElementStartIndex = i + 1;
                 }
             }
 
-            return elements;
+            // Add the last element
+            arrayElements.Add(json.Substring(lastElementStartIndex, json.Length - 1 - lastElementStartIndex));
+
+            return arrayElements;
         }
+
 
         private static Dictionary<string, object> ParseJsonDictionary(string json)
         {
             var dictionary = new Dictionary<string, object>();
-
             json = json.Trim();
             if (json.StartsWith("{") && json.EndsWith("}"))
             {
                 json = json.Substring(1, json.Length - 2);
-                var keyValuePairs = json.Split(',');
+                var keyValuePairs = SplitJsonIntoKeyValuePairs(json);
 
                 foreach (var keyValuePair in keyValuePairs)
                 {
@@ -222,13 +330,60 @@ namespace VNet.CodeGeneration.Json
                         var key = keyValuePair.Substring(0, separatorIndex).Trim().Trim('"');
                         var value = keyValuePair.Substring(separatorIndex + 1).Trim();
 
-                        dictionary[key] = ParseJsonValue(value);
+                        if (IsObjectJson(value))
+                            dictionary[key] = ParseJsonDictionary(value);
+                        else if (IsArrayJson(value))
+                            dictionary[key] = GetArrayElements(value);
+                        else
+                            dictionary[key] = ParseJsonValue(value);
                     }
                 }
             }
-
             return dictionary;
         }
+
+        private static bool IsObjectJson(string json)
+        {
+            json = json.Trim();
+            return json.StartsWith("{") && json.EndsWith("}") && json.Length > 2;
+        }
+
+        private static List<string> SplitJsonIntoKeyValuePairs(string json)
+        {
+            var keyValuePairs = new List<string>();
+
+            var depth = 0;
+            var currentPair = new StringBuilder();
+            foreach (var ch in json)
+            {
+                if (ch == '[' || ch == '{' || ch == '(')
+                {
+                    depth++;
+                }
+                else if (ch == ']' || ch == '}' || ch == ')')
+                {
+                    depth--;
+                }
+
+                if (ch == ',' && depth == 0)
+                {
+                    keyValuePairs.Add(currentPair.ToString().Trim());
+                    currentPair.Clear();
+                }
+                else
+                {
+                    currentPair.Append(ch);
+                }
+            }
+
+            if (currentPair.Length > 0)
+            {
+                keyValuePairs.Add(currentPair.ToString().Trim());
+            }
+
+            return keyValuePairs;
+        }
+
 
         private static object ParseJsonValue(string value)
         {
@@ -255,8 +410,30 @@ namespace VNet.CodeGeneration.Json
 
         private static bool IsPrimitiveType(Type type)
         {
-            return type.IsPrimitive || type == typeof(string) || type == typeof(decimal) || type == typeof(DateTime);
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                // if it's a Nullable<T>, treat it as a primitive
+                return true;
+            }
+            if (type.IsEnum)
+            {
+                // enum is treated as primitive
+                return true;
+            }
+
+            var typeInfo = type.GetTypeInfo();
+
+            return typeInfo.IsPrimitive ||
+                   typeInfo.IsValueType ||
+                   type == typeof(string) ||
+                   type == typeof(decimal) ||
+                   type == typeof(float) ||
+                   type == typeof(double) ||
+                   type == typeof(bool) ||
+                   type == typeof(int) ||
+                   type == typeof(DateTime);
         }
+
 
         private static string FormatPrimitiveValue(object value)
         {
@@ -327,24 +504,20 @@ namespace VNet.CodeGeneration.Json
 
         private static PropertyInfo[] GetSerializableProperties(Type type)
         {
-            return type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(p => p.CanRead && p.CanWrite)
-                .ToArray();
+            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .Where(p => p.CanRead && !Attribute.IsDefined(p, typeof(VNetJsonIgnoreAttribute)) && !p.GetIndexParameters().Any()).ToArray();
         }
 
 
-        private static string GetJsonPropertyName(PropertyInfo property)
+        private static string GetJsonPropertyName(PropertyDescriptor property)
         {
-            var jsonPropertyAttribute = property.GetCustomAttribute<VNetJsonPropertyAttribute>();
-            if (jsonPropertyAttribute != null && !string.IsNullOrEmpty(jsonPropertyAttribute.Name))
+            var attribute = property.Attributes.OfType<VNetJsonPropertyAttribute>().FirstOrDefault();
+            if (attribute != null && !string.IsNullOrEmpty(attribute.Name))
             {
-                return jsonPropertyAttribute.Name;
+                return attribute.Name;
             }
-
             return property.Name;
         }
-
-
 
         private static void AppendIndent(StringBuilder sb, int indentLevel)
         {
