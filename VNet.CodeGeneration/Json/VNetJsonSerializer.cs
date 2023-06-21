@@ -54,7 +54,15 @@ namespace VNet.CodeGeneration.Json
                 if (formatted)
                     AppendIndent(sb, indentLevel + 1);
 
-                Serialize(item, sb, formatted, indentLevel + 1);
+                // Update here: check if the item is a string or other primitive type.
+                if (item is string || IsPrimitiveType(item.GetType()))
+                {
+                    sb.Append(FormatPrimitiveValue(item));
+                }
+                else
+                {
+                    Serialize(item, sb, formatted, indentLevel + 1);
+                }
 
                 if (i < items.Count - 1)
                     sb.Append(",");
@@ -68,6 +76,7 @@ namespace VNet.CodeGeneration.Json
 
             sb.Append("]");
         }
+
 
         private static void SerializeObject(object obj, StringBuilder sb, bool formatted, int indentLevel)
         {
@@ -85,6 +94,12 @@ namespace VNet.CodeGeneration.Json
                 var value = property.GetValue(obj);
                 var propertyName = GetJsonPropertyName(property);
 
+                // Skip null properties.
+                if (value == null)
+                {
+                    continue;
+                }
+
                 if (formatted)
                     AppendIndent(sb, indentLevel + 1);
 
@@ -98,6 +113,10 @@ namespace VNet.CodeGeneration.Json
                 {
                     sb.Append("\"").Append(value).Append("\"");  // Write the string value directly.
                 }
+                else if (property.PropertyType == typeof(Dictionary<string, string>))
+                {
+                    SerializeDictionary((Dictionary<string, string>)value, sb, formatted, indentLevel + 1);
+                }
                 else if (IsPrimitiveType(property.PropertyType))
                 {
                     sb.Append(Serialize(value));
@@ -108,6 +127,37 @@ namespace VNet.CodeGeneration.Json
                 }
 
                 if (i < properties.Count - 1)
+                    sb.Append(",");
+
+                if (formatted)
+                    sb.AppendLine();
+            }
+
+            if (formatted)
+                AppendIndent(sb, indentLevel);
+
+            sb.Append("}");
+        }
+
+
+        private static void SerializeDictionary(Dictionary<string, string> dictionary, StringBuilder sb, bool formatted, int indentLevel)
+        {
+            sb.Append("{");
+
+            if (formatted)
+                sb.AppendLine();
+
+            var items = dictionary.ToList();
+            for (var i = 0; i < items.Count; i++)
+            {
+                var item = items[i];
+
+                if (formatted)
+                    AppendIndent(sb, indentLevel + 1);
+
+                sb.Append("\"").Append(item.Key).Append("\":\"").Append(item.Value).Append("\"");
+
+                if (i < items.Count - 1)
                     sb.Append(",");
 
                 if (formatted)
@@ -164,7 +214,7 @@ namespace VNet.CodeGeneration.Json
                     var jsonArrayItems = GetArrayElements(json);
                     foreach (var item in jsonArrayItems)
                     {
-                        if(item != null)
+                        if (item != null)
                             list.Add(Deserialize(item.Trim(), elementType));
                     }
 
@@ -196,24 +246,58 @@ namespace VNet.CodeGeneration.Json
                     var property = targetType.GetProperty(kv.Key, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                     if (property != null)
                     {
-                        if (!IsPrimitiveType(property.PropertyType) || property.PropertyType.IsArray ||
-                            (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>)))
+                        if (kv.Value != null)
                         {
-                            if (kv.Value != null)
+                            var elementType = property.PropertyType.IsArray
+                                ? property.PropertyType.GetElementType()
+                                : property.PropertyType.IsGenericType
+                                    ? property.PropertyType.GetGenericArguments().FirstOrDefault()
+                                    : null;
+
+                            // If elementType is null, use property.PropertyType
+                            var typeToCheck = elementType ?? property.PropertyType;
+
+                            if (IsPrimitiveType(typeToCheck))
+                            {
+                                if (elementType == typeof(string) && kv.Value is List<object> objectList)
+                                {
+                                    var stringList = new List<string>();
+                                    foreach (var o in objectList)
+                                    {
+                                        if (o is string str)
+                                        {
+                                            // Trim the double quotes if the string has them.
+                                            str = str.Trim();
+                                            if (str.StartsWith("\"") && str.EndsWith("\""))
+                                            {
+                                                stringList.Add(str.Substring(1, str.Length - 2));
+                                            }
+                                            else
+                                            {
+                                                stringList.Add(str);
+                                            }
+                                        }
+                                    }
+                                    property.SetValue(obj, stringList);
+                                }
+
+                                else
+                                {
+                                    var value = Convert.ChangeType(kv.Value, property.PropertyType);
+                                    property.SetValue(obj, value);
+                                }
+                            }
+                            else
                             {
                                 var value = Deserialize(kv.Value, property.PropertyType);
                                 property.SetValue(obj, value);
                             }
                         }
-                        else
-                        {
-                            var value = Convert.ChangeType(kv.Value, property.PropertyType);
-                            property.SetValue(obj, value);
-                        }
                     }
                 }
                 return obj;
             }
+
             else if (jsonObject is List<object> objectList && targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(List<>))
             {
                 Type elementType = targetType.GetGenericArguments()[0];
@@ -225,7 +309,7 @@ namespace VNet.CodeGeneration.Json
 
                 foreach (var item in objectList)
                 {
-                    if(item != null)
+                    if (item != null)
                         list.Add(Deserialize(item, elementType));
                 }
 
@@ -248,7 +332,7 @@ namespace VNet.CodeGeneration.Json
                 {
                     foreach (var item in objList)
                     {
-                        if(item != null)
+                        if (item != null)
                             list.Add(Deserialize(item, elementType));
                     }
                 }

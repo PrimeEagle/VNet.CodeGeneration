@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using VNet.CodeGeneration.Json;
+using VNet.CodeGeneration.ZeroDepJson;
 
 
 // ReSharper disable NotAccessedField.Local
@@ -36,7 +36,7 @@ namespace VNet.CodeGeneration.FileComparer
                 reader.Close();
             }
 
-            Entries = string.IsNullOrEmpty(json) ? new List<FileComparerEntry>() : VNetJsonSerializer.Deserialize<List<FileComparerEntry>>(json);
+            Entries = string.IsNullOrEmpty(json) ? new List<FileComparerEntry>() : VNet.CodeGeneration.ZeroDepJson.Json.Deserialize<List<FileComparerEntry>>(json);
             foreach (var e in Entries)
             {
                 e.FullPath = _directory + e.FileName;
@@ -114,7 +114,7 @@ namespace VNet.CodeGeneration.FileComparer
         public void Save()
         {
             var results = Entries.Where(e => !e.Deleted).Select(e => new { e.FileName, e.Hash });
-            var json = VNetJsonSerializer.Serialize(results, true);
+            var json = VNet.CodeGeneration.ZeroDepJson.Json.Serialize(results);
             using (var writer = new StreamWriter(_fileName))
             {
                 writer.Write(json);
