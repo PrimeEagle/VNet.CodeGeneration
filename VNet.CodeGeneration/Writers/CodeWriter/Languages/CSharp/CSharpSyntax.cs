@@ -43,6 +43,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public string DocumentationCommentCloseScopeCharacter => "/// </summary>";
         public CaseConversionStyle AccessModifierCaseStyle => CaseConversionStyle.AllLower;
 
+
+
         public bool IsValidNaming(string name)
         {
             return new CSharpCodeProvider().IsValidIdentifier(name);
