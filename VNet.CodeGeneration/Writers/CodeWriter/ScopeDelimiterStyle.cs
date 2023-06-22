@@ -1,6 +1,6 @@
 ﻿namespace VNet.CodeGeneration.Writers.CodeWriter
 {
-    public enum BraceStyle
+    public enum ScopeDelimiterStyle
     {
         NewLine,
         EndOfLine

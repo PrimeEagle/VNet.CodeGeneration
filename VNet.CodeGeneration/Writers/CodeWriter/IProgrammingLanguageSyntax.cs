@@ -2,35 +2,40 @@
 {
     public interface IProgrammingLanguageSyntax
     {
-        string UsingKeyword { get; }
-        string NamespaceKeyword { get; }
+        #region Keywords
+        string ImportKeyword { get; }
+        string ModuleKeyword { get; }
         string ClassKeyword { get; }
-        string MethodKeyword { get; }
+        string FunctionKeyword { get; }
         string VoidKeyword { get; }
         string PublicKeyword { get; }
         string InterfaceKeyword { get; }
         string StructKeyword { get; }
-        string EnumKeyword { get; }
+        string EnumerationKeyword { get; }
         string DelegateKeyword { get; }
         string EventKeyword { get; }
-        string StatementEnd { get; }
-        string OpenScopeCharacter { get; }
-        string CloseScopeCharacter { get; }
-        string RegionOpenScopeCharacter { get; }
-        string RegionCloseScopeCharacter { get; }
-        string PropertyKeyword { get; }
-        string PropertyGetterKeyword { get; }
-        string PropertySetterKeyword { get; }
-        string GenericStart { get; }
-        string GenericEnd { get; }
-        string EnumValueSeparatorCharacter { get; }
-        string EnumMemberSeparatorCharacter { get; }
-        string SingleLineCommentCharacter { get; }
-        string MultilineCommentOpenScopeCharacter { get; }
-        string MultilineCommentCloseScopeCharacter { get; }
-        string DocumentationCommentCharacter { get; }
-        string DocumentationCommentOpenScopeCharacter { get; }
-        string DocumentationCommentCloseScopeCharacter { get; }
+        string AccessorKeyword { get; }
+        string GetterKeyword { get; }
+        string SetterKeyword { get; }
+        #endregion Keywords
+
+
+        #region Symbols
+        string StatementEndSymbol { get; }
+        string OpenScopeSymbol { get; }
+        string CloseScopeSymbol { get; }
+        string CodeGroupingOpenSymbol { get; }
+        string CodeGroupingCloseSymbol { get; }
+        string GenericScopeOpenSymbol { get; }
+        string GenericScopeCloseSymbol { get; }
+        string EnumerationValueSeparatorSymbol { get; }
+        string EnumerationMemberSeparatorSymbol { get; }
+        string SingleLineCommentSymbol { get; }
+        string MultilineCommentOpenScopeSymbol { get; }
+        string MultilineCommentCloseScopeSymbol { get; }
+        string DocumentationCommentOpenScopeSymbol { get; }
+        string DocumentationCommentCloseScopeSymbol { get; }
+        #endregion Symbols
 
 
         bool IsValidNaming(string name);

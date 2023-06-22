@@ -4,45 +4,40 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CSharpSyntax : IProgrammingLanguageSyntax
     {
-        public string UsingKeyword => "using";
-        public string NamespaceKeyword => "namespace";
-        public string ClassKeyword => "class";
-        public string MethodKeyword => string.Empty;
-        public string StaticKeyword => "static";
-        public string ReadOnlyKeyword => "readonly";
-        public string ConstantKeyword => "const";
-        public string VolatileKeyword => "volatile";
+        #region Keywords
+        public string ImportKeyword => "using";
+        public string ModuleKeyword => "namespace";
+        public string ClassKeyword => "clas";
+        public string FunctionKeyword => string.Empty;
         public string VoidKeyword => "void";
-        public string NewKeyword => "new";
         public string PublicKeyword => "public";
         public string InterfaceKeyword => "interface";
         public string StructKeyword => "struct";
-        public string EnumKeyword => "enum";
+        public string EnumerationKeyword => "enum";
         public string DelegateKeyword => "delegate";
         public string EventKeyword => "event";
-        public string StatementEnd => ";";
-        public string OpenScopeCharacter => "{";
-        public string CloseScopeCharacter => "}";
-        public string RegionOpenScopeCharacter => "#region";
-        public string RegionCloseScopeCharacter => "#endregion";
-        public string PropertyKeyword => string.Empty;
-        public string PropertyGetterKeyword => "get";
-        public string PropertySetterKeyword => "set";
-        public string ConstructorKeyword => string.Empty;
-        public string GenericStart => "<";
-        public string GenericEnd => ">";
-        public string GetKeyword => "get";
-        public string SetKeyword => "set";
-        public string EnumValueSeparatorCharacter => "=";
-        public string EnumMemberSeparatorCharacter => ",";
-        public string SingleLineCommentCharacter => "//";
-        public string MultilineCommentOpenScopeCharacter => "/*";
-        public string MultilineCommentCloseScopeCharacter => "*/";
-        public string DocumentationCommentCharacter => "///";
-        public string DocumentationCommentOpenScopeCharacter => "/// <summary>";
-        public string DocumentationCommentCloseScopeCharacter => "/// </summary>";
-        public CaseConversionStyle AccessModifierCaseStyle => CaseConversionStyle.AllLower;
+        public string AccessorKeyword => string.Empty;
+        public string GetterKeyword => "get";
+        public string SetterKeyword => "set";
+        #endregion Keywords
 
+
+        #region Symbols
+        public string StatementEndSymbol => ";";
+        public string OpenScopeSymbol => "{";
+        public string CloseScopeSymbol => "}";
+        public string CodeGroupingOpenSymbol => "#region";
+        public string CodeGroupingCloseSymbol => "#endregion";
+        public string GenericScopeOpenSymbol => "<";
+        public string GenericScopeCloseSymbol => ">";
+        public string EnumerationValueSeparatorSymbol => "=";
+        public string EnumerationMemberSeparatorSymbol => ",";
+        public string SingleLineCommentSymbol => "//";
+        public string MultilineCommentOpenScopeSymbol => "/*";
+        public string MultilineCommentCloseScopeSymbol => "*/";
+        public string DocumentationCommentOpenScopeSymbol => "/// <summary>";
+        public string DocumentationCommentCloseScopeSymbol => "/// </summary>";
+        #endregion Symbols
 
 
         public bool IsValidNaming(string name)

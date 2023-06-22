@@ -1,6 +1,6 @@
 ﻿namespace VNet.CodeGeneration.Writers.CodeWriter
 {
-    public enum NamespaceStyle
+    public enum ModuleStyle
     {
         SingleLine,
         Scoped

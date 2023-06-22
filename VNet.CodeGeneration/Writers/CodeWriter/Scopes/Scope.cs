@@ -331,13 +331,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             if (this is ClassScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ClassCaseConversionStyle);
             if (this is DelegateScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.DelegateCaseConversionStyle);
-            if (this is EnumerationScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.EnumCaseConversionStyle);
+            if (this is EnumerationScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.EnumerationCaseConversionStyle);
             if (this is FieldScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.FieldCaseConversionStyle);
             if (this is InterfaceScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.InterfaceCaseConversionStyle);
-            if (this is FunctionScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.MethodCaseConversionStyle);
-            if (this is ModuleScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.NamespaceCaseConversionStyle);
-            if (this is AccessorScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.PropertyCaseConversionStyle);
-            if (this is CodeGroupingScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.RegionCaseConversionStyle);
+            if (this is FunctionScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.FunctionCaseConversionStyle);
+            if (this is ModuleScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ModuleCaseConversionStyle);
+            if (this is AccessorScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.AccessorCaseConversionStyle);
+            if (this is CodeGroupingScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.CodeGroupingCaseConversionStyle);
             if (this is StructScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.StructCaseConversionStyle);
             if (this is VariableScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.VariableCaseConversionStyle);
 

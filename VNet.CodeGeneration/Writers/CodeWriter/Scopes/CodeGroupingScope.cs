@@ -27,7 +27,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         public override void Dispose()
         {
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionCloseScope(StyledValue, IndentLevel.Current));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCodeGroupingCloseScope(StyledValue, IndentLevel.Current));
         }
 
         public CodeGroupingScope WithModifier(string modifier)
@@ -53,7 +53,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines.Clear();
 
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionOpenScope(StyledValue, IndentLevel.Current));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCodeGroupingOpenScope(StyledValue, IndentLevel.Current));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

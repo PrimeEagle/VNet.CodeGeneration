@@ -56,7 +56,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             _codeLines.Clear();
 
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetPropertyStyledSyntax(StyledValue, _type, Modifiers, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetAccessorStyledSyntax(StyledValue, _type, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

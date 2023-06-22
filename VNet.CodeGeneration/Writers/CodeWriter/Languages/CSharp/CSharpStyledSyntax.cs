@@ -41,9 +41,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var result = new List<string>
             {
-                Style.BraceStyle == BraceStyle.EndOfLine
-                    ? " " + Syntax.OpenScopeCharacter
-                    : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeCharacter
+                Style.ScopeDelimiterStyle == ScopeDelimiterStyle.EndOfLine
+                    ? " " + Syntax.OpenScopeSymbol
+                    : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
             };
 
             return result;
@@ -53,29 +53,29 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var result = new List<string>
             {
-                Style.BraceStyle == BraceStyle.EndOfLine
-                    ? " " + Syntax.CloseScopeCharacter
-                    : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.CloseScopeCharacter
+                Style.ScopeDelimiterStyle == ScopeDelimiterStyle.EndOfLine
+                    ? " " + Syntax.CloseScopeSymbol
+                    : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.CloseScopeSymbol
             };
 
             return result;
         }
 
-        public IEnumerable<string> GetRegionOpenScope(string styledValue, int currentIndentLevel)
+        public IEnumerable<string> GetCodeGroupingOpenScope(string styledValue, int currentIndentLevel)
         {
             var result = new List<string>()
             {
-                $"{GetIndentCode(currentIndentLevel)}{Syntax.RegionOpenScopeCharacter} {styledValue}"
+                $"{GetIndentCode(currentIndentLevel)}{Syntax.CodeGroupingOpenSymbol} {styledValue}"
             };
 
             return result;
         }
 
-        public IEnumerable<string> GetRegionCloseScope(string styledValue, int currentIndentLevel)
+        public IEnumerable<string> GetCodeGroupingCloseScope(string styledValue, int currentIndentLevel)
         {
             var result = new List<string>()
             {
-                $"{GetIndentCode(currentIndentLevel)}{Syntax.RegionCloseScopeCharacter} {styledValue}"
+                $"{GetIndentCode(currentIndentLevel)}{Syntax.CodeGroupingCloseSymbol} {styledValue}"
             };
 
             return result;
@@ -88,7 +88,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         private string GetGenericTypes(IEnumerable<string> genericTypes)
         {
-            return !genericTypes.Any() ? string.Empty : $"{Syntax.GenericStart}{GetParameters(genericTypes)}{Syntax.GenericEnd}";
+            return !genericTypes.Any() ? string.Empty : $"{Syntax.GenericScopeOpenSymbol}{GetParameters(genericTypes)}{Syntax.GenericScopeCloseSymbol}";
         }
 
         private string GetGenericConstraints(IEnumerable<string> constraints)
@@ -118,20 +118,20 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         }
 
-        public IEnumerable<string> GetNamespaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, NamespaceStyle namespaceStyle)
+        public IEnumerable<string> GetModuleStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, ModuleStyle namespaceStyle)
         {
             var codeLines = new List<string>();
 
             switch (namespaceStyle)
             {
-                case NamespaceStyle.Scoped:
+                case ModuleStyle.Scoped:
                     {
-                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.NamespaceKeyword} {styledValue}");
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ModuleKeyword} {styledValue}");
                         break;
                     }
-                case NamespaceStyle.SingleLine:
+                case ModuleStyle.SingleLine:
                     {
-                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.NamespaceKeyword} {styledValue}{Syntax.StatementEnd}");
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ModuleKeyword} {styledValue}{Syntax.StatementEndSymbol}");
                         break;
                     }
                 default:
@@ -150,25 +150,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             {
                 case CommentType.SingleLine:
                     {
-                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.SingleLineCommentCharacter}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{styledValue}");
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.SingleLineCommentSymbol}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{styledValue}");
                         break;
                     }
                 case CommentType.MultiLine:
                     {
                         if (Style.MultilineCommentStyle == MultilineCommentStyle.SameLine)
                         {
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeCharacter}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{values[0]}");
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeSymbol}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{values[0]}");
                             for (var i = 1; i <= values.Length - 3; i++)
                             {
                                 codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[i]}");
                             }
 
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{Syntax.MultilineCommentCloseScopeCharacter}");
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{Syntax.MultilineCommentCloseScopeSymbol}");
                         }
 
                         if (Style.MultilineCommentStyle == MultilineCommentStyle.NewLine)
                         {
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeCharacter}{values[0]}");
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeSymbol}{values[0]}");
                             codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[0]}");
                             for (var i = 1; i <= values.Length - 3; i++)
                             {
@@ -176,20 +176,20 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                             }
 
                             codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}");
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentCloseScopeCharacter}");
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentCloseScopeSymbol}");
                         }
                     }
                     break;
                 case CommentType.Documentation:
-                    codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentOpenScopeCharacter}{values[0]}");
+                    codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentOpenScopeSymbol}{values[0]}");
                     // ReSharper disable once LoopCanBeConvertedToQuery
                     foreach (var t in values)
                     {
-                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentCharacter}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{t}");
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentOpenScopeSymbol}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{t}");
                     }
 
                     // TODO: doesn't support documentation for parameters
-                    codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentCloseScopeCharacter}");
+                    codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentCloseScopeSymbol}");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -198,22 +198,22 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return codeLines;
         }
 
-        public IEnumerable<string> GetUsingStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetImportStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>
             {
-                $"{GetIndentCode(indentLevel.Current)}{Syntax.UsingKeyword} {styledValue}{Syntax.StatementEnd}"
+                $"{GetIndentCode(indentLevel.Current)}{Syntax.ImportKeyword} {styledValue}{Syntax.StatementEndSymbol}"
             };
 
             return codeLines;
         }
 
-        public IEnumerable<string> GetEnumStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, IEnumerable<EnumMember> members)
+        public IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, IEnumerable<EnumerationMember> members)
         {
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.EnumKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.EnumerationKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
             
             indentLevel.Increase();
             foreach (var member in members)
@@ -222,12 +222,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                 if (member.Value.HasValue)
                 {
                     memberValue += Style.SpaceAroundOperators ? " " : string.Empty;
-                    memberValue += Syntax.EnumValueSeparatorCharacter;
+                    memberValue += Syntax.EnumerationValueSeparatorSymbol;
                     memberValue += Style.SpaceAroundOperators ? " " : string.Empty;
                     memberValue += member.Value.ToString();
                 }
 
-                codeLines.Add($"{member.Name}{memberValue}{Syntax.EnumMemberSeparatorCharacter}");
+                codeLines.Add($"{member.Name}{memberValue}{Syntax.EnumerationMemberSeparatorSymbol}");
             }
             indentLevel.Decrease();
 
@@ -272,7 +272,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.DelegateKeyword} {styledValue}({GetParameters(parameters)}){Syntax.StatementEnd}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.DelegateKeyword} {styledValue}({GetParameters(parameters)}){Syntax.StatementEndSymbol}");
             indentLevel.Increase();
 
             return codeLines;
@@ -282,17 +282,17 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.EventKeyword} {styledValue}{Syntax.StatementEnd}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.EventKeyword} {styledValue}{Syntax.StatementEndSymbol}");
             indentLevel.Increase();
 
             return codeLines;
         }
 
-        public IEnumerable<string> GetMethodStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.MethodKeyword} {styledValue}{GetGenericTypes(genericTypes)}({GetParameters(parameters)}){GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.FunctionKeyword} {styledValue}{GetGenericTypes(genericTypes)}({GetParameters(parameters)}){GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;
@@ -302,7 +302,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {styledValue}{Syntax.StatementEnd}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {styledValue}{Syntax.StatementEndSymbol}");
             indentLevel.Increase();
 
             return codeLines;
@@ -312,37 +312,37 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{returnType} {styledValue}{Syntax.StatementEnd}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{returnType} {styledValue}{Syntax.StatementEndSymbol}");
             indentLevel.Increase();
 
             return codeLines;
         }
 
-        public IEnumerable<string> GetPropertyStyledSyntax(string styledValue, string type, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetAccessorStyledSyntax(string styledValue, string type, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {type} {Syntax.PropertyKeyword} {CodeWriter.ConvertStyleCase(styledValue, Style.PropertyCaseConversionStyle)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {type} {Syntax.AccessorKeyword} {CodeWriter.ConvertStyleCase(styledValue, Style.AccessorCaseConversionStyle)}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;
         }
 
-        public IEnumerable<string> GetPropertyGetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetGetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.PropertyGetterKeyword}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.GetterKeyword}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;
         }
 
-        public IEnumerable<string> GetPropertySetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetSetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.PropertySetterKeyword}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.SetterKeyword}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
 
             return codeLines;

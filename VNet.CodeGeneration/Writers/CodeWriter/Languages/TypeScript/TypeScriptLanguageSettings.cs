@@ -1,19 +1,19 @@
 ﻿//namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
 //{
-//    public class JavaScriptLanguageSettings : IProgrammingLanguageSettings
+//    public class TypeScriptLanguageSettings : IProgrammingLanguageSettings
 //    {
-//        public string LanguageName => "JavaScript";
+//        public string LanguageName => "TypeScript";
 //        public IProgrammingLanguageFeatures Features { get; }
 //        public IProgrammingLanguageSyntax Syntax { get; }
 //        public IProgrammingLanguageStyle Style { get; }
 //        public IProgrammingLanguageStyledSyntax StyledSyntax { get; }
 
-//        public JavaScriptLanguageSettings(IProgrammingLanguageStyle style)
+//        public TypeScriptLanguageSettings(IProgrammingLanguageStyle style)
 //        {
-//            Features = new JavaScriptFeatures();
-//            Syntax = new JavaScriptSyntax();
+//            Features = new TypeScriptFeatures();
+//            Syntax = new TypeScriptSyntax();
 //            Style = style;
-//            StyledSyntax =new JavaScriptStyledSyntax(Syntax, Style);
+//            StyledSyntax =new TypeScriptStyledSyntax(Syntax, Style);
 //        }
 //    }
 //}

@@ -50,7 +50,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetUsingStyledSyntax(StyledValue, Modifiers, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetImportStyledSyntax(StyledValue, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

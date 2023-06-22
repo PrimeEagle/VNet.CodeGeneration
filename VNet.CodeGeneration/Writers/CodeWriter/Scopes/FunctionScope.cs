@@ -87,7 +87,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             _codeLines.Clear();
 
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetMethodStyledSyntax(StyledValue, _returnType, _genericTypes, _genericConstraints, _parameters, Modifiers, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetFunctionStyledSyntax(StyledValue, _returnType, _genericTypes, _genericConstraints, _parameters, Modifiers, IndentLevel));
             _codeLines.AddRange(LanguageSettings.StyledSyntax.GetOpenScope(IndentLevel.Current));
             IndentLevel.Increase();
 

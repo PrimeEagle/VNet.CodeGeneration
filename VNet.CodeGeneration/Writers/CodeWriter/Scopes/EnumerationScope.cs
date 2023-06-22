@@ -10,12 +10,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
-        private readonly List<EnumMember> _members;
+        private readonly List<EnumerationMember> _members;
 
         internal EnumerationScope(string name, Scope parent)
             : base(name, parent)
         {
-            _members = new List<EnumMember>();
+            _members = new List<EnumerationMember>();
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
             Modifiers = new List<string>();
@@ -30,7 +30,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         public EnumerationScope WithMember(string name, int? value = null)
         {
-            var member = new EnumMember(name, value);
+            var member = new EnumerationMember(name, value);
             _members.Add(member);
 
             return this;
@@ -59,7 +59,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines.Clear();
 
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumStyledSyntax(StyledValue, Modifiers, IndentLevel, _members));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumerationStyledSyntax(StyledValue, Modifiers, IndentLevel, _members));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());
