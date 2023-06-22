@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
-    public sealed class NamespaceScope : Scope
+    public sealed class ModuleScope : Scope
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
         private NamespaceStyle _namespaceStyle;
 
-        internal NamespaceScope(string value, Scope parent)
+        internal ModuleScope(string value, Scope parent)
             : base(value, parent)
         {
             _codeLines = new List<string>();
@@ -22,28 +22,28 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
-        public NamespaceScope AddBlankLine()
+        public ModuleScope AddBlankLine()
         {
             _codeLines.Add(string.Empty);
 
             return this;
         }
 
-        public NamespaceScope WithSingleLineStyle()
+        public ModuleScope WithSingleLineStyle()
         {
             _namespaceStyle = NamespaceStyle.SingleLine;
 
             return this;
         }
 
-        public NamespaceScope WithScopedStyle()
+        public ModuleScope WithScopedStyle()
         {
             _namespaceStyle = NamespaceStyle.Scoped;
 
             return this;
         }
 
-        public NamespaceScope WithModifier(string modifier)
+        public ModuleScope WithModifier(string modifier)
         {
             AddModifier(modifier);
 
@@ -51,12 +51,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
-        public NamespaceScope WithAccessModifier(AccessModifier accessModifier)
+        public ModuleScope WithAccessModifier(AccessModifier accessModifier)
         {
             return WithAccessModifier(accessModifier.ToString());
         }
 
-        public NamespaceScope WithAccessModifier(string accessModifier)
+        public ModuleScope WithAccessModifier(string accessModifier)
         {
             AddModifier(accessModifier);
 

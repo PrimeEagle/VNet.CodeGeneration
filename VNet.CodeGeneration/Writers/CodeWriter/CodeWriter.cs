@@ -6,9 +6,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 {
     public static class CodeWriter
     {
-        public static CodeFile CreateCodeFile()
+        public static CodeFileScope CreateCodeFile()
         {
-            return new CodeFile();
+            return new CodeFileScope();
         }
 
         internal static string[] NewLineDelimiters => new string[]{ "\r\n", "\r", "\n" };

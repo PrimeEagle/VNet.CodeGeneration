@@ -3,12 +3,12 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
-    public sealed class PropertyGetterScope : Scope
+    public sealed class SetterScope : Scope
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
 
-        internal PropertyGetterScope(string name, Scope parent)
+        internal SetterScope(string name, Scope parent)
             : base(name, parent)
         {
             _codeLines = new List<string>();
@@ -16,26 +16,26 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
-        public PropertyGetterScope AddBlankLine()
+        public SetterScope AddBlankLine()
         {
             _codeLines.Add(string.Empty);
 
             return this;
         }
 
-        public PropertyGetterScope WithModifier(string modifier)
+        public SetterScope WithModifier(string modifier)
         {
             AddModifier(modifier);
 
             return this;
         }
 
-        public PropertyGetterScope WithAccessModifier(AccessModifier accessModifier)
+        public SetterScope WithAccessModifier(AccessModifier accessModifier)
         {
             return WithAccessModifier(accessModifier.ToString());
         }
 
-        public PropertyGetterScope WithAccessModifier(string accessModifier)
+        public SetterScope WithAccessModifier(string accessModifier)
         {
             AddModifier(accessModifier);
 
@@ -46,7 +46,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines.Clear();
 
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetPropertyGetterStyledSyntax(StyledValue, Modifiers, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetPropertySetterStyledSyntax(StyledValue, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

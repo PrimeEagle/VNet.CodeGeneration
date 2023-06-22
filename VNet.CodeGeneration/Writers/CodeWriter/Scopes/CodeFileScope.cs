@@ -9,21 +9,21 @@ using VNet.CodeGeneration.Writers.CodeWriter.Scopes;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter
 {
-    public class CodeFile : Scope
+    public class CodeFileScope : Scope
     {
         private readonly List<string> _codeLines;
         private readonly List<Scope> _scopes;
         private IProgrammingLanguageSettings _languageSettings;
 
 
-        internal CodeFile()
+        internal CodeFileScope()
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
             IndentLevel = new IndentationManager();
         }
 
-        public CodeFile UsingLanguageSettings(IProgrammingLanguageSettings languageSettings)
+        public CodeFileScope UsingLanguageSettings(IProgrammingLanguageSettings languageSettings)
         {
             _languageSettings = languageSettings;
 

@@ -190,28 +190,28 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
         }
 
-        public virtual RegionScope AddRegion(string name)
+        public virtual CodeGroupingScope AddRegion(string name)
         {
-            ValidateScope(name, typeof(RegionScope));
-            var newScope = new RegionScope(name, this);
+            ValidateScope(name, typeof(CodeGroupingScope));
+            var newScope = new CodeGroupingScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
         }
 
-        public virtual UsingScope AddUsingStatement(string name)
+        public virtual ImportScope AddUsingStatement(string name)
         {
-            ValidateScope(name, typeof(UsingScope));
-            var newScope = new UsingScope(name, this);
+            ValidateScope(name, typeof(ImportScope));
+            var newScope = new ImportScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
         }
 
-        public virtual NamespaceScope AddNamespace(string name)
+        public virtual ModuleScope AddNamespace(string name)
         {
-            ValidateScope(name, typeof(NamespaceScope));
-            var newScope = new NamespaceScope(name, this);
+            ValidateScope(name, typeof(ModuleScope));
+            var newScope = new ModuleScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -224,10 +224,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return newScope;
         }
-        public virtual EnumScope AddEnum(string name)
+        public virtual EnumerationScope AddEnum(string name)
         {
-            ValidateScope(name, typeof(EnumScope));
-            var newScope = new EnumScope(name, this);
+            ValidateScope(name, typeof(EnumerationScope));
+            var newScope = new EnumerationScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -256,26 +256,26 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return newScope;
         }
-        public virtual PropertyScope AddProperty(string name)
+        public virtual AccessorScope AddProperty(string name)
         {
-            ValidateScope(name, typeof(PropertyScope));
-            var newScope = new PropertyScope(name, this);
+            ValidateScope(name, typeof(AccessorScope));
+            var newScope = new AccessorScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
         }
-        public virtual PropertyGetterScope AddPropertyGetter(string name)
+        public virtual GetterScope AddPropertyGetter(string name)
         {
-            ValidateScope(name, typeof(PropertyGetterScope));
-            var newScope = new PropertyGetterScope(name, this);
+            ValidateScope(name, typeof(GetterScope));
+            var newScope = new GetterScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
         }
-        public virtual PropertySetterScope AddPropertySetter(string name)
+        public virtual SetterScope AddPropertySetter(string name)
         {
-            ValidateScope(name, typeof(PropertySetterScope));
-            var newScope = new PropertySetterScope(name, this);
+            ValidateScope(name, typeof(SetterScope));
+            var newScope = new SetterScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -297,10 +297,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return newScope;
         }
-        public virtual MethodScope AddMethod(string name)
+        public virtual FunctionScope AddMethod(string name)
         {
-            ValidateScope(name, typeof(MethodScope));
-            var newScope = new MethodScope(name, this);
+            ValidateScope(name, typeof(FunctionScope));
+            var newScope = new FunctionScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
@@ -331,13 +331,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             if (this is ClassScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ClassCaseConversionStyle);
             if (this is DelegateScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.DelegateCaseConversionStyle);
-            if (this is EnumScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.EnumCaseConversionStyle);
+            if (this is EnumerationScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.EnumCaseConversionStyle);
             if (this is FieldScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.FieldCaseConversionStyle);
             if (this is InterfaceScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.InterfaceCaseConversionStyle);
-            if (this is MethodScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.MethodCaseConversionStyle);
-            if (this is NamespaceScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.NamespaceCaseConversionStyle);
-            if (this is PropertyScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.PropertyCaseConversionStyle);
-            if (this is RegionScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.RegionCaseConversionStyle);
+            if (this is FunctionScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.MethodCaseConversionStyle);
+            if (this is ModuleScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.NamespaceCaseConversionStyle);
+            if (this is AccessorScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.PropertyCaseConversionStyle);
+            if (this is CodeGroupingScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.RegionCaseConversionStyle);
             if (this is StructScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.StructCaseConversionStyle);
             if (this is VariableScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.VariableCaseConversionStyle);
 

@@ -1,54 +1,48 @@
 ﻿using System.Collections.Generic;
-// ReSharper disable MemberCanBePrivate.Global
-
 // ReSharper disable NotAccessedField.Local
 // ReSharper disable CollectionNeverUpdated.Local
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
-    public sealed class EnumScope : Scope
+    public sealed class CodeGroupingScope : Scope
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
-        private readonly List<EnumMember> _members;
 
-        internal EnumScope(string name, Scope parent)
+        internal CodeGroupingScope(string name, Scope parent)
             : base(name, parent)
         {
-            _members = new List<EnumMember>();
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
             Modifiers = new List<string>();
         }
 
-        public EnumScope AddBlankLine()
+        public CodeGroupingScope AddBlankLine()
         {
             _codeLines.Add(string.Empty);
 
             return this;
         }
 
-        public EnumScope WithMember(string name, int? value = null)
+        public override void Dispose()
         {
-            var member = new EnumMember(name, value);
-            _members.Add(member);
-
-            return this;
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionCloseScope(StyledValue, IndentLevel.Current));
         }
 
-        public EnumScope WithModifier(string modifier)
+        public CodeGroupingScope WithModifier(string modifier)
         {
             AddModifier(modifier);
 
             return this;
         }
 
-        public EnumScope WithAccessModifier(AccessModifier accessModifier)
+        public CodeGroupingScope WithAccessModifier(AccessModifier accessModifier)
         {
             return WithAccessModifier(accessModifier.ToString());
         }
 
-        public EnumScope WithAccessModifier(string accessModifier)
+        public CodeGroupingScope WithAccessModifier(string accessModifier)
         {
             AddModifier(accessModifier);
 
@@ -59,12 +53,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines.Clear();
 
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumStyledSyntax(StyledValue, Modifiers, IndentLevel, _members));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionOpenScope(StyledValue, IndentLevel.Current));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());
-
-            Dispose();
 
             return _codeLines;
         }

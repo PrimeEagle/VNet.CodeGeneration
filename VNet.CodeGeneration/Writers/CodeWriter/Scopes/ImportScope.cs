@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-// ReSharper disable NotAccessedField.Local
 // ReSharper disable CollectionNeverUpdated.Local
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
-    public sealed class RegionScope : Scope
+    public sealed class ImportScope : Scope
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
 
-        internal RegionScope(string name, Scope parent)
+        internal ImportScope(string name, Scope parent)
             : base(name, parent)
         {
             _codeLines = new List<string>();
@@ -18,42 +17,40 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
-        public RegionScope AddBlankLine()
+        public ImportScope AddBlankLine()
         {
             _codeLines.Add(string.Empty);
 
             return this;
         }
 
-        public override void Dispose()
-        {
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionCloseScope(StyledValue, IndentLevel.Current));
-        }
-
-        public RegionScope WithModifier(string modifier)
+        public ImportScope WithModifier(string modifier)
         {
             AddModifier(modifier);
 
             return this;
         }
 
-        public RegionScope WithAccessModifier(AccessModifier accessModifier)
+        public ImportScope WithAccessModifier(AccessModifier accessModifier)
         {
             return WithAccessModifier(accessModifier.ToString());
         }
 
-        public RegionScope WithAccessModifier(string accessModifier)
+        public ImportScope WithAccessModifier(string accessModifier)
         {
             AddModifier(accessModifier);
 
             return this;
         }
 
+        public override void Dispose()
+        {
+
+        }
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
-
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetRegionOpenScope(StyledValue, IndentLevel.Current));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetUsingStyledSyntax(StyledValue, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());

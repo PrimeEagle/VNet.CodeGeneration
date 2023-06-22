@@ -6,7 +6,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
-    public sealed class MethodScope : Scope
+    public sealed class FunctionScope : Scope
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
@@ -15,7 +15,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         private readonly List<string> _genericTypes;
         private readonly List<string> _genericConstraints;
 
-        internal MethodScope(string name, Scope parent)
+        internal FunctionScope(string name, Scope parent)
             : base(name, parent)
         {
             _codeLines = new List<string>();
@@ -27,54 +27,54 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _genericConstraints = new List<string>();
         }
 
-        public MethodScope AddBlankLine()
+        public FunctionScope AddBlankLine()
         {
             _codeLines.Add(string.Empty);
 
             return this;
         }
 
-        public MethodScope WithModifier(string modifier)
+        public FunctionScope WithModifier(string modifier)
         {
             AddModifier(modifier);
 
             return this;
         }
 
-        public MethodScope WithAccessModifier(AccessModifier accessModifier)
+        public FunctionScope WithAccessModifier(AccessModifier accessModifier)
         {
             return WithAccessModifier(accessModifier.ToString());
         }
 
-        public MethodScope WithAccessModifier(string accessModifier)
+        public FunctionScope WithAccessModifier(string accessModifier)
         {
             AddModifier(accessModifier);
 
             return this;
         }
 
-        public MethodScope WithReturnType(string returnType)
+        public FunctionScope WithReturnType(string returnType)
         {
             _returnType = returnType;
 
             return this;
         }
 
-        public MethodScope WithParameter(string parameter)
+        public FunctionScope WithParameter(string parameter)
         {
             _parameters.Add(parameter);
 
             return this;
         }
 
-        public MethodScope WithGenericType(string genericType)
+        public FunctionScope WithGenericType(string genericType)
         {
             _genericTypes.Add(genericType);
 
             return this;
         }
 
-        public MethodScope WithGenericConstraint(string genericConstraint)
+        public FunctionScope WithGenericConstraint(string genericConstraint)
         {
             _genericConstraints.Add(genericConstraint);
 

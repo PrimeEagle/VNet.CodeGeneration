@@ -30,7 +30,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "new"
                     }
                 },
-                { typeof(PropertyScope), new List<string>()
+                { typeof(AccessorScope), new List<string>()
                     {
                         "public",
                         "private",
@@ -62,7 +62,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "volatile"
                     }
                 },
-                { typeof(EnumScope), new List<string>()
+                { typeof(EnumerationScope), new List<string>()
                     {
                         "public",
                         "private",
@@ -134,7 +134,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "sealed"
                     }
                 },
-                { typeof(MethodScope), new List<string>()
+                { typeof(FunctionScope), new List<string>()
                     {
                         "public",
                         "private",
@@ -273,43 +273,43 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
             ScopeContainmentRules = new Dictionary<Type, IList<Type>>()
             {
-                { typeof(CodeFile), new List<Type>()
+                { typeof(CodeFileScope), new List<Type>()
                     {
                         typeof(CommentScope),
-                        typeof(UsingScope),
-                        typeof(NamespaceScope),
-                        typeof(RegionScope)
+                        typeof(ImportScope),
+                        typeof(ModuleScope),
+                        typeof(CodeGroupingScope)
                     }
                 },
-                { typeof(RegionScope), new List<Type>()
+                { typeof(CodeGroupingScope), new List<Type>()
                     {
                         typeof(ClassScope),
                         typeof(CodeBlockScope),
                         typeof(CommentScope),
                         typeof(DelegateScope),
-                        typeof(EnumScope),
+                        typeof(EnumerationScope),
                         typeof(FieldScope),
                         typeof(InterfaceScope),
-                        typeof(MethodScope),
-                        typeof(NamespaceScope),
-                        typeof(PropertyGetterScope),
-                        typeof(PropertyScope),
-                        typeof(PropertySetterScope),
-                        typeof(RegionScope),
+                        typeof(FunctionScope),
+                        typeof(ModuleScope),
+                        typeof(GetterScope),
+                        typeof(AccessorScope),
+                        typeof(SetterScope),
+                        typeof(CodeGroupingScope),
                         typeof(StructScope),
-                        typeof(UsingScope),
+                        typeof(ImportScope),
                         typeof(VariableScope)
                     }
                 },
-                { typeof(NamespaceScope), new List<Type>()
+                { typeof(ModuleScope), new List<Type>()
                     {
                         typeof(CommentScope),
-                        typeof(UsingScope),
+                        typeof(ImportScope),
                         typeof(ClassScope),
-                        typeof(EnumScope),
+                        typeof(EnumerationScope),
                         typeof(InterfaceScope),
                         typeof(StructScope),
-                        typeof(RegionScope)
+                        typeof(CodeGroupingScope)
                     }
                 },
                 { typeof(ClassScope), new List<Type>()
@@ -318,49 +318,49 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(FieldScope),
                         typeof(ClassScope),
                         typeof(InterfaceScope),
-                        typeof(MethodScope),
-                        typeof(PropertyScope),
+                        typeof(FunctionScope),
+                        typeof(AccessorScope),
                         typeof(StructScope),
                         typeof(DelegateScope),
                         typeof(EventScope),
-                        typeof(RegionScope)
+                        typeof(CodeGroupingScope)
                     }
                 },
                 {
-                    typeof(PropertyScope), new List<Type>()
+                    typeof(AccessorScope), new List<Type>()
                     {
                         typeof(CommentScope),
-                        typeof(PropertyGetterScope),
-                        typeof(PropertySetterScope),
-                        typeof(RegionScope)
+                        typeof(GetterScope),
+                        typeof(SetterScope),
+                        typeof(CodeGroupingScope)
                     }
                 },
                 {
-                    typeof(PropertyGetterScope), new List<Type>()
-                    {
-                        typeof(CommentScope),
-                        typeof(VariableScope),
-                        typeof(CodeBlockScope),
-                        typeof(RegionScope)
-                    }
-                },
-                {
-                    typeof(PropertySetterScope), new List<Type>()
+                    typeof(GetterScope), new List<Type>()
                     {
                         typeof(CommentScope),
                         typeof(VariableScope),
                         typeof(CodeBlockScope),
-                        typeof(RegionScope)
+                        typeof(CodeGroupingScope)
                     }
                 },
-                { typeof(MethodScope), new List<Type>()
+                {
+                    typeof(SetterScope), new List<Type>()
+                    {
+                        typeof(CommentScope),
+                        typeof(VariableScope),
+                        typeof(CodeBlockScope),
+                        typeof(CodeGroupingScope)
+                    }
+                },
+                { typeof(FunctionScope), new List<Type>()
                     {
                         typeof(CommentScope),
                         typeof(DelegateScope),
                         typeof(EventScope),
                         typeof(VariableScope),
                         typeof(CodeBlockScope),
-                        typeof(RegionScope)
+                        typeof(CodeGroupingScope)
                     }
                 },
                 { typeof(CodeBlockScope), new List<Type>()
@@ -368,7 +368,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(CommentScope),
                         typeof(VariableScope),
                         typeof(CodeBlockScope),
-                        typeof(RegionScope)
+                        typeof(CodeGroupingScope)
                     }
                 },
                 { typeof(StructScope), new List<Type>()
@@ -377,15 +377,15 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         typeof(FieldScope),
                         typeof(ClassScope),
                         typeof(InterfaceScope),
-                        typeof(MethodScope),
-                        typeof(PropertyScope),
+                        typeof(FunctionScope),
+                        typeof(AccessorScope),
                         typeof(StructScope),
                         typeof(DelegateScope),
                         typeof(EventScope),
-                        typeof(RegionScope)
+                        typeof(CodeGroupingScope)
                     }
                 },
-                { typeof(EnumScope), new List<Type>()
+                { typeof(EnumerationScope), new List<Type>()
                     {
                         typeof(CommentScope)
                     }

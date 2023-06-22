@@ -3,13 +3,13 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
-    public sealed class PropertyScope : Scope
+    public sealed class AccessorScope : Scope
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
         private string _type;
 
-        internal PropertyScope(string name, Scope parent)
+        internal AccessorScope(string name, Scope parent)
             : base(name, parent)
         {
             _codeLines = new List<string>();
@@ -17,33 +17,33 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
-        public PropertyScope AddBlankLine()
+        public AccessorScope AddBlankLine()
         {
             _codeLines.Add(string.Empty);
 
             return this;
         }
 
-        public PropertyScope WithModifier(string modifier)
+        public AccessorScope WithModifier(string modifier)
         {
             AddModifier(modifier);
 
             return this;
         }
 
-        public PropertyScope WithAccessModifier(AccessModifier accessModifier)
+        public AccessorScope WithAccessModifier(AccessModifier accessModifier)
         {
             return WithAccessModifier(accessModifier.ToString());
         }
 
-        public PropertyScope WithAccessModifier(string accessModifier)
+        public AccessorScope WithAccessModifier(string accessModifier)
         {
             AddModifier(accessModifier);
 
             return this;
         }
 
-        public PropertyScope OfType(string type)
+        public AccessorScope OfType(string type)
         {
             _type = type;
 
