@@ -38,6 +38,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public string DocumentationCommentSymbol => "///";
         public string DocumentationCommentOpenScopeSymbol => "/// <summary>";
         public string DocumentationCommentCloseScopeSymbol => "/// </summary>";
+        public string ClassDerivationSymbol => ":";
         #endregion Symbols
 
 

@@ -114,7 +114,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             var combined = baseClass.Concat(interfaces);
             var separator = Style.SpaceAroundOperators ? " " : string.Empty;
 
-            return $"{separator}:{separator}{string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)}", combined)}";
+            return $"{separator}{Syntax.ClassDerivationSymbol}{separator}{string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)}", combined)}";
 
         }
 

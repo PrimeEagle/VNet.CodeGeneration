@@ -212,7 +212,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
         public IEnumerable<string> GetImportStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ImportKeyword} {styledValue} from '{styledValue}';");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ImportKeyword} {styledValue} from '{styledValue}'{Syntax.StatementEndSymbol}");
             return codeLines;
         }
 
@@ -227,8 +227,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
         public IEnumerable<string> GetClassStyledSyntax(string styledValue, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> derivedFrom, IEnumerable<string> implements, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue} {GetOpenScope(indentLevel.Current)}");
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetCombinedDerived(derivedFrom, implements)}{GetOpenScope(indentLevel.Current)}");
             indentLevel.Increase();
+
             return codeLines;
         }
 
@@ -257,6 +259,17 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
         private string GetColonAndType(string type)
         {
             return type != null ? $": {type}" : string.Empty;
+        }
+
+        private string GetCombinedDerived(IList<string> derivedClasses, IEnumerable<string> interfaces)
+        {
+            if (!derivedClasses.Any() && !interfaces.Any()) return string.Empty;
+
+            var baseClass = derivedClasses.Any() ? new List<string>() { derivedClasses[0] } : new List<string>();
+            var combined = baseClass.Concat(interfaces);
+            var separator = " ";
+
+            return $"{separator}{Syntax.ClassDerivationSymbol}{separator}{string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)}", combined)}";
         }
 
         private string GetColonAndReturnType(string returnType)

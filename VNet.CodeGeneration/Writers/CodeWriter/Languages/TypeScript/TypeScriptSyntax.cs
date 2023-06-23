@@ -35,6 +35,7 @@
         public string DocumentationCommentSymbol => "*";
         public string DocumentationCommentOpenScopeSymbol => "/**"; // The standard for documentation comments in TypeScript and JavaScript is /** */
         public string DocumentationCommentCloseScopeSymbol => "*/"; // The standard for documentation comments in TypeScript and JavaScript is /** */
+        public string ClassDerivationSymbol => "extends";
 
         public bool IsValidNaming(string name)
         {

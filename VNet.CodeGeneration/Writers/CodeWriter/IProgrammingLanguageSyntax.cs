@@ -36,6 +36,7 @@
         string DocumentationCommentSymbol { get; }
         string DocumentationCommentOpenScopeSymbol { get; }
         string DocumentationCommentCloseScopeSymbol { get; }
+        string ClassDerivationSymbol { get; }
         #endregion Symbols
 
 

@@ -36,6 +36,7 @@
         public string DocumentationCommentSymbol => "*";
         public string DocumentationCommentOpenScopeSymbol => "/**"; // JSDoc uses this to start a documentation comment
         public string DocumentationCommentCloseScopeSymbol => "*/"; // JSDoc uses this to end a documentation comment
+        public string ClassDerivationSymbol => "extends";
 
         public bool IsValidNaming(string name)
         {
