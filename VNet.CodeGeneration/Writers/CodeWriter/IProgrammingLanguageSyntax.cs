@@ -33,6 +33,7 @@
         string SingleLineCommentSymbol { get; }
         string MultilineCommentOpenScopeSymbol { get; }
         string MultilineCommentCloseScopeSymbol { get; }
+        string DocumentationCommentSymbol { get; }
         string DocumentationCommentOpenScopeSymbol { get; }
         string DocumentationCommentCloseScopeSymbol { get; }
         #endregion Symbols
