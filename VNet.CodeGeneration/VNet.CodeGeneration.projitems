@@ -15,7 +15,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparerEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CPlusPlus\CPlusPlusLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\CDefaultStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\CFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\CLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\CStyledSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\CSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaDefaultStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaStyledSyntax.cs" />
