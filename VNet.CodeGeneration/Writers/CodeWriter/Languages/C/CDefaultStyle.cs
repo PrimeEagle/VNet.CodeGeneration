@@ -37,7 +37,7 @@
         #endregion Cases
 
         #region Scoping
-        public ScopeDelimiterStyle ScopeDelimiterStyle => ScopeDelimiterStyle.EndOfLine; // In C, the opening bracket is often placed on the same line
+        public ScopeDelimiterStyle ScopeDelimiterStyle => ScopeDelimiterStyle.SameLine; // In C, the opening bracket is often placed on the same line
         public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.SameLine; // The star style is often used for multi-line comments in C
         public ModuleStyle ModuleStyle => ModuleStyle.SingleLine; // C typically uses single files for modules
         #endregion Scoping

@@ -24,6 +24,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         IEnumerable<string> GetImportStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel);
         IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, IEnumerable<EnumerationMember> members);
         IEnumerable<string> GetStructStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel);
+        
+        // TODO: add PostSyntax for other scopes
+        IEnumerable<string> GetStructStyledPostSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel);
         IEnumerable<string> GetCodeGroupingOpenScope(string styledValue, int currentIndentLevel);
         IEnumerable<string> GetCodeGroupingCloseScope(string styledValue, int currentIndentLevel);
         IEnumerable<string> GetInterfaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel);

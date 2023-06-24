@@ -30,7 +30,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
         {
             var result = new List<string>
         {
-            Style.ScopeDelimiterStyle == ScopeDelimiterStyle.EndOfLine
+            Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
                 ? " " + Syntax.OpenScopeSymbol
                 : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
         };
@@ -41,7 +41,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
         {
             var result = new List<string>
         {
-            Style.ScopeDelimiterStyle == ScopeDelimiterStyle.EndOfLine
+            Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
                 ? " " + Syntax.CloseScopeSymbol
                 : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.CloseScopeSymbol
         };
@@ -81,6 +81,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
             indentLevel.Increase();
 
             return codeLines;
+        }
+
+        public IEnumerable<string> GetStructStyledPostSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
         }
 
         public IEnumerable<string> GetInterfaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)

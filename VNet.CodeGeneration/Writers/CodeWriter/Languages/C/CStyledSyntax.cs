@@ -161,6 +161,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.C
             return codeLines;
         }
 
+        public IEnumerable<string> GetStructStyledPostSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
         public IEnumerable<string> GetDelegateStyledSyntax(string styledValue, string returnType, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             throw new System.NotImplementedException();

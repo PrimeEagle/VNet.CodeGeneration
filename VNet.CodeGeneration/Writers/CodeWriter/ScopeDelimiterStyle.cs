@@ -3,6 +3,6 @@
     public enum ScopeDelimiterStyle
     {
         NewLine,
-        EndOfLine
+        SameLine
     }
 }

@@ -167,6 +167,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             throw new NotImplementedException();
         }
 
+        public IEnumerable<string> GetStructStyledPostSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
         public IEnumerable<string> GetCommentStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, CommentType commentType)
         {
             var codeLines = new List<string>();
