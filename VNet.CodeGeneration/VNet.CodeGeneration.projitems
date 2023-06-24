@@ -28,6 +28,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaStyledSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellDefaultStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\JavaScript\JavaScriptDefaultStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\JavaScript\JavaScriptFeatures.cs" />
@@ -36,12 +38,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\JavaScript\JavaScriptSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Lua\LuaLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellStyledSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\PythonLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\TypeScriptDefaultStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\TypeScriptFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\TypeScriptLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\TypeScriptStyledSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\TypeScriptSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ImportType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ZeroDepJson\Class1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\VNetJsonIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\VNetJsonPropertyAttribute.cs" />

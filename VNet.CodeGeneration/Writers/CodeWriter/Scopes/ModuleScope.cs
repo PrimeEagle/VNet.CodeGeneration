@@ -11,14 +11,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
-        private ModuleStyle _namespaceStyle;
+        private ModuleStyle _moduleStyle;
 
         internal ModuleScope(string value, Scope parent)
             : base(value, parent)
         {
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
-            _namespaceStyle = LanguageSettings.Style.ModuleStyle;
+            _moduleStyle = LanguageSettings.Style.ModuleStyle;
             Modifiers = new List<string>();
         }
 
@@ -31,14 +31,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         public ModuleScope WithSingleLineStyle()
         {
-            _namespaceStyle = ModuleStyle.SingleLine;
+            _moduleStyle = ModuleStyle.SingleLine;
 
             return this;
         }
 
         public ModuleScope WithScopedStyle()
         {
-            _namespaceStyle = ModuleStyle.Scoped;
+            _moduleStyle = ModuleStyle.Scoped;
 
             return this;
         }
@@ -63,20 +63,15 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
-        public override void Dispose()
-        {
-            if(_namespaceStyle == ModuleStyle.Scoped) base.Dispose();
-        }
-
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
 
-            switch (_namespaceStyle)
+            switch (_moduleStyle)
             {
                 case ModuleStyle.Scoped:
                     {
-                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetModuleStyledSyntax(StyledValue, Modifiers, IndentLevel, _namespaceStyle));
+                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetModuleStyledSyntax(StyledValue, _moduleStyle, Modifiers, IndentLevel));
                         _codeLines.AddRange(LanguageSettings.StyledSyntax.GetOpenScope(IndentLevel.Current));
                         IndentLevel.Increase();
 
@@ -86,7 +81,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
                     }
                 case ModuleStyle.SingleLine:
                     {
-                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetModuleStyledSyntax(StyledValue, Modifiers, IndentLevel, _namespaceStyle));
+                        _codeLines.AddRange(LanguageSettings.StyledSyntax.GetModuleStyledSyntax(StyledValue, _moduleStyle, Modifiers, IndentLevel));
 
                         foreach (var childScope in _scopes)
                             _codeLines.AddRange(childScope.GenerateCode());
@@ -99,6 +94,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Dispose();
 
             return _codeLines;
+        }
+
+        public override void Dispose()
+        {
+            if (_moduleStyle == ModuleStyle.Scoped) base.Dispose();
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetModulePostScopeStyledSyntax(StyledValue, _moduleStyle, Modifiers, IndentLevel));
         }
     }
 }

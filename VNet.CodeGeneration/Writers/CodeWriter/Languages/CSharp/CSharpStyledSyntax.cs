@@ -118,11 +118,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         }
 
-        public IEnumerable<string> GetModuleStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, ModuleStyle namespaceStyle)
+        public IEnumerable<string> GetModuleStyledSyntax(string styledValue, ModuleStyle moduleStyle, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
 
-            switch (namespaceStyle)
+            switch (moduleStyle)
             {
                 case ModuleStyle.Scoped:
                     {
@@ -141,7 +141,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return codeLines;
         }
 
-        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, CommentType commentType)
+        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, CommentType commentType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
             var values = styledValue.Split(CodeWriter.NewLineDelimiters, StringSplitOptions.None);
@@ -198,7 +198,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return codeLines;
         }
 
-        public IEnumerable<string> GetImportStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetImportStyledSyntax(string styledValue, ImportType importType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>
             {
@@ -208,7 +208,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return codeLines;
         }
 
-        public IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, IEnumerable<EnumerationMember> members)
+        public IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<EnumerationMember> members, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
@@ -244,11 +244,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             indentLevel.Increase();
 
             return codeLines;
-        }
-
-        public IEnumerable<string> GetStructStyledPostSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
-        {
-            return new List<string>();
         }
 
         public IEnumerable<string> GetInterfaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
@@ -351,6 +346,86 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             indentLevel.Increase();
 
             return codeLines;
+        }
+
+        public IEnumerable<string> GetCodeGroupingPostScope(string styledValue, int currentIndentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetModulePostScopeStyledSyntax(string styledValue, ModuleStyle moduleStyle, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetCommentPostScopeStyledSyntax(string styledValue, CommentType commentType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetImportPostScopeStyledSyntax(string styledValue, ImportType importType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetEnumerationPostScopeStyledSyntax(string styledValue, IEnumerable<EnumerationMember> members, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetStructPostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetInterfacePostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetClassPostScopeStyledSyntax(string styledValue, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> derivedFrom, IEnumerable<string> implements, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetDelegatePostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetEventPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetFunctionPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetFieldPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetVariablePostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetAccessorPostScopeStyledSyntax(string styledValue, string type, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetGetterPostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetSetterPostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
         }
     }
 }

@@ -25,11 +25,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
-        public override void Dispose()
-        {
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCodeGroupingCloseScope(StyledValue, IndentLevel.Current));
-        }
-
         public CodeGroupingScope WithModifier(string modifier)
         {
             AddModifier(modifier);
@@ -59,6 +54,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
                 _codeLines.AddRange(childScope.GenerateCode());
 
             return _codeLines;
+        }
+
+        public override void Dispose()
+        {
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCodeGroupingCloseScope(StyledValue, IndentLevel.Current));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCodeGroupingPostScope(StyledValue, IndentLevel.Current));
         }
     }
 }

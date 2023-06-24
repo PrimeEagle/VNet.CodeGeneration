@@ -72,20 +72,21 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
-        public override void Dispose()
-        {
-
-        }
-
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCommentStyledSyntax(StyledValue, Modifiers, IndentLevel, _commentType));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCommentStyledSyntax(StyledValue, _commentType, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());
 
             return _codeLines;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCommentPostScopeStyledSyntax(StyledValue, _commentType, Modifiers, IndentLevel));
         }
     }
 }

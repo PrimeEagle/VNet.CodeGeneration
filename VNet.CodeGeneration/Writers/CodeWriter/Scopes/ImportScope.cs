@@ -8,6 +8,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
     {
         private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
+        private ImportType _importType;
+
 
         internal ImportScope(string name, Scope parent)
             : base(name, parent)
@@ -43,19 +45,27 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
-        public override void Dispose()
+        public ImportScope WithImportType(ImportType importType)
         {
+            _importType = importType;
 
+            return this;
         }
+
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetImportStyledSyntax(StyledValue, Modifiers, IndentLevel));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetImportStyledSyntax(StyledValue, _importType, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());
 
             return _codeLines;
+        }
+
+        public override void Dispose()
+        {
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetImportPostScopeStyledSyntax(StyledValue, _importType, Modifiers, IndentLevel));
         }
     }
 }

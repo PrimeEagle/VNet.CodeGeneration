@@ -98,5 +98,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return _codeLines;
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetFunctionPostScopeStyledSyntax(StyledValue, _returnType, _genericTypes, _genericConstraints, _parameters, Modifiers, IndentLevel));
+        }
     }
 }

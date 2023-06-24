@@ -59,7 +59,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             _codeLines.Clear();
 
-            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumerationStyledSyntax(StyledValue, Modifiers, IndentLevel, _members));
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumerationStyledSyntax(StyledValue, _members, Modifiers, IndentLevel));
 
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());
@@ -67,6 +67,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Dispose();
 
             return _codeLines;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumerationPostScopeStyledSyntax(StyledValue, _members, Modifiers, IndentLevel));
         }
     }
 }

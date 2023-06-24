@@ -63,11 +63,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
-        public override void Dispose()
-        {
-            
-        }
-
         internal override List<string> GenerateCode()
         {
             ValidateModifiers(Modifiers);
@@ -82,6 +77,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Dispose();
 
             return _codeLines;
+        }
+
+        public override void Dispose()
+        {
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetDelegatePostScopeStyledSyntax(StyledValue, _returnType, _parameters, Modifiers, IndentLevel));
         }
     }
 }

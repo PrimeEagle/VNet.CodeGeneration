@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
-namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
 {
-    public class CppStyledSyntax : IProgrammingLanguageStyledSyntax
+    public class PowerShellStyledSyntax : IProgrammingLanguageStyledSyntax
     {
         public IProgrammingLanguageSyntax Syntax { get; }
         public IProgrammingLanguageStyle Style { get; }
 
-        public CppStyledSyntax(IProgrammingLanguageSyntax syntax, IProgrammingLanguageStyle style)
+        public PowerShellStyledSyntax(IProgrammingLanguageSyntax syntax, IProgrammingLanguageStyle style)
         {
             Syntax = syntax;
             Style = style;
@@ -65,14 +66,39 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
         private string GetCombinedDerived(IList<string> derivedClasses, IEnumerable<string> interfaces)
         {
-            if (!derivedClasses.Any()) return string.Empty;
+            if (!derivedClasses.Any() && !interfaces.Any()) return string.Empty;
 
-            // TODO: add support for private and protected modifiers
-            var combined = "public " + string.Join(", public ", derivedClasses);
+            var baseClass = derivedClasses.Any() ? new List<string>() { derivedClasses[0] } : new List<string>();
+            var combined = baseClass.Concat(interfaces);
             var separator = Style.SpaceAroundOperators ? " " : string.Empty;
 
             return $"{separator}{Syntax.ClassDerivationSymbol}{separator}{string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)}", combined)}";
 
+        }
+
+        public IEnumerable<string> GetModuleStyledSyntax(string styledValue, ModuleStyle moduleStyle, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, CommentType commentType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetImportStyledSyntax(string styledValue, ImportType importType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<EnumerationMember> members, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetStructStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<string> GetCodeGroupingOpenScope(string styledValue, int currentIndentLevel)
@@ -85,116 +111,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             throw new NotImplementedException();
         }
 
-        public IEnumerable<string> GetModuleStyledSyntax(string styledValue, ModuleStyle moduleStyle, IEnumerable<string> modifiers, IndentationManager indentLevel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, CommentType commentType, IEnumerable<string> modifiers, IndentationManager indentLevel)
-        {
-            var codeLines = new List<string>();
-            var values = styledValue.Split(CodeWriter.NewLineDelimiters, StringSplitOptions.None);
-
-            switch (commentType)
-            {
-                case CommentType.SingleLine:
-                    {
-                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.SingleLineCommentSymbol}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{styledValue}");
-                        break;
-                    }
-                case CommentType.MultiLine:
-                    {
-                        if (Style.MultilineCommentStyle == MultilineCommentStyle.SameLine)
-                        {
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeSymbol}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{values[0]}");
-                            for (var i = 1; i <= values.Length - 3; i++)
-                            {
-                                codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[i]}");
-                            }
-
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{Syntax.MultilineCommentCloseScopeSymbol}");
-                        }
-
-                        if (Style.MultilineCommentStyle == MultilineCommentStyle.NewLine)
-                        {
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeSymbol}{values[0]}");
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[0]}");
-                            for (var i = 1; i <= values.Length - 3; i++)
-                            {
-                                codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[i]}");
-                            }
-
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}");
-                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentCloseScopeSymbol}");
-                        }
-                    }
-                    break;
-                case CommentType.Documentation:
-                    codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentOpenScopeSymbol}{values[0]}");
-                    // ReSharper disable once LoopCanBeConvertedToQuery
-                    foreach (var t in values)
-                    {
-                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentOpenScopeSymbol}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{t}");
-                    }
-
-                    // TODO: doesn't support documentation for parameters
-                    codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.DocumentationCommentCloseScopeSymbol}");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return codeLines;
-        }
-
-        public IEnumerable<string> GetImportStyledSyntax(string styledValue, ImportType importType, IEnumerable<string> modifiers, IndentationManager indentLevel)
-        {
-            var codeLines = new List<string>
-            {
-                $"{GetIndentCode(indentLevel.Current)}{Syntax.ImportKeyword} {styledValue}{Syntax.StatementEndSymbol}"
-            };
-
-            return codeLines;
-        }
-
-        public IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<EnumerationMember> members, IEnumerable<string> modifiers, IndentationManager indentLevel)
-        {
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var codeLines = new List<string>();
-
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.EnumerationKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
-
-            indentLevel.Increase();
-            foreach (var member in members)
-            {
-                var memberValue = string.Empty;
-                if (member.Value.HasValue)
-                {
-                    memberValue += Style.SpaceAroundOperators ? " " : string.Empty;
-                    memberValue += Syntax.EnumerationValueSeparatorSymbol;
-                    memberValue += Style.SpaceAroundOperators ? " " : string.Empty;
-                    memberValue += member.Value.ToString();
-                }
-
-                codeLines.Add($"{member.Name}{memberValue}{Syntax.EnumerationMemberSeparatorSymbol}");
-            }
-            indentLevel.Decrease();
-
-
-            return codeLines;
-        }
-
-        public IEnumerable<string> GetStructStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
-        {
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var codeLines = new List<string>();
-
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.StructKeyword} {GetOpenScope(indentLevel.Current)}");
-            indentLevel.Increase();
-
-            return codeLines;
-        }
-
         public IEnumerable<string> GetInterfaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             throw new NotImplementedException();
@@ -202,13 +118,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
         public IEnumerable<string> GetClassStyledSyntax(string styledValue, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> derivedFrom, IEnumerable<string> implements, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var codeLines = new List<string>();
-
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetCombinedDerived(derivedFrom, implements)}{GetOpenScope(indentLevel.Current)}");
-            indentLevel.Increase();
-
-            return codeLines;
+            throw new NotImplementedException();
         }
 
         public IEnumerable<string> GetDelegateStyledSyntax(string styledValue, string returnType, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
@@ -223,12 +133,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
         public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            var codeLines = new List<string>();
-
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.FunctionKeyword} {styledValue}({GetParameters(parameters)}){GetOpenScope(indentLevel.Current)}");
-            indentLevel.Increase();
-
-            return codeLines;
+            throw new NotImplementedException();
         }
 
         public IEnumerable<string> GetFieldStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
@@ -238,12 +143,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
         public IEnumerable<string> GetVariableStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            var codeLines = new List<string>();
-
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{returnType} {styledValue}{Syntax.StatementEndSymbol}");
-            indentLevel.Increase();
-
-            return codeLines;
+            throw new NotImplementedException();
         }
 
         public IEnumerable<string> GetAccessorStyledSyntax(string styledValue, string type, IEnumerable<string> modifiers, IndentationManager indentLevel)
@@ -288,13 +188,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
         public IEnumerable<string> GetStructPostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var codeLines = new List<string>();
-
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)} {styledValue}{Syntax.StatementEndSymbol}");
-            indentLevel.Increase();
-
-            return codeLines;
+            return new List<string>();
         }
 
         public IEnumerable<string> GetInterfacePostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
