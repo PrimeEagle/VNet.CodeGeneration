@@ -23,136 +23,279 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
         public string GetIndentCode(int numberOfIndents)
         {
             var indent = Style.UseSpacesForIndentation ? new string(' ', Style.IndentationWidth) : "\t";
-            return string.Concat(Enumerable.Repeat(indent, numberOfIndents));
+
+            var singleCode = new string(indent[0], Style.IndentationWidth);
+
+            return string.Concat(Enumerable.Repeat(singleCode, numberOfIndents));
+        }
+
+        private string GetParameters(IEnumerable<string> parameters)
+        {
+            return string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)} ", parameters).Trim();
         }
 
         public IEnumerable<string> GetOpenScope(int currentIndentLevel)
         {
-            return new List<string>(); // Python does not have explicit scope opening
+            var result = new List<string>
+            {
+                Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
+                    ? Syntax.OpenScopeSymbol
+                    : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
+            };
+
+            return result;
         }
 
         public IEnumerable<string> GetCloseScope(int currentIndentLevel)
         {
-            return new List<string>(); // Python does not have explicit scope closing
+            return new List<string>();
         }
 
         public IEnumerable<string> GetCodeGroupingOpenScope(string styledValue, int currentIndentLevel)
         {
-            return new List<string>() { $"{GetIndentCode(currentIndentLevel)}{styledValue}" };
+            return new List<string>();
         }
 
         public IEnumerable<string> GetCodeGroupingCloseScope(string styledValue, int currentIndentLevel)
         {
-            return new List<string>() { $"{GetIndentCode(currentIndentLevel)}{styledValue}" };
+            return new List<string>();
         }
 
-        public IEnumerable<string> GetModuleStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, ModuleStyle namespaceStyle)
+        public IEnumerable<string> GetModuleStyledSyntax(string styledValue, ModuleStyle moduleStyle, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            var codeLines = new List<string>
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, CommentType commentType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            $"{GetIndentCode(indentLevel.Current)}{Syntax.ModuleKeyword} {styledValue}"
-        };
+            var codeLines = new List<string>();
+            var values = styledValue.Split(CodeWriter.NewLineDelimiters, StringSplitOptions.None);
+
+            switch (commentType)
+            {
+                case CommentType.SingleLine:
+                    {
+                        codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.SingleLineCommentSymbol}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{styledValue}");
+                        break;
+                    }
+                case CommentType.MultiLine:
+                    {
+                        if (Style.MultilineCommentStyle == MultilineCommentStyle.SameLine)
+                        {
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeSymbol}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{values[0]}");
+                            for (var i = 1; i <= values.Length - 3; i++)
+                            {
+                                codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[i]}");
+                            }
+
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}{(Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{Syntax.MultilineCommentCloseScopeSymbol}");
+                        }
+
+                        if (Style.MultilineCommentStyle == MultilineCommentStyle.NewLine)
+                        {
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentOpenScopeSymbol}{values[0]}");
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[0]}");
+                            for (var i = 1; i <= values.Length - 3; i++)
+                            {
+                                codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[i]}");
+                            }
+
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{values[values.Length - 1]}");
+                            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.MultilineCommentCloseScopeSymbol}");
+                        }
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             return codeLines;
         }
 
-        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, CommentStyle commentStyle)
+        public IEnumerable<string> GetImportStyledSyntax(string styledValue, ImportType importType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>
-        {
-            $"{GetIndentCode(indentLevel.Current)}# {styledValue}"
-        };
+            {
+                $"{GetIndentCode(indentLevel.Current)}{Syntax.ImportKeyword} {styledValue}{Syntax.StatementEndSymbol}"
+            };
+
             return codeLines;
         }
 
-        public IEnumerable<string> GetImportStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, ImportStyle importStyle)
+        public IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<EnumerationMember> members, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            var codeLines = new List<string>
-        {
-            $"{GetIndentCode(indentLevel.Current)}{Syntax.ImportKeyword} {styledValue}"
-        };
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ClassKeyword} {styledValue}({Syntax.EnumerationKeyword}){GetOpenScope(indentLevel.Current)}");
+
+            indentLevel.Increase();
+            foreach (var member in members)
+            {
+                var memberValue = string.Empty;
+                if (member.Value.HasValue)
+                {
+                    memberValue += Style.SpaceAroundOperators ? " " : string.Empty;
+                    memberValue += Syntax.EnumerationValueSeparatorSymbol;
+                    memberValue += Style.SpaceAroundOperators ? " " : string.Empty;
+                    memberValue += member.Value.ToString();
+                }
+
+                codeLines.Add($"{member.Name}{memberValue}{Syntax.EnumerationMemberSeparatorSymbol}");
+            }
+            indentLevel.Decrease();
+
+
             return codeLines;
         }
 
-        public IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, EnumerationStyle enumerationStyle)
+        public IEnumerable<string> GetStructStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            // Not exactly same as C# Enum, but we can use Python classes to simulate it
-            var codeLines = new List<string>
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetInterfaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            $"{GetIndentCode(indentLevel.Current)}class {styledValue}:"
-        };
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetClassStyledSyntax(string styledValue, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> derivedFrom, IEnumerable<string> implements, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            var codeLines = new List<string>();
+
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ClassKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+
             return codeLines;
         }
 
-        public IEnumerable<string> GetStructStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, StructStyle structStyle)
+        public IEnumerable<string> GetDelegateStyledSyntax(string styledValue, string returnType, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            throw new NotImplementedException("Python does not have an exact equivalent of C# struct.");
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<string> GetInterfaceStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, InterfaceStyle interfaceStyle)
+        public IEnumerable<string> GetEventStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            throw new NotImplementedException("Python does not have an interface keyword.");
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<string> GetClassStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, ClassStyle classStyle)
+        public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> parameters, IList<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>
-        {
-            $"{GetIndentCode(indentLevel.Current)}class {styledValue}:"
-        };
+            {
+                $"{GetIndentCode(indentLevel.Current)}def {styledValue}({GetParameters(parameters)}){GetOpenScope(indentLevel.Current)}"
+            };
+
             return codeLines;
         }
 
-        public IEnumerable<string> GetDelegateStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, DelegateStyle delegateStyle)
+        public IEnumerable<string> GetFieldStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            throw new NotImplementedException("Python does not have an exact equivalent of C# delegate.");
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<string> GetEventStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, EventStyle eventStyle)
-        {
-            throw new NotImplementedException("Python does not have an exact equivalent of C# events.");
-        }
-
-        public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, FunctionStyle functionStyle)
+        public IEnumerable<string> GetVariableStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>
-        {
-            $"{GetIndentCode(indentLevel.Current)}def {styledValue}:"
-        };
+            {
+                $"{GetIndentCode(indentLevel.Current)}{styledValue}"
+            };
+
             return codeLines;
         }
 
-        public IEnumerable<string> GetFieldStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, FieldStyle fieldStyle)
+        public IEnumerable<string> GetAccessorStyledSyntax(string styledValue, string type, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            var codeLines = new List<string>
-        {
-            $"{GetIndentCode(indentLevel.Current)}{styledValue}"
-        };
-            return codeLines;
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<string> GetVariableStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, VariableStyle variableStyle)
+        public IEnumerable<string> GetGetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            var codeLines = new List<string>
-        {
-            $"{GetIndentCode(indentLevel.Current)}{styledValue}"
-        };
-            return codeLines;
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<string> GetAccessorStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, AccessorStyle accessorStyle)
+        public IEnumerable<string> GetSetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            throw new NotImplementedException("Python does not have an accessor keyword.");
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<string> GetGetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, GetterStyle getterStyle)
+        public IEnumerable<string> GetCodeGroupingPostScope(string styledValue, int currentIndentLevel)
         {
-            throw new NotImplementedException("Python does not have a getter keyword.");
+            return new List<string>();
         }
 
-        public IEnumerable<string> GetSetterStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel, SetterStyle setterStyle)
+        public IEnumerable<string> GetModulePostScopeStyledSyntax(string styledValue, ModuleStyle moduleStyle, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
-            throw new NotImplementedException("Python does not have a setter keyword.");
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetCommentPostScopeStyledSyntax(string styledValue, CommentType commentType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetImportPostScopeStyledSyntax(string styledValue, ImportType importType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetEnumerationPostScopeStyledSyntax(string styledValue, IEnumerable<EnumerationMember> members, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetStructPostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetInterfacePostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetClassPostScopeStyledSyntax(string styledValue, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> derivedFrom, IEnumerable<string> implements, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetDelegatePostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetEventPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetFunctionPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> parameters, IList<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetFieldPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetVariablePostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetAccessorPostScopeStyledSyntax(string styledValue, string type, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetGetterPostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
+        }
+
+        public IEnumerable<string> GetSetterPostScopeStyledSyntax(string styledValue, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        {
+            return new List<string>();
         }
     }
-
 }

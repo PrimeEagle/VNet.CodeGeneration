@@ -13,37 +13,41 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
         public LuaFeatures()
         {
             AllowedModifiers = new Dictionary<Type, IList<string>>()
-        {
-            { typeof(CodeFileScope), new List<string>() },
-            { typeof(CodeBlockScope), new List<string>() },
-            { typeof(FunctionScope), new List<string>() },
-        };
+            {
+                { typeof(CodeFileScope), new List<string>() },
+                { typeof(CodeBlockScope), new List<string>() },
+                { typeof(FunctionScope), new List<string>()
+                                        {
+                                            "local"
+                                        }
+                }
+            };
 
             DisallowedModifierCombinations = new Dictionary<string, IList<string>>();
 
             ScopeContainmentRules = new Dictionary<Type, IList<Type>>()
-        {
-            { typeof(CodeFileScope), new List<Type>()
-                {
-                    typeof(CommentScope),
-                    typeof(CodeBlockScope),
-                    typeof(FunctionScope)
+            {
+                { typeof(CodeFileScope), new List<Type>()
+                    {
+                        typeof(CommentScope),
+                        typeof(CodeBlockScope),
+                        typeof(FunctionScope)
+                    }
+                },
+                { typeof(CodeBlockScope), new List<Type>()
+                    {
+                        typeof(CommentScope),
+                        typeof(CodeBlockScope),
+                        typeof(FunctionScope)
+                    }
+                },
+                { typeof(FunctionScope), new List<Type>()
+                    {
+                        typeof(CommentScope),
+                        typeof(CodeBlockScope)
+                    }
                 }
-            },
-            { typeof(CodeBlockScope), new List<Type>()
-                {
-                    typeof(CommentScope),
-                    typeof(CodeBlockScope),
-                    typeof(FunctionScope)
-                }
-            },
-            { typeof(FunctionScope), new List<Type>()
-                {
-                    typeof(CommentScope),
-                    typeof(CodeBlockScope)
-                }
-            }
-        };
+            };
         }
     }
 }

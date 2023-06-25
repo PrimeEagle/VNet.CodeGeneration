@@ -21,8 +21,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             Style = style;
         }
 
-
-
         public string GetSingleIndentCode()
         {
             return GetIndentCode(1);

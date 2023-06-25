@@ -4,19 +4,19 @@
     {
         #region Keywords
         public string ImportKeyword => "require";
-        public string ModuleKeyword => string.Empty;  // Lua doesn't have a direct equivalent to namespaces
-        public string ClassKeyword => string.Empty;   // Lua doesn't have a built-in class keyword
+        public string ModuleKeyword => string.Empty;
+        public string ClassKeyword => "setmetatable";
         public string FunctionKeyword => "function";
-        public string VoidKeyword => string.Empty;    // Lua does not distinguish void from any other type
-        public string PublicKeyword => string.Empty;  // Lua doesn't have access modifiers like public, private, etc.
-        public string InterfaceKeyword => string.Empty;  // Lua doesn't have a built-in interface keyword
-        public string StructKeyword => string.Empty;  // Lua doesn't have a struct keyword
-        public string EnumerationKeyword => string.Empty;  // Lua doesn't have a built-in enum keyword
-        public string DelegateKeyword => string.Empty;  // Lua doesn't have a built-in delegate keyword
-        public string EventKeyword => string.Empty;   // Lua doesn't have a built-in event keyword
-        public string AccessorKeyword => string.Empty;   // Lua doesn't have a built-in accessor keyword
-        public string GetterKeyword => string.Empty;  // Lua doesn't have a built-in get keyword
-        public string SetterKeyword => string.Empty;  // Lua doesn't have a built-in set keyword
+        public string VoidKeyword => string.Empty;
+        public string PublicKeyword => string.Empty;
+        public string InterfaceKeyword => string.Empty;
+        public string StructKeyword => string.Empty;
+        public string EnumerationKeyword => string.Empty;
+        public string DelegateKeyword => string.Empty;
+        public string EventKeyword => string.Empty;
+        public string AccessorKeyword => string.Empty;
+        public string GetterKeyword => string.Empty;
+        public string SetterKeyword => string.Empty;
         #endregion Keywords
 
 
@@ -28,8 +28,8 @@
         public string CodeGroupingCloseSymbol => string.Empty;
         public string GenericScopeOpenSymbol => string.Empty;  // Lua doesn't have a built-in generic scope symbol
         public string GenericScopeCloseSymbol => string.Empty;  // Lua doesn't have a built-in generic scope symbol
-        public string EnumerationValueSeparatorSymbol => string.Empty;  // Lua doesn't have a built-in enumeration value separator
-        public string EnumerationMemberSeparatorSymbol => string.Empty;
+        public string EnumerationValueSeparatorSymbol => "=";
+        public string EnumerationMemberSeparatorSymbol => ",";
         public string SingleLineCommentSymbol => "--";
         public string MultilineCommentOpenScopeSymbol => "--[[";
         public string MultilineCommentCloseScopeSymbol => "--]]";

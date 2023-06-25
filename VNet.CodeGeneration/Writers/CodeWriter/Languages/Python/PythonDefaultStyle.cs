@@ -27,7 +27,7 @@
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Snake;
         public CaseConversionStyle DelegateCaseConversionStyle => CaseConversionStyle.Snake;
-        public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.Upper;
+        public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.AllUpper;
         public CaseConversionStyle FieldCaseConversionStyle => CaseConversionStyle.Snake;
         public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Snake;
@@ -40,10 +40,9 @@
 
 
         #region Scoping
-        public ScopeDelimiterStyle ScopeDelimiterStyle => ScopeDelimiterStyle.Indented;
-        public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.Indented;
+        public ScopeDelimiterStyle ScopeDelimiterStyle => ScopeDelimiterStyle.SameLine;
+        public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.SameLine;
         public ModuleStyle ModuleStyle => ModuleStyle.Scoped;
         #endregion Scoping
     }
-
 }

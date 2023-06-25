@@ -282,7 +282,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
             return returnType != null ? $": {returnType}" : string.Empty;
         }
 
-        IEnumerable<string> IProgrammingLanguageStyledSyntax.GetCommentStyledSyntax(string styledValue, CommentType commentType, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetCommentStyledSyntax(string styledValue, CommentType commentType, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             throw new System.NotImplementedException();
         }
