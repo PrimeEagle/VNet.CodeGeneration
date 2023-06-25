@@ -239,7 +239,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
             return codeLines;
         }
 
-        public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> parameters, IList<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
             codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} function {styledValue}({GetParameters(parameters)}){GetColonAndReturnType(returnType)} {GetOpenScope(indentLevel.Current)}");
@@ -332,7 +332,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
             return new List<string>();
         }
 
-        public IEnumerable<string> GetFunctionPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetFunctionPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> parameters, IList<string> modifiers, IndentationManager indentLevel)
         {
             return new List<string>();
         }

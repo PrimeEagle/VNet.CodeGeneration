@@ -23,8 +23,8 @@
         public string StatementEndSymbol => string.Empty; // PowerShell does not require a statement end symbol
         public string OpenScopeSymbol => "{";
         public string CloseScopeSymbol => "}";
-        public string CodeGroupingOpenSymbol => "<#";
-        public string CodeGroupingCloseSymbol => "#>";
+        public string CodeGroupingOpenSymbol => string.Empty;
+        public string CodeGroupingCloseSymbol => string.Empty;
         public string GenericScopeOpenSymbol => string.Empty;
         public string GenericScopeCloseSymbol => string.Empty;
         public string EnumerationValueSeparatorSymbol => "=";
@@ -32,9 +32,9 @@
         public string SingleLineCommentSymbol => "#";
         public string MultilineCommentOpenScopeSymbol => "<#";
         public string MultilineCommentCloseScopeSymbol => "#>";
-        public string DocumentationCommentSymbol => "<#"; // PowerShell does not natively support doc comments, but we use the multi-line comment symbols here
-        public string DocumentationCommentOpenScopeSymbol => "<#";
-        public string DocumentationCommentCloseScopeSymbol => "#>";
+        public string DocumentationCommentSymbol => string.Empty;
+        public string DocumentationCommentOpenScopeSymbol => string.Empty;
+        public string DocumentationCommentCloseScopeSymbol => string.Empty;
         public string ClassDerivationSymbol => ":";
 
         bool IProgrammingLanguageSyntax.IsValidNaming(string name)

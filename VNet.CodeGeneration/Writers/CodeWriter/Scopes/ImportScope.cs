@@ -17,6 +17,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             _codeLines = new List<string>();
             _scopes = new List<Scope>();
             Modifiers = new List<string>();
+            _importType = ImportType.Module;
         }
 
         public ImportScope AddBlankLine()
@@ -45,9 +46,30 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
-        public ImportScope WithImportType(ImportType importType)
+        public ImportScope AsFile()
         {
-            _importType = importType;
+            _importType = ImportType.File;
+
+            return this;
+        }
+
+        public ImportScope AsModule()
+        {
+            _importType = ImportType.Module;
+
+            return this;
+        }
+
+        public ImportScope AsAssembly()
+        {
+            _importType = ImportType.Assembly;
+
+            return this;
+        }
+
+        public ImportScope AsGrouping()
+        {
+            _importType = ImportType.Grouping;
 
             return this;
         }

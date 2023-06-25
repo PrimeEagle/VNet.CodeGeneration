@@ -92,7 +92,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
             return result;
         }
 
-        public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> parameters, IList<string> modifiers, IndentationManager indentLevel)
         {
             var codeLine = $"{GetIndentCode(indentLevel.Current)}function {styledValue}({parameters})";
 
@@ -279,7 +279,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
             return new List<string>();
         }
 
-        public IEnumerable<string> GetFunctionPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IEnumerable<string> parameters, IEnumerable<string> modifiers, IndentationManager indentLevel)
+        public IEnumerable<string> GetFunctionPostScopeStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> parameters, IList<string> modifiers, IndentationManager indentLevel)
         {
             return new List<string>();
         }

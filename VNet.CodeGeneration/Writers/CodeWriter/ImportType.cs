@@ -3,6 +3,8 @@
     public enum ImportType
     {
         File,
-        Module
+        Module,
+        Grouping,
+        Assembly
     }
 }
