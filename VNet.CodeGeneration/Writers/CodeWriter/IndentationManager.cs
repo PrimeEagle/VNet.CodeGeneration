@@ -25,6 +25,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         public void Decrease()
         {
             Current--;
+            if (Current < 0) Current = 0;
         }
     }
 }

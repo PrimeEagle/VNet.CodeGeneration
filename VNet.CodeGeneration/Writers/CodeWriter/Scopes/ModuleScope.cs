@@ -9,7 +9,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
     public sealed class ModuleScope : Scope
     {
-        private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
         private ModuleStyle _moduleStyle;
 

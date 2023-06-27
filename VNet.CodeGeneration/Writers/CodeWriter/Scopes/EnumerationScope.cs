@@ -8,7 +8,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
     public sealed class EnumerationScope : Scope
     {
-        private readonly List<Scope> _scopes;
         private readonly List<string> _codeLines;
         private readonly List<EnumerationMember> _members;
 

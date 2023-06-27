@@ -240,14 +240,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                         "sealed"
                     }
                 },
-                { "abstract", new List<string>()
-                    {
-                        "virtual",
-                        "override",
-                        "new",
-                        "sealed"
-                    }
-                },
                 { "override", new List<string>()
                     {
                         "abstract",
@@ -315,6 +307,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                 { typeof(ClassScope), new List<Type>()
                     {
                         typeof(CommentScope),
+                        typeof(CodeBlockScope),
                         typeof(FieldScope),
                         typeof(ClassScope),
                         typeof(InterfaceScope),
@@ -389,7 +382,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
                     {
                         typeof(CommentScope)
                     }
-                }
+                },
+                { typeof(CommentScope), new List<Type>() }
             };
         }
     }

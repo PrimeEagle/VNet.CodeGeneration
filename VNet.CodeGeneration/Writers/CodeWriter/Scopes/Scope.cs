@@ -13,7 +13,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 {
     public abstract class Scope
     {
-        public IProgrammingLanguageSettings LanguageSettings { get; private set; }
+        public IProgrammingLanguageSettings LanguageSettings { get; protected set; }
         public string Value { get; private set; }
         public string StyledValue => GetStyledValue();
         public Scope Parent { get; private set; }
@@ -22,7 +22,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         protected int SortOrder;
 
 
-        private readonly List<Scope> _scopes;
+        protected List<Scope> _scopes;
         private readonly List<string> _codeLines;
 
 
@@ -34,7 +34,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Modifiers = new List<string>();
         }
 
-        
+
         protected Scope(string value, Scope parent)
         {
             Parent = parent;
@@ -87,7 +87,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             var text = ToString();
 
-            if(File.Exists(filename)) File.Delete(filename);
+            if (File.Exists(filename)) File.Delete(filename);
 
             using (var writer = new StreamWriter(filename))
             {
@@ -113,7 +113,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         {
             var result = new List<string>() { line };
 
-            if(!LanguageSettings.Style.BreakLongLines) return result;
+            if (!LanguageSettings.Style.BreakLongLines) return result;
             var maxLength = LanguageSettings.Style.MaxLineLength;
 
             if (line.Length <= maxLength) return result;
@@ -160,7 +160,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
                     break;
                 }
             }
-            
+
             return result;
         }
 
@@ -175,13 +175,21 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             Dispose();
         }
 
-        protected void ValidateScope(string name, Type childScopeType)
+        protected void ValidateScope(string name, Type childScopeType, bool skipNameValidation = false)
         {
-            if (!(LanguageSettings.Syntax.IsValidNaming(name) &&
-                LanguageSettings.Features.ScopeContainmentRules.ContainsKey(this.GetType()) &&
-                LanguageSettings.Features.ScopeContainmentRules[this.GetType()].Contains(childScopeType)))
+            if (!skipNameValidation && !LanguageSettings.Syntax.IsValidNaming(name))
             {
-                throw new InvalidOperationException($"Creating a {childScopeType.Name} scope named '{name}' inside a {this.GetType().Name} scope is not allowed in {LanguageSettings.LanguageName}.");
+                throw new InvalidOperationException($"A {childScopeType.Name} scope named '{name}' is not valid in {LanguageSettings.LanguageName}.");
+            }
+
+            if (!LanguageSettings.Features.ScopeContainmentRules.ContainsKey(this.GetType()))
+            {
+                throw new InvalidOperationException($"Scope of type {this.GetType().Name} is not valid in {LanguageSettings.LanguageName}.");
+            }
+
+            if (!LanguageSettings.Features.ScopeContainmentRules[this.GetType()].Contains(childScopeType))
+            {
+                throw new InvalidOperationException($"Creating a {childScopeType.Name} scope inside a {this.GetType().Name} scope is not allowed in {LanguageSettings.LanguageName}.");
             }
         }
 
@@ -190,27 +198,27 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
         }
 
-        public virtual CodeGroupingScope AddRegion(string name)
+        public virtual CodeGroupingScope AddCodeGrouping(string name)
         {
-            ValidateScope(name, typeof(CodeGroupingScope));
+            ValidateScope(name, typeof(CodeGroupingScope), true);
             var newScope = new CodeGroupingScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
         }
 
-        public virtual ImportScope AddUsingStatement(string name)
+        public virtual ImportScope AddImport(string name)
         {
-            ValidateScope(name, typeof(ImportScope));
+            ValidateScope(name, typeof(ImportScope), true);
             var newScope = new ImportScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
         }
 
-        public virtual ModuleScope AddNamespace(string name)
+        public virtual ModuleScope AddModule(string name)
         {
-            ValidateScope(name, typeof(ModuleScope));
+            ValidateScope(name, typeof(ModuleScope), true);
             var newScope = new ModuleScope(name, this);
             AddNestedScope(newScope);
 
@@ -218,13 +226,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         }
         public virtual CommentScope AddComment(string name)
         {
-            ValidateScope(name, typeof(CommentScope));
+            ValidateScope(name, typeof(CommentScope), true);
             var newScope = new CommentScope(name, this);
             AddNestedScope(newScope);
 
             return newScope;
         }
-        public virtual EnumerationScope AddEnum(string name)
+        public virtual EnumerationScope AddEnumeration(string name)
         {
             ValidateScope(name, typeof(EnumerationScope));
             var newScope = new EnumerationScope(name, this);
@@ -256,7 +264,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return newScope;
         }
-        public virtual AccessorScope AddProperty(string name)
+        public virtual AccessorScope AddAccessor(string name)
         {
             ValidateScope(name, typeof(AccessorScope));
             var newScope = new AccessorScope(name, this);
@@ -264,7 +272,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return newScope;
         }
-        public virtual GetterScope AddPropertyGetter(string name)
+        public virtual GetterScope AddGetter(string name)
         {
             ValidateScope(name, typeof(GetterScope));
             var newScope = new GetterScope(name, this);
@@ -272,7 +280,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return newScope;
         }
-        public virtual SetterScope AddPropertySetter(string name)
+        public virtual SetterScope AddSetter(string name)
         {
             ValidateScope(name, typeof(SetterScope));
             var newScope = new SetterScope(name, this);
@@ -297,7 +305,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
             return newScope;
         }
-        public virtual FunctionScope AddMethod(string name)
+        public virtual FunctionScope AddFunction(string name)
         {
             ValidateScope(name, typeof(FunctionScope));
             var newScope = new FunctionScope(name, this);
@@ -307,7 +315,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
         }
         public virtual CodeBlockScope AddCodeBlock(string name)
         {
-            ValidateScope(name, typeof(CodeBlockScope));
+            ValidateScope(name, typeof(CodeBlockScope), true);
             var newScope = new CodeBlockScope(name, this);
             AddNestedScope(newScope);
 
@@ -359,7 +367,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             var validModifiers = LanguageSettings.Features.AllowedModifiers[scopeType].Select(m => m.ToLower());
 
             var invalidModifier = modifiers.FirstOrDefault(m => !validModifiers.Contains(m.ToLower()));
-                if(invalidModifier != null) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifier '{invalidModifier}' is not valid for type '{scopeType.Name}'.");
+            if (invalidModifier != null) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifier '{invalidModifier}' is not valid for type '{scopeType.Name}'.");
         }
 
         private void ValidateModifierCombinations(IEnumerable<string> modifiers)

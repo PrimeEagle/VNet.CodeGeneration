@@ -10,7 +10,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
     {
         private readonly List<string> _codeLines;
         private CommentType _commentType;
-        private readonly List<Scope> _scopes;
 
         internal CommentScope(string name, Scope parent)
             : base(name, parent)

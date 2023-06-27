@@ -12,8 +12,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
     public class CodeFileScope : Scope
     {
         private readonly List<string> _codeLines;
-        private readonly List<Scope> _scopes;
-        private IProgrammingLanguageSettings _languageSettings;
 
 
         internal CodeFileScope()
@@ -23,9 +21,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             IndentLevel = new IndentationManager();
         }
 
-        public CodeFileScope UsingLanguageSettings(IProgrammingLanguageSettings languageSettings)
+        public CodeFileScope WithLanguageSettings(IProgrammingLanguageSettings languageSettings)
         {
-            _languageSettings = languageSettings;
+            LanguageSettings = languageSettings;
 
             return this;
         }
@@ -33,6 +31,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         internal override List<string> GenerateCode()
         {
             _codeLines.Clear();
+            
+            foreach (var childScope in _scopes)
+                _codeLines.AddRange(childScope.GenerateCode());
 
             return _codeLines;
         }
