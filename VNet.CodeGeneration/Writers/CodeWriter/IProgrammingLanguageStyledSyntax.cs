@@ -9,13 +9,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 
         #region White Space
         string GetSingleIndentCode();
-        string GetIndentCode(int numberOfIndents);
+        string GetIndent(int numberOfIndents);
         #endregion White Space
 
 
         #region Scoping
-        IEnumerable<string> GetOpenScope(int currentIndentLevel);
-        IEnumerable<string> GetCloseScope(int currentIndentLevel);
+        CodeResult GetOpenScope(int currentIndentLevel);
+        CodeResult GetCloseScope(int currentIndentLevel);
         #endregion Scoping
 
         #region Statements

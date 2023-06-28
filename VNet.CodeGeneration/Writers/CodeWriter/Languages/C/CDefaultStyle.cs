@@ -5,7 +5,7 @@
         #region White Space
         public int IndentationWidth => 4;
         public bool UseSpacesForIndentation => false; // Use tabs for indentation in C
-        public string LineBreakCharacter => "\n"; // Just a newline character is sufficient in Unix-like systems
+        public string LineBreakSymbol => "\n"; // Just a newline character is sufficient in Unix-like systems
         public bool SpaceAroundOperators => true;
         public bool SpaceInsideParentheses => false;
         public bool SpaceOutsideParentheses => false;

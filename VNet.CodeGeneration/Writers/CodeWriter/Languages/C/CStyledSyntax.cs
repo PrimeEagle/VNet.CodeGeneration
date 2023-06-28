@@ -28,12 +28,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.C
             return string.Concat(Enumerable.Repeat(singleCode, numberOfIndents));
         }
 
-        public IEnumerable<string> GetOpenScope(int currentIndentLevel)
+        public IList<string> GetOpenScope(int currentIndentLevel)
         {
             return new List<string> { " {" };
         }
 
-        public IEnumerable<string> GetCloseScope(int currentIndentLevel)
+        public IList<string> GetCloseScope(int currentIndentLevel)
         {
             return new List<string> { " }" };
         }
@@ -66,7 +66,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.C
         public IEnumerable<string> GetFunctionStyledSyntax(string styledValue, string returnType, IEnumerable<string> genericTypes, IEnumerable<string> genericConstraints, IList<string> parameters, IList<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{returnType} {styledValue}({string.Join(", ", parameters)}){GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{returnType} {styledValue}({string.Join(", ", parameters)}){GetOpenScope(indentLevel.Current)[0]}");
             return codeLines;
         }
 
@@ -136,7 +136,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.C
         public IEnumerable<string> GetEnumerationStyledSyntax(string styledValue, IEnumerable<EnumerationMember> members, IEnumerable<string> modifiers, IndentationManager indentLevel)
         {
             var codeLines = new List<string>();
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}enum {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}enum {styledValue}{GetOpenScope(indentLevel.Current)[0]}");
 
             indentLevel.Increase();
             foreach (var member in members)
@@ -155,7 +155,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.C
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.StructKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.StructKeyword} {styledValue}{GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;

@@ -1,0 +1,56 @@
+﻿using System.Collections.Generic;
+using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
+
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
+{
+    public class RegionScope : BlockScope
+    {
+        protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.CodeGroupingCaseConversionStyle;
+
+
+        public RegionScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+            : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
+        {
+        }
+
+        public RegionScope AddBlankLine()
+        {
+            var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return this;
+        }
+
+        public RegionScope AddBlankLines(int num)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
+                AddNestedScope(result);
+            }
+
+            return this;
+        }
+
+        public RegionScope AddCodeLine(string text)
+        {
+            var result = new CodeLineScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return this;
+        }
+
+        public CodeBlockScope AddCodeBlock(string text)
+        {
+            var result = new CodeBlockScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return result;
+        }
+
+        protected override void WriteCodeLines()
+        {
+            return;
+        }
+    }
+}

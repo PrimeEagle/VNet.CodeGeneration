@@ -5,7 +5,7 @@
         #region White Space
         public int IndentationWidth => 4;
         public bool UseSpacesForIndentation => true;
-        public string LineBreakCharacter => "\r\n";
+        public string LineBreakSymbol => "\r\n";
         public bool SpaceAroundOperators => true;
         public bool SpaceInsideParentheses => false;
         public bool SpaceOutsideParentheses => false;
@@ -31,8 +31,11 @@
         public CaseConversionStyle FieldCaseConversionStyle => CaseConversionStyle.Camel;
         public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.TitleDot;
         public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.TitleDot;
         public CaseConversionStyle AccessorCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle GetterCaseConversionStyle => CaseConversionStyle.None;
+        public CaseConversionStyle SetterCaseConversionStyle => CaseConversionStyle.None;
         public CaseConversionStyle CodeGroupingCaseConversionStyle => CaseConversionStyle.Title;
         public CaseConversionStyle StructCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle VariableCaseConversionStyle => CaseConversionStyle.Camel;

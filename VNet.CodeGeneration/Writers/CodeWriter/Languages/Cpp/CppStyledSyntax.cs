@@ -29,25 +29,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             return string.Concat(Enumerable.Repeat(singleCode, numberOfIndents));
         }
 
-        public IEnumerable<string> GetOpenScope(int currentIndentLevel)
+        public IList<string> GetOpenScope(int currentIndentLevel)
         {
             var result = new List<string>
             {
                 Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
                     ? " " + Syntax.OpenScopeSymbol
-                    : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
+                    : Style.LineBreakSymbol + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
             };
 
             return result;
         }
 
-        public IEnumerable<string> GetCloseScope(int currentIndentLevel)
+        public IList<string> GetCloseScope(int currentIndentLevel)
         {
             var result = new List<string>
             {
                 Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
                     ? " " + Syntax.CloseScopeSymbol
-                    : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.CloseScopeSymbol
+                    : Style.LineBreakSymbol + GetIndentCode(currentIndentLevel) + Syntax.CloseScopeSymbol
             };
 
             return result;
@@ -162,7 +162,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.EnumerationKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.EnumerationKeyword} {styledValue}{GetOpenScope(indentLevel.Current)[0]}");
 
             indentLevel.Increase();
             foreach (var member in members)
@@ -189,7 +189,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.StructKeyword} {GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.StructKeyword} {GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;
@@ -205,7 +205,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetCombinedDerived(derivedFrom, implements)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetCombinedDerived(derivedFrom, implements)}{GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;
@@ -225,7 +225,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.FunctionKeyword} {styledValue}({GetParameters(parameters)}){GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.FunctionKeyword} {styledValue}({GetParameters(parameters)}){GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;

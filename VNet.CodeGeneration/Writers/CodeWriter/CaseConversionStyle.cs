@@ -3,8 +3,8 @@
     public enum CaseConversionStyle
     {
         None = 0,
-        AllLower,
-        AllUpper,
+        Lower,
+        Upper,
         Pascal,
         Camel,
         Snake,

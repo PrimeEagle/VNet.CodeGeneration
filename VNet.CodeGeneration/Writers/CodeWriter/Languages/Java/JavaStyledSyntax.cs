@@ -26,12 +26,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             return string.Concat(Enumerable.Repeat(indent, numberOfIndents));
         }
 
-        public IEnumerable<string> GetOpenScope(int currentIndentLevel)
+        public IList<string> GetOpenScope(int currentIndentLevel)
         {
             throw new NotSupportedException("JavaStyledSyntax does not support GetOpenScope method");
         }
 
-        public IEnumerable<string> GetCloseScope(int currentIndentLevel)
+        public IList<string> GetCloseScope(int currentIndentLevel)
         {
             throw new NotSupportedException("JavaStyledSyntax does not support GetCloseScope method");
         }
@@ -56,7 +56,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             if (!constraints.Any()) return string.Empty;
 
             var styled = constraints.Select(c => $" where {c}");
-            var joinString = Style.GenericConstraintsOnSingleLine ? " " : Style.LineBreakCharacter;
+            var joinString = Style.GenericConstraintsOnSingleLine ? " " : Style.LineBreakSymbol;
 
             return string.Join(joinString, styled);
         }
@@ -100,7 +100,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.EnumerationKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.EnumerationKeyword} {styledValue}{GetOpenScope(indentLevel.Current)[0]}");
 
             indentLevel.Increase();
             foreach (var member in members)
@@ -126,7 +126,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetGenericTypes(genericTypes)}{GetCombinedDerived(derivedFrom, implements)}{GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetGenericTypes(genericTypes)}{GetCombinedDerived(derivedFrom, implements)}{GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;
@@ -136,7 +136,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.FunctionKeyword} {styledValue}{GetGenericTypes(genericTypes)}({GetParameters(parameters)}){GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {returnType} {Syntax.FunctionKeyword} {styledValue}{GetGenericTypes(genericTypes)}({GetParameters(parameters)}){GetGenericConstraints(genericConstraints)}{GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;
@@ -253,7 +253,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} get{styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} get{styledValue}{GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;
@@ -263,7 +263,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} set{styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} set{styledValue}{GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;
@@ -274,7 +274,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.InterfaceKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.InterfaceKeyword} {styledValue}{GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;

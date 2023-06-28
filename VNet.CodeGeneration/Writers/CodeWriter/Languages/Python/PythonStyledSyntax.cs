@@ -34,19 +34,19 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
             return string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)} ", parameters).Trim();
         }
 
-        public IEnumerable<string> GetOpenScope(int currentIndentLevel)
+        public IList<string> GetOpenScope(int currentIndentLevel)
         {
             var result = new List<string>
             {
                 Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
                     ? Syntax.OpenScopeSymbol
-                    : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
+                    : Style.LineBreakSymbol + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
             };
 
             return result;
         }
 
-        public IEnumerable<string> GetCloseScope(int currentIndentLevel)
+        public IList<string> GetCloseScope(int currentIndentLevel)
         {
             return new List<string>();
         }
@@ -127,7 +127,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ClassKeyword} {styledValue}({Syntax.EnumerationKeyword}){GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ClassKeyword} {styledValue}({Syntax.EnumerationKeyword}){GetOpenScope(indentLevel.Current)[0]}");
 
             indentLevel.Increase();
             foreach (var member in members)
@@ -163,7 +163,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ClassKeyword} {styledValue}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.ClassKeyword} {styledValue}{GetOpenScope(indentLevel.Current)[0]}");
 
             return codeLines;
         }
@@ -182,7 +182,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
         {
             var codeLines = new List<string>
             {
-                $"{GetIndentCode(indentLevel.Current)}def {styledValue}({GetParameters(parameters)}){GetOpenScope(indentLevel.Current)}"
+                $"{GetIndentCode(indentLevel.Current)}def {styledValue}({GetParameters(parameters)}){GetOpenScope(indentLevel.Current)[0]}"
             };
 
             return codeLines;

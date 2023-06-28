@@ -5,7 +5,7 @@
         #region White Space
         public int IndentationWidth => 4;
         public bool UseSpacesForIndentation => true;
-        public string LineBreakCharacter => "\n";
+        public string LineBreakSymbol => "\n";
         public bool SpaceAroundOperators => true;
         public bool SpaceInsideParentheses => false;
         public bool SpaceOutsideParentheses => true;

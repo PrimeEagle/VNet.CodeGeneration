@@ -27,25 +27,25 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
             return string.Concat(Enumerable.Repeat(indent, numberOfIndents));
         }
 
-        public IEnumerable<string> GetOpenScope(int currentIndentLevel)
+        public IList<string> GetOpenScope(int currentIndentLevel)
         {
             var result = new List<string>
         {
             Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
                 ? " " + Syntax.OpenScopeSymbol
-                : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
+                : Style.LineBreakSymbol + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
         };
 
             return result;
         }
 
-        public IEnumerable<string> GetCloseScope(int currentIndentLevel)
+        public IList<string> GetCloseScope(int currentIndentLevel)
         {
             var result = new List<string>
         {
             Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
                 ? " " + Syntax.CloseScopeSymbol
-                : Style.LineBreakCharacter + GetIndentCode(currentIndentLevel) + Syntax.CloseScopeSymbol
+                : Style.LineBreakSymbol + GetIndentCode(currentIndentLevel) + Syntax.CloseScopeSymbol
         };
 
             return result;
@@ -193,7 +193,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
         {
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetCombinedDerived(derivedFrom, implements)}{GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{GetModifiers(modifiers)} {Syntax.ClassKeyword} {styledValue}{GetCombinedDerived(derivedFrom, implements)}{GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             return codeLines;

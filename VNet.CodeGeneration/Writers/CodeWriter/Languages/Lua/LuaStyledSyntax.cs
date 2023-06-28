@@ -36,7 +36,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
             return string.Join($",{(Style.SpaceAfterComma ? " " : string.Empty)} ", parameters).Trim();
         }
 
-        public IEnumerable<string> GetOpenScope(int currentIndentLevel)
+        public IList<string> GetOpenScope(int currentIndentLevel)
         {
             return new List<string>
         {
@@ -44,7 +44,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
         };
         }
 
-        public IEnumerable<string> GetCloseScope(int currentIndentLevel)
+        public IList<string> GetCloseScope(int currentIndentLevel)
         {
             return new List<string>
         {
@@ -126,7 +126,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
             // ReSharper disable once UseObjectOrCollectionInitializer
             var codeLines = new List<string>();
 
-            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.EnumerationKeyword}{styledValue} = {GetOpenScope(indentLevel.Current)}");
+            codeLines.Add($"{GetIndentCode(indentLevel.Current)}{Syntax.EnumerationKeyword}{styledValue} = {GetOpenScope(indentLevel.Current)[0]}");
             indentLevel.Increase();
 
             foreach (var member in members)

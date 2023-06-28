@@ -6,11 +6,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 {
     public static class CodeWriter
     {
-        public static CodeFileScope CreateCodeFile()
-        {
-            return new CodeFileScope();
-        }
-
         internal static string[] NewLineDelimiters => new string[]{ "\r\n", "\r", "\n" };
 
         internal static string ConvertStyleCase(string name, CaseConversionStyle conversionStyle)
@@ -22,10 +17,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
                 case CaseConversionStyle.None:
                     result = name;
                     break;
-                case CaseConversionStyle.AllLower:
+                case CaseConversionStyle.Lower:
                     result = ConvertCase.ToAlLLower(name);
                     break;
-                case CaseConversionStyle.AllUpper:
+                case CaseConversionStyle.Upper:
                     result = ConvertCase.ToAllUpper(name);
                     break;
                 case CaseConversionStyle.Pascal:

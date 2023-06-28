@@ -5,7 +5,7 @@
         string LanguageName { get; }
         IProgrammingLanguageFeatures Features { get; }
         IProgrammingLanguageSyntax Syntax { get; }
-        IProgrammingLanguageStyle Style { get; }
+        IProgrammingLanguageStyle Style { get; set; }
         IProgrammingLanguageStyledSyntax StyledSyntax { get; }
     }
 }

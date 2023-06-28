@@ -5,7 +5,7 @@
         public string LanguageName => "C#";
         public IProgrammingLanguageFeatures Features { get; }
         public IProgrammingLanguageSyntax Syntax { get; }
-        public IProgrammingLanguageStyle Style { get; }
+        public IProgrammingLanguageStyle Style { get; set; }
         public IProgrammingLanguageStyledSyntax StyledSyntax { get; }
 
         public CSharpLanguageSettings(IProgrammingLanguageStyle style)

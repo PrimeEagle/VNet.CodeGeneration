@@ -14,11 +14,31 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SyntaxNodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparerEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppDefaultStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppStyledSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\BlankLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\EnumScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\StructScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\CodeLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\RegionScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\InterfaceScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\CodeBlockScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\SetterScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\GetterScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\PropertyScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\MethodScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\ClassScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CommentDocumentationScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CommentMultiLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CommentSingleLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpCodeFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\NamespaceSingleLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\NamespaceScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\UsingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\CDefaultStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\CFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\CLanguageSettings.cs" />
@@ -55,6 +75,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\TypeScriptStyledSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\TypeScriptSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ImportType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IndentedBlockScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\BlockScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\LineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ZeroDepJson\Class1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\VNetJsonIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\VNetJsonPropertyAttribute.cs" />
@@ -97,7 +120,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\FunctionScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\ModuleScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\AccessorScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\Scope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\ImportScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StringBuilderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scopes\StructScope.cs" />
@@ -107,6 +130,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageStyleSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\" />
     <Folder Include="$(MSBuildThisFileDirectory)ZeroDepJson\" />
   </ItemGroup>
 </Project>

@@ -35,6 +35,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
             return this;
         }
 
+        public EnumerationScope WithMembers(IList<EnumerationMember> members)
+        {
+            _members.Clear();
+            _members.AddRange(members);
+
+            return this;
+        }
+
         public EnumerationScope WithModifier(string modifier)
         {
             AddModifier(modifier);
@@ -70,7 +78,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         public override void Dispose()
         {
-            base.Dispose();
+            IndentLevel.Decrease();
+            _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCloseScope(IndentLevel.Current));
+
             _codeLines.AddRange(LanguageSettings.StyledSyntax.GetEnumerationPostScopeStyledSyntax(StyledValue, _members, Modifiers, IndentLevel));
         }
     }

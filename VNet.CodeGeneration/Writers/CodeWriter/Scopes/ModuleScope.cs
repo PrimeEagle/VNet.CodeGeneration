@@ -97,7 +97,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Scopes
 
         public override void Dispose()
         {
-            if (_moduleStyle == ModuleStyle.Scoped) base.Dispose();
+            if (_moduleStyle == ModuleStyle.Scoped)
+            {
+                IndentLevel.Decrease();
+                _codeLines.AddRange(LanguageSettings.StyledSyntax.GetCloseScope(IndentLevel.Current));
+            }
+
             _codeLines.AddRange(LanguageSettings.StyledSyntax.GetModulePostScopeStyledSyntax(StyledValue, _moduleStyle, Modifiers, IndentLevel));
         }
     }

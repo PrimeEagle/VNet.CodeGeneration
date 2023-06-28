@@ -35,6 +35,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             foreach (var childScope in _scopes)
                 _codeLines.AddRange(childScope.GenerateCode());
 
+            Dispose();
+
             return _codeLines;
         }
 
