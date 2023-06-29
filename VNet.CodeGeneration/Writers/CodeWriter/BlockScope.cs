@@ -17,28 +17,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 
         internal override void GenerateCode()
         {
-            OpenScope();
+            var cr = new CodeResult();
 
-            WriteCodeLines();
+            GetOpenScope(cr);
+            WriteCodeLines(cr);
+            GetCloseScope(cr);
 
-            for (var s = 0; s < Scopes.Count; s++)
-                Scopes[s].GenerateCode();
-
-            CloseScope();
-        }
-
-        protected void OpenScope()
-        {
-            var result = LanguageSettings.StyledSyntax.GetOpenScope(IndentLevel.Current);
-
-            AddOpenCodeResult(result);
-        }
-
-        protected void CloseScope()
-        {
-            var result = LanguageSettings.StyledSyntax.GetCloseScope(IndentLevel.Current);
-
-            AddCloseCodeResult(result);
+            ProcessCodeResult(cr);
         }
     }
 }

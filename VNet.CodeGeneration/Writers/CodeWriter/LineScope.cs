@@ -15,7 +15,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 
         internal override void GenerateCode()
         {
-            WriteCodeLines();
+            var cr = new CodeResult();
+            WriteCodeLines(cr);
+
+            ProcessCodeResult(cr);
         }
     }
 }

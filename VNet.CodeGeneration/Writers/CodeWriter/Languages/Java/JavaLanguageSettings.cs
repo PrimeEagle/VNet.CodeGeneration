@@ -2,7 +2,7 @@
 {
     public class JavaLanguageSettings : IProgrammingLanguageSettings
     {
-        public string LanguageName => "Java";
+        public string Name => "Java";
         public IProgrammingLanguageFeatures Features { get; }
         public IProgrammingLanguageSyntax Syntax { get; }
         public IProgrammingLanguageStyle Style { get; }

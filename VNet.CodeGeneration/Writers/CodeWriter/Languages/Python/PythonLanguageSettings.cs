@@ -2,7 +2,7 @@
 {
     public class PythonLanguageSettings : IProgrammingLanguageSettings
     {
-        public string LanguageName => "Python";
+        public string Name => "Python";
         public IProgrammingLanguageFeatures Features { get; }
         public IProgrammingLanguageSyntax Syntax { get; }
         public IProgrammingLanguageStyle Style { get; }

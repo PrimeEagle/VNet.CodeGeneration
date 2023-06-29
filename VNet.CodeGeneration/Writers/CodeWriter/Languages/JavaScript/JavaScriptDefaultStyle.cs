@@ -33,7 +33,7 @@
 
 
         #region Scoping
-        public ScopeDelimiterStyle ScopeDelimiterStyle => ScopeDelimiterStyle.SameLine;
+        public ScopeDelimiterStyle ScopeOpenStyle => ScopeDelimiterStyle.SameLine;
         public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.NewLine;
         public ModuleStyle ModuleStyle => ModuleStyle.Scoped;
 

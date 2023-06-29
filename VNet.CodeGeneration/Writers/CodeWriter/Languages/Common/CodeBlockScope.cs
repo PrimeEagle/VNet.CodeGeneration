@@ -12,7 +12,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
         {
         }
 
-        protected override void WriteCodeLines()
+        protected override void WriteCodeLines(CodeResult result)
         {
             return;
         }

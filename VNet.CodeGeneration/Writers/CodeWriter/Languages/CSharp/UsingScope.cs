@@ -11,9 +11,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         { }
 
-        protected override void WriteCodeLines()
+        protected override void WriteCodeLines(CodeResult result)
         {
-            CodeLines.Add($"{GetIndent(IndentLevel.Current)}using {StyledValue};");
+            result.UnscopedCodeLines.Add($"using {StyledValue};");
         }
     }
 }

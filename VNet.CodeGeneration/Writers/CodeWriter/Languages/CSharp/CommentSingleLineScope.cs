@@ -12,9 +12,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         { 
         }
 
-        protected override void WriteCodeLines()
+        protected override void WriteCodeLines(CodeResult result)
         {
-            return;
+            result.UnscopedCodeLines.Add($"//{(LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{StyledValue}");
         }
     }
 }

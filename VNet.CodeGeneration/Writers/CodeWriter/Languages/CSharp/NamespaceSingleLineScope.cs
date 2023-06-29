@@ -12,9 +12,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         { 
         }
 
-        protected override void WriteCodeLines()
+        protected override void WriteCodeLines(CodeResult result)
         {
-            CodeLines.Add($"{GetIndent(IndentLevel.Current)}namespace {StyledValue};");
+            result.UnscopedCodeLines.Add($"namespace {StyledValue};");
         }
     }
 }

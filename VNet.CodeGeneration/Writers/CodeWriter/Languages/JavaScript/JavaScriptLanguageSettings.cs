@@ -2,7 +2,7 @@
 {
     public class JavaScriptLanguageSettings : IProgrammingLanguageSettings
     {
-        public string LanguageName => "JavaScript";
+        public string Name => "JavaScript";
         public IProgrammingLanguageFeatures Features { get; }
         public IProgrammingLanguageSyntax Syntax { get; }
         public IProgrammingLanguageStyle Style { get; }

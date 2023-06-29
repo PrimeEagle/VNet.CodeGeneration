@@ -2,7 +2,7 @@
 {
     public class LuaLanguageSettings : IProgrammingLanguageSettings
     {
-        public string LanguageName => "Lua";
+        public string Name => "Lua";
         public IProgrammingLanguageFeatures Features { get; }
         public IProgrammingLanguageSyntax Syntax { get; }
         public IProgrammingLanguageStyle Style { get; }

@@ -11,6 +11,7 @@
         bool SpaceOutsideParentheses { get; }
         bool SpaceAfterComma { get; }
         bool SpaceAfterCommentCharacter { get; }
+        bool SpaceBeforeSameLineScope { get; }
         #endregion White Space
 
 
@@ -42,9 +43,9 @@
 
 
         #region Scoping
-        ScopeDelimiterStyle ScopeDelimiterStyle { get; }
-        MultilineCommentStyle MultilineCommentStyle { get; }
-        ModuleStyle ModuleStyle { get; }
+        LineStyle ScopeOpenStyle { get; }
+        LineStyle ScopeCloseStyle { get; }
+        LineStyle MultilineCommentStyle { get; }
         #endregion Scoping
     }
 }

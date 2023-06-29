@@ -4,7 +4,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
 {
     public class TypeScriptLanguageSettings : IProgrammingLanguageSettings
     {
-        public string LanguageName => "TypeScript";
+        public string Name => "TypeScript";
         public IProgrammingLanguageFeatures Features { get; }
         public IProgrammingLanguageSyntax Syntax { get; }
         public IProgrammingLanguageStyle Style { get; }

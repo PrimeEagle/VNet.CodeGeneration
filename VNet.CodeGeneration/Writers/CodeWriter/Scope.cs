@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using VNet.CodeGeneration.Log;
-using VNet.CodeGeneration.Writers.CodeWriter.Languages.C;
-using VNet.CodeGeneration.Writers.CodeWriter.Scopes;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable PossibleMultipleEnumeration
@@ -59,36 +57,49 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         }
 
         internal abstract void GenerateCode();
-        protected abstract void WriteCodeLines();
-        protected void AddOpenCodeResult(CodeResult result)
-        {
-            if (result != null)
-            {
-                CodeLines[CodeLines.Count - 1] = $"{CodeLines[CodeLines.Count - 1]}{result.PreviousLineSuffix ?? string.Empty}";
+        protected abstract void WriteCodeLines(CodeResult result);
 
-                if (result.PostOpenScopeNewLines != null)
-                {
-                    for (var n = 0; n < result.PostOpenScopeNewLines.Count; n++)
-                    {
-                        CodeLines.Add(result.PostOpenScopeNewLines[n]);
-                    }
-                }
+        protected void ProcessCodeResult(CodeResult result, bool indentedBlock = false)
+        {
+            if (result == null) return;
+
+            var indentStr = GetIndent(IndentLevel.Current);
+
+            for (var i = 0; i < result.OpenScopeLines.Count; i++)
+            {
+                CodeLines.Add($"{indentStr}{result.OpenScopeLines[i]}");
             }
-        }
 
-        protected void AddCloseCodeResult(CodeResult result)
-        {
-            if (result != null)
+            if (indentedBlock)
             {
-                CodeLines[CodeLines.Count - 1] = $"{CodeLines[CodeLines.Count - 1]}{result.CloseScopeSuffix ?? string.Empty}";
+                IndentLevel.Increase();
+                indentStr = GetIndent(IndentLevel.Current);
+            }
 
-                if (result.PostCloseScopeNewLines != null)
-                {
-                    for (var n = 0; n < result.PostCloseScopeNewLines.Count; n++)
-                    {
-                        CodeLines.Add(result.PostCloseScopeNewLines[n]);
-                    }
-                }
+            for (var i = 0; i < result.ScopeCodeLines.Count; i++)
+            {
+                CodeLines.Add($"{indentStr}{result.ScopeCodeLines[i]}");
+            }
+
+            for (var i = 0; i < result.UnscopedCodeLines.Count; i++)
+            {
+                CodeLines.Add($"{indentStr}{result.UnscopedCodeLines[i]}");
+            }
+
+            for (var s = 0; s < Scopes.Count; s++)
+                Scopes[s].GenerateCode();
+
+            CodeWriter.AppentToLastElement(CodeLines, $"{CodeLines[CodeLines.Count - 1]}{result.PreviousCodeLineSuffix ?? string.Empty}");
+
+            if (indentedBlock)
+            {
+                IndentLevel.Decrease();
+                indentStr = GetIndent(IndentLevel.Current);
+            }
+
+            for (var i = 0; i < result.CloseScopeLines.Count; i++)
+            {
+                CodeLines.Add($"{indentStr}{result.CloseScopeLines[i]}");
             }
         }
 
@@ -193,7 +204,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         {
             if (!skipNameValidation && !LanguageSettings.Syntax.IsValidNaming(name))
             {
-                throw new InvalidOperationException($"A {childScopeType.Name} scope named '{name}' is not valid in {LanguageSettings.LanguageName}.");
+                throw new InvalidOperationException($"A {childScopeType.Name} scope named '{name}' is not valid in {LanguageSettings.Name}.");
             }
 
             //if (!LanguageSettings.Features.ScopeContainmentRules.ContainsKey(this.GetType()))
@@ -294,33 +305,30 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             return string.Concat(Enumerable.Repeat(singleCode, numberOfIndents));
         }
 
-        protected CodeResult GetOpenScope(int currentIndentLevel)
+        protected void GetOpenScope(CodeResult result)
         {
-            var result = new CodeResult();
-
-            if (LanguageSettings.Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine)
+            if (LanguageSettings.Style.ScopeOpenStyle == LineStyle.SameLine)
             {
-                result.PreviousLineSuffix = $" {LanguageSettings.Syntax.OpenScopeSymbol}";
+                CodeWriter.AppentToLastElement(result.OpenScopeLines,
+                    $"{(LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty)}{LanguageSettings.Syntax.OpenScopeSymbol}");
             }
-            else if (LanguageSettings.Style.ScopeDelimiterStyle == ScopeDelimiterStyle.NewLine)
+            else if (LanguageSettings.Style.ScopeOpenStyle == LineStyle.NewLine)
             {
-                result.PostOpenScopeNewLines.Add(GetIndent(currentIndentLevel) + LanguageSettings.Syntax.OpenScopeSymbol);
+                result.OpenScopeLines.Add($"{LanguageSettings.Syntax.OpenScopeSymbol}");
             }
-
-            return result;
         }
 
-        protected CodeResult GetCloseScope(int currentIndentLevel)
+        protected CodeResult GetCloseScope(CodeResult cr)
         {
             var result = new CodeResult();
 
-            if (LanguageSettings.Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine)
+            if (LanguageSettings.Style.ScopeCloseStyle == LineStyle.SameLine)
             {
-                result.PreviousLineSuffix = $" {LanguageSettings.Syntax.OpenScopeSymbol}";
+                result.PreviousCodeLineSuffix = $"{(LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty)}{LanguageSettings.Syntax.CloseScopeSymbol}";
             }
-            else if (LanguageSettings.Style.ScopeDelimiterStyle == ScopeDelimiterStyle.NewLine)
+            else if (LanguageSettings.Style.ScopeCloseStyle == LineStyle.NewLine)
             {
-                result.PostOpenScopeNewLines.Add(GetIndent(currentIndentLevel) + LanguageSettings.Syntax.OpenScopeSymbol);
+                result.CloseScopeLines.Add($"{LanguageSettings.Syntax.CloseScopeSymbol}");
             }
 
             return result;

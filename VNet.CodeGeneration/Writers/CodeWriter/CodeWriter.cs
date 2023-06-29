@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 // ReSharper disable NotAccessedField.Local
 
@@ -55,6 +56,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             }
 
             return result;
+        }
+
+        public static void AppentToLastElement(List<string> list, string text)
+        {
+            if(list == null || list.Count == 0) return;
+
+            list[list.Count - 1] = $"{list[list.Count - 1]}{text}";
         }
     }
 }

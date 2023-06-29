@@ -11,6 +11,7 @@
         public bool SpaceOutsideParentheses => false;
         public bool SpaceAfterComma => true;
         public bool SpaceAfterCommentCharacter => true;
+        public bool SpaceBeforeSameLineScope => true;
         #endregion White Space
 
 
@@ -43,9 +44,9 @@
 
 
         #region Scoping
-        public ScopeDelimiterStyle ScopeDelimiterStyle => ScopeDelimiterStyle.NewLine;
-        public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.NewLine;
-        public ModuleStyle ModuleStyle => ModuleStyle.Scoped;
+        public LineStyle ScopeOpenStyle => LineStyle.NewLine;
+        public LineStyle ScopeCloseStyle => LineStyle.NewLine;
+        public LineStyle MultilineCommentStyle => LineStyle.NewLine;
         #endregion Scoping
     }
 }

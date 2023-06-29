@@ -12,9 +12,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
         {
         }
 
-        protected override void WriteCodeLines()
+        protected override void WriteCodeLines(CodeResult result)
         {
-            CodeLines.Add(string.Empty);
+            result.UnscopedCodeLines.Add(string.Empty);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
         {
             var result = new List<string>
             {
-                Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
+                Style.ScopeOpenStyle == ScopeDelimiterStyle.SameLine
                     ? Syntax.OpenScopeSymbol
                     : Style.LineBreakSymbol + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
             };

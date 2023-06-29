@@ -48,9 +48,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return result;
         }
 
-        protected override void WriteCodeLines()
+        protected override void WriteCodeLines(CodeResult result)
         {
-            return;
+            result.UnscopedCodeLines.Add(string.Empty);
         }
     }
 }

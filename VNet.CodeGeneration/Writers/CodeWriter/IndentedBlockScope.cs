@@ -15,16 +15,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 
         internal override void GenerateCode()
         {
-            OpenScope();
-            IncreaseIndent();
-            
-            WriteCodeLines();
+            var cr = new CodeResult();
+            GetOpenScope(cr);
+            WriteCodeLines(cr);
+            GetCloseScope(cr);
 
-            for (var s = 0; s < Scopes.Count; s++)
-                Scopes[s].GenerateCode();
-
-            DecreaseIndent();
-            CloseScope();
+            ProcessCodeResult(cr, true);
         }
 
         protected void IncreaseIndent()

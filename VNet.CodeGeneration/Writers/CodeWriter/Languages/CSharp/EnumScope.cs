@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
@@ -52,50 +51,37 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return result;
         }
 
-        public EnumScope WithMember(EnumerationMember member)
+        public EnumScope AddMember(string name, int? value = null)
         {
-            _members.Add(member);
+            var result = new EnumMemberScope(name, new List<object>() { value }, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
 
             return this;
         }
 
-        public EnumScope WithMember(string name, int? value = null)
+        public EnumScope AddMembers(List<EnumerationMember> members)
         {
-            var member = new EnumerationMember(name, value);
-            _members.Add(member);
+            for(var i = 0; i < members.Count; i++)
+            {
+                AddMember(members[i].Name, members[i].Value);
+            }
 
             return this;
         }
 
-        public EnumScope WithMembers(List<EnumerationMember> members)
+        public EnumScope AddMembers(List<string> names)
         {
-            _members.Clear();
-            _members.AddRange(members);
+            for (var i = 0; i < names.Count; i++)
+            {
+                AddMember(names[i], null);
+            }
 
             return this;
         }
 
-        public EnumScope WithMembers(List<string> names)
+        protected override void WriteCodeLines(CodeResult result)
         {
-            var members = names.Select(n => new EnumerationMember(n, null));
-            _members.Clear();
-            _members.AddRange(members);
-
-            return this;
-        }
-
-        public EnumScope Sort()
-        {
-            var sorted = _members.OrderBy(m => m).ToList();
-            _members.Clear();
-            _members.AddRange(sorted);
-
-            return this;
-        }
-
-        protected override void WriteCodeLines()
-        {
-            return;
+            result.OpenScopeLines.Add($"enum {StyledValue}");
         }
     }
 }

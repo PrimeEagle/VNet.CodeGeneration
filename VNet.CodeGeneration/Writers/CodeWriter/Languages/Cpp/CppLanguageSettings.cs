@@ -2,7 +2,7 @@
 {
     public class CppLanguageSettings : IProgrammingLanguageSettings
     {
-        public string LanguageName => "C++";
+        public string Name => "C++";
         public IProgrammingLanguageFeatures Features { get; }
         public IProgrammingLanguageSyntax Syntax { get; }
         public IProgrammingLanguageStyle Style { get; }

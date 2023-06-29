@@ -30,7 +30,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
         {
             var result = new List<string>
         {
-            Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
+            Style.ScopeOpenStyle == ScopeDelimiterStyle.SameLine
                 ? " " + Syntax.OpenScopeSymbol
                 : Style.LineBreakSymbol + GetIndentCode(currentIndentLevel) + Syntax.OpenScopeSymbol
         };
@@ -41,7 +41,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
         {
             var result = new List<string>
         {
-            Style.ScopeDelimiterStyle == ScopeDelimiterStyle.SameLine
+            Style.ScopeOpenStyle == ScopeDelimiterStyle.SameLine
                 ? " " + Syntax.CloseScopeSymbol
                 : Style.LineBreakSymbol + GetIndentCode(currentIndentLevel) + Syntax.CloseScopeSymbol
         };
