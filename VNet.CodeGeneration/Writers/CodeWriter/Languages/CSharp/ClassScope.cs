@@ -84,7 +84,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return this;
         }
 
-        public ClassScope WithInterface(string name)
+        public ClassScope ThatImplementsInterface(string name)
         {
             _interfaces.Add(name);
 
@@ -120,7 +120,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             var genType = $"<{string.Join($",{commaSpace}", _genericTypes)}>".Trim();
             var genConstraint = string.Join($",{commaSpace}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
             
-            var inheritance = $"{_baseClass}{string.Join($",{commaSpace}", _interfaces)}".Trim();
+            var baseComma = !string.IsNullOrEmpty(_baseClass) && _interfaces.Count > 0 ? $",{commaSpace}" : string.Empty;
+            var inheritance = $"{_baseClass}{baseComma}{string.Join($",{commaSpace}", _interfaces)}".Trim();
             if (!string.IsNullOrEmpty(inheritance))
             {
                 inheritance = $"{opSpace}:{opSpace}{inheritance}";

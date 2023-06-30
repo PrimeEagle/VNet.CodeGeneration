@@ -23,6 +23,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\EnumMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\EnumScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\GetterSignatureScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\MethodSignatureScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\PropertySignatureScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\SetterSignatureScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\StructScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\CodeLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\RegionScope.cs" />
@@ -48,7 +52,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Json\VNetJsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IndentationManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageStyledSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\LineStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CaseConversionStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ConvertCase.cs" />
@@ -58,7 +61,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CommentType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\EnumerationMember.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageFeatures.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageStyle.cs" />

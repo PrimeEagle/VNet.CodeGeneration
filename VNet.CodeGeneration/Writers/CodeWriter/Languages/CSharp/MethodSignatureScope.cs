@@ -4,75 +4,57 @@ using System.Linq;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class MethodScope : CSharpBlockScope<MethodScope>
+    public class MethodSignatureScope : CSharpLineScope<MethodSignatureScope>
     {
         private string _returnType;
         private List<string> _modifiers;
         private List<string> _genericTypes;
         private List<string> _genericConstraints;
         private List<Tuple<string, string>> _parameters;
-        private List<string> _baseParameters;
 
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.FunctionCaseConversionStyle;
 
 
-        public MethodScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+        public MethodSignatureScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
             _modifiers = new List<string>();
             _genericTypes = new List<string>();
             _genericConstraints = new List<string>();
             _parameters = new List<Tuple<string, string>>();
-            _baseParameters = new List<string>();
         }
 
-        public MethodScope WithModifier(string name)
+        public MethodSignatureScope WithModifier(string name)
         {
             _modifiers.Add(name);
 
             return this;
         }
 
-        public MethodScope WithGenericType(string name)
+        public MethodSignatureScope WithGenericType(string name)
         {
             _genericTypes.Add(name);
 
             return this;
         }
 
-        public MethodScope WithGenericConstraint(string name)
+        public MethodSignatureScope WithGenericConstraint(string name)
         {
             _genericConstraints.Add(name);
 
             return this;
         }
 
-        public MethodScope WithParameter(string type, string name)
+        public MethodSignatureScope WithParameter(string type, string name)
         {
             _parameters.Add(new Tuple<string, string>(type, name));
 
             return this;
         }
 
-        public MethodScope WithBaseParameter(string name)
-        {
-            _baseParameters.Add(name);
-
-            return this;
-        }
-
-        public MethodScope WithReturnType(string name)
+        public MethodSignatureScope WithReturnType(string name)
         {
             _returnType = name;
-
-            return this;
-        }
-
-        public MethodScope ThatIsAConstructor()
-        {
-            _baseParameters.Add(string.Empty);
-            Value = this.Parent.Value;
-            _returnType = string.Empty;
 
             return this;
         }
@@ -94,12 +76,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             var flattened = _parameters.Select(p => $"{p.Item1} {p.Item2}").ToList();
             var paramStr = string.Join(" ", flattened).Trim();
 
-            var baseOpen = _baseParameters.Count > 0 ? $"{opSpace}:{opSpace}base(" : string.Empty;
-            var baseClose = _baseParameters.Count > 0 ? $")" : string.Empty;
-
-            var baseParams = string.Join($",{commaSpace}", _baseParameters.Where(b => !string.IsNullOrEmpty(b)));
-
-            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}{genType}({paramStr}){baseOpen}{baseParams}{baseClose}{genConstraint}");
+            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}{genType}({paramStr}){genConstraint};");
         }
     }
 }

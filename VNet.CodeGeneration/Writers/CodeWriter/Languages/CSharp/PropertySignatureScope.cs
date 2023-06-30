@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class PropertyScope : CSharpBlockScope<PropertyScope>
+    public class PropertySignatureScope : CSharpBlockScope<PropertyScope>
     {
         private string _returnType;
         private List<string> _modifiers;
@@ -11,38 +11,24 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.AccessorCaseConversionStyle;
 
 
-        public PropertyScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+        public PropertySignatureScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
             _modifiers = new List<string>();
         }
 
-        public GetterScope AddGetter(string name, int? value = null)
+        public PropertySignatureScope AddGetterSignature()
         {
-            var result = new GetterScope(name, new List<object>() { value }, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new GetterSignatureScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
-
-            return result;
-        }
-
-        public SetterScope AddSetter(string name, int? value = null)
-        {
-            var result = new SetterScope(name, new List<object>() { value }, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public PropertyScope WithModifier(string name)
-        {
-            _modifiers.Add(name);
 
             return this;
         }
 
-        public PropertyScope WithReturnType(string name)
+        public PropertySignatureScope AddSetterSignature()
         {
-            _returnType = name;
+            var result = new SetterSignatureScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
 
             return this;
         }

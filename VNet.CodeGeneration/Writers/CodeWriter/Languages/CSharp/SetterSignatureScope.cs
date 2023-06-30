@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class SetterScope : CSharpBlockScope<SetterScope>
+    public class SetterSignatureScope : CSharpBlockScope<SetterSignatureScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.SetterCaseConversionStyle;
 
@@ -10,13 +10,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         private List<string> _modifiers;
 
 
-        public SetterScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+        public SetterSignatureScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
             _modifiers = new List<string>();
         }
 
-        public SetterScope WithModifier(string name)
+        public SetterSignatureScope WithModifier(string name)
         {
             _modifiers.Add(name);
 
@@ -25,7 +25,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         protected override void WriteCode(CodeResult result)
         {
-            result.PreOpenScopeLines.Add($"set");
+            result.PreOpenScopeLines.Add($"set;");
         }
     }
 }
