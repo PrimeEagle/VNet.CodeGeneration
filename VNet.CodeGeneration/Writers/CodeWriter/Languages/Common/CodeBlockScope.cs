@@ -12,9 +12,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
         {
         }
 
-        protected override void WriteCodeLines(CodeResult result)
+        protected override void WriteCode(CodeResult result)
         {
-            return;
+            var splitLines = StyledValue.Split(CodeWriter.NewLineDelimiters, System.StringSplitOptions.None);
+            for(var i = 0; i < splitLines.Length; i++) 
+            {
+                result.ScopedCodeLines.Add(splitLines[i]);
+            }
         }
     }
 }

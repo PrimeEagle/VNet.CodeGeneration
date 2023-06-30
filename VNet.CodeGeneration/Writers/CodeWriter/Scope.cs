@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using VNet.CodeGeneration.Log;
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable MemberCanBeProtected.Global
-// ReSharper disable PossibleMultipleEnumeration
-// ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051
 
 namespace VNet.CodeGeneration.Writers.CodeWriter
@@ -13,7 +9,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
     public abstract class Scope
     {
         public IProgrammingLanguageSettings LanguageSettings { get; protected set; }
-        public string Value { get; private set; }
+        public string Value { get; protected set; }
         public string StyledValue
         {
             get
@@ -33,54 +29,71 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         protected List<string> Modifiers;
         protected List<object> Parameters { get; set; }
         protected abstract CaseConversionStyle CaseConversionStyle { get; }
+        protected virtual string AlternateScopeOpenSymbol { get; }
+        protected virtual string AlternateScopeCloseSymbol { get; }
 
 
-        protected Scope()
-        {
-            IndentLevel = new IndentationManager();
-            CodeLines = new List<string>();
-            Modifiers = new List<string>();
-            Scopes = new List<Scope>();
-            Parameters = new List<object>();
-        }
+        //protected Scope()
+        //{
+        //    IndentLevel = new IndentationManager();
+        //    CodeLines = new List<string>();
+        //    Modifiers = new List<string>();
+        //    Scopes = new List<Scope>();
+        //    Parameters = new List<object>();
+        //}
 
         protected Scope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
         {
             Parent = parent;
             Value = value;
-            LanguageSettings = Parent.LanguageSettings;
+            LanguageSettings = languageSettings;
             IndentLevel = indentLevel;
             CodeLines = codeLines;
             Scopes = new List<Scope>();
             Modifiers = new List<string>();
             Parameters = parameters ?? new List<object>();
+            AlternateScopeOpenSymbol = null;
+            AlternateScopeCloseSymbol = null;
         }
 
         internal abstract void GenerateCode();
-        protected abstract void WriteCodeLines(CodeResult result);
+        protected abstract void WriteCode(CodeResult result);
 
-        protected void ProcessCodeResult(CodeResult result, bool indentedBlock = false)
+        protected void ProcessCodeResult(CodeResult result, bool scoped)
         {
             if (result == null) return;
 
             var indentStr = GetIndent(IndentLevel.Current);
 
-            for (var i = 0; i < result.OpenScopeLines.Count; i++)
+            // Scope opening
+            if (scoped)
             {
-                CodeLines.Add($"{indentStr}{result.OpenScopeLines[i]}");
-            }
+                for (var i = 0; i < result.PreOpenScopeLines.Count; i++)
+                {
+                    CodeLines.Add($"{indentStr}{result.PreOpenScopeLines[i]}");
+                }
 
-            if (indentedBlock)
-            {
+                // open scope
+                var os = new CodeResult();
+                GetOpenScope(os);
+                CodeWriter.AppendToLastElement(CodeLines, os.PreviousCodeLineSuffix);
+                result.PostOpenScopeLines.InsertRange(0, os.PostOpenScopeLines);
+
+                for (var i = 0; i < result.PostOpenScopeLines.Count; i++)
+                {
+                    CodeLines.Add($"{indentStr}{result.PostOpenScopeLines[i]}");
+                }
+
                 IndentLevel.Increase();
                 indentStr = GetIndent(IndentLevel.Current);
+
+                for (var i = 0; i < result.ScopedCodeLines.Count; i++)
+                {
+                    CodeLines.Add($"{indentStr}{result.ScopedCodeLines[i]}");
+                }
             }
 
-            for (var i = 0; i < result.ScopeCodeLines.Count; i++)
-            {
-                CodeLines.Add($"{indentStr}{result.ScopeCodeLines[i]}");
-            }
-
+            // Unscoped
             for (var i = 0; i < result.UnscopedCodeLines.Count; i++)
             {
                 CodeLines.Add($"{indentStr}{result.UnscopedCodeLines[i]}");
@@ -89,40 +102,33 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             for (var s = 0; s < Scopes.Count; s++)
                 Scopes[s].GenerateCode();
 
-            CodeWriter.AppentToLastElement(CodeLines, $"{CodeLines[CodeLines.Count - 1]}{result.PreviousCodeLineSuffix ?? string.Empty}");
-
-            if (indentedBlock)
+            // Scope closing
+            if (scoped)
             {
+                CodeWriter.AppendToLastElement(CodeLines, $"{(result.PreviousCodeLineSuffix ?? string.Empty)}");
+
                 IndentLevel.Decrease();
                 indentStr = GetIndent(IndentLevel.Current);
-            }
 
-            for (var i = 0; i < result.CloseScopeLines.Count; i++)
-            {
-                CodeLines.Add($"{indentStr}{result.CloseScopeLines[i]}");
+                //
+                var cs = new CodeResult();
+                GetCloseScope(cs);
+                CodeWriter.AppendToLastElement(CodeLines, cs.PreviousCodeLineSuffix);
+                result.PostCloseScopeLines.InsertRange(0, cs.PostCloseScopeLines);
+
+                for (var i = 0; i < result.PostCloseScopeLines.Count; i++)
+                {
+                    CodeLines.Add($"{indentStr}{result.PostCloseScopeLines[i]}");
+                }
             }
         }
-
-        //protected List<string> ExpandCodeLines(List<string> list)
-        //{
-        //    var result = new List<string>();
-
-        //    foreach (var line in list)
-        //    {
-        //        var sublines = line.Split(CodeWriter.NewLineDelimiters, StringSplitOptions.None);
-
-        //        result.AddRange(sublines);
-        //    }
-
-        //    return result;
-        //}
 
         protected void AddNestedScope(Scope scope)
         {
             Scopes.Add(scope);
         }
 
-        public virtual void ToFile(string filename)
+        public virtual void Save(string filename)
         {
             var text = ToString();
 
@@ -142,7 +148,15 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             CodeLines.Clear();
             GenerateCode();
 
-            return string.Join(LanguageSettings.Style.LineBreakSymbol, CodeLines.Select(SplitLine));
+            var result = new List<string>();
+            for(var i = 0; i < CodeLines.Count; i++)
+            {
+                var codeLine = CodeLines[i];
+                var temp = SplitLine(codeLine);
+                result.AddRange(temp);
+            }
+
+            return string.Join(LanguageSettings.Style.LineBreakSymbol, result);
         }
 
         private List<string> SplitLine(string line)
@@ -206,91 +220,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             {
                 throw new InvalidOperationException($"A {childScopeType.Name} scope named '{name}' is not valid in {LanguageSettings.Name}.");
             }
-
-            //if (!LanguageSettings.Features.ScopeContainmentRules.ContainsKey(this.GetType()))
-            //{
-            //    throw new InvalidOperationException($"Scope of type {this.GetType().Name} is not valid in {LanguageSettings.LanguageName}.");
-            //}
-
-            //if (!LanguageSettings.Features.ScopeContainmentRules[this.GetType()].Contains(childScopeType))
-            //{
-            //    throw new InvalidOperationException($"Creating a {childScopeType.Name} scope inside a {this.GetType().Name} scope is not allowed in {LanguageSettings.LanguageName}.");
-            //}
         }
-
-        //protected string GetOperatorSpacing()
-        //{
-        //    return LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
-        //}
-
-
-
-        //protected virtual string GetStyledValue()
-        //{
-        //    var result = Value;
-
-        //    if (!LanguageSettings.Style.AutomaticCaseConversion) return result;
-
-        //    if (this is ClassScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ClassCaseConversionStyle);
-        //    if (this is DelegateScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.DelegateCaseConversionStyle);
-        //    if (this is EnumerationScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.EnumerationCaseConversionStyle);
-        //    if (this is FieldScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.FieldCaseConversionStyle);
-        //    if (this is InterfaceScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.InterfaceCaseConversionStyle);
-        //    if (this is FunctionScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.FunctionCaseConversionStyle);
-        //    if (this is ModuleScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.ModuleCaseConversionStyle);
-        //    if (this is AccessorScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.AccessorCaseConversionStyle);
-        //    if (this is CodeGroupingScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.CodeGroupingCaseConversionStyle);
-        //    if (this is StructScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.StructCaseConversionStyle);
-        //    if (this is VariableScope) result = CodeWriter.ConvertStyleCase(result, LanguageSettings.Style.VariableCaseConversionStyle);
-
-        //    return result;
-        //}
-
-        //protected void ValidateModifiers(IEnumerable<string> modifiers)
-        //{
-        //    ValidateTypeModifiers(modifiers);
-        //    ValidateModifierCombinations(modifiers);
-        //}
-
-        //private void ValidateTypeModifiers(IEnumerable<string> modifiers)
-        //{
-        //    var scopeType = this.GetType();
-
-        //    if (!LanguageSettings.Features.AllowedModifiers.ContainsKey(scopeType)) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifiers for type '{scopeType.Name}' are not allowed.");
-
-        //    var validModifiers = LanguageSettings.Features.AllowedModifiers[scopeType].Select(m => m.ToLower());
-
-        //    var invalidModifier = modifiers.FirstOrDefault(m => !validModifiers.Contains(m.ToLower()));
-        //    if (invalidModifier != null) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifier '{invalidModifier}' is not valid for type '{scopeType.Name}'.");
-        //}
-
-        //private void ValidateModifierCombinations(IEnumerable<string> modifiers)
-        //{
-        //    foreach (var modifier in modifiers)
-        //    {
-        //        if (!LanguageSettings.Features.DisallowedModifierCombinations.ContainsKey(modifier)) continue;
-
-        //        foreach (var disallowed in LanguageSettings.Features.DisallowedModifierCombinations[modifier])
-        //        {
-        //            if (modifier.Contains(disallowed)) throw new ArgumentException($"In {LanguageSettings.LanguageName}, modifier '{modifier}' cannot be combined with modifier '{disallowed}'.");
-        //        }
-        //    }
-        //}
-
-        //public virtual Scope Up()
-        //{
-        //    return Parent;
-        //}
-
-        //protected void AddModifier(string modifier)
-        //{
-        //    if (LanguageSettings.Features.DisallowedModifierCombinations.TryGetValue(modifier, out var combination))
-        //    {
-        //        Modifiers.RemoveAll(m => combination.Select(d => d.ToLower()).Contains(m.ToLower()));
-        //    }
-
-        //    if (!Modifiers.Contains(modifier)) Modifiers.Add(modifier);
-        //}
 
         protected string GetSingleIndent()
         {
@@ -307,41 +237,37 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 
         protected void GetOpenScope(CodeResult result)
         {
+            var scopeSymbol = AlternateScopeOpenSymbol == null ? LanguageSettings.Syntax.OpenScopeSymbol : AlternateScopeOpenSymbol;
+
             if (LanguageSettings.Style.ScopeOpenStyle == LineStyle.SameLine)
             {
-                CodeWriter.AppentToLastElement(result.OpenScopeLines,
-                    $"{(LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty)}{LanguageSettings.Syntax.OpenScopeSymbol}");
+                result.PreviousCodeLineSuffix = $"{(LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty)}{scopeSymbol}";
             }
             else if (LanguageSettings.Style.ScopeOpenStyle == LineStyle.NewLine)
             {
-                result.OpenScopeLines.Add($"{LanguageSettings.Syntax.OpenScopeSymbol}");
+                result.PostOpenScopeLines.Add($"{scopeSymbol}");
             }
         }
 
-        protected CodeResult GetCloseScope(CodeResult cr)
+        protected CodeResult GetCloseScope(CodeResult result)
         {
-            var result = new CodeResult();
+            var scopeSymbol = AlternateScopeCloseSymbol == null ? LanguageSettings.Syntax.CloseScopeSymbol : AlternateScopeCloseSymbol;
 
             if (LanguageSettings.Style.ScopeCloseStyle == LineStyle.SameLine)
             {
-                result.PreviousCodeLineSuffix = $"{(LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty)}{LanguageSettings.Syntax.CloseScopeSymbol}";
+                result.PreviousCodeLineSuffix = $"{(LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty)}{scopeSymbol}";
             }
             else if (LanguageSettings.Style.ScopeCloseStyle == LineStyle.NewLine)
             {
-                result.CloseScopeLines.Add($"{LanguageSettings.Syntax.CloseScopeSymbol}");
+                result.PostCloseScopeLines.Add($"{scopeSymbol}");
             }
 
             return result;
         }
 
-        public Scope Up()
+        public T UpTo<T>() where T : Scope
         {
-            return this.Parent;
-        }
-
-        public T Up<T>() where T : Scope
-        {
-            return (T)this.Parent;
+            return (T)(this.Parent);
         }
     }
 }

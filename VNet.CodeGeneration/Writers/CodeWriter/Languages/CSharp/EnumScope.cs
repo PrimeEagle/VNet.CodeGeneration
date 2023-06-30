@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class EnumScope : IndentedBlockScope
+    public class EnumScope : CSharpBlockScope<EnumScope>
     {
         private readonly List<EnumerationMember> _members;
 
@@ -14,41 +15,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
             _members = new List<EnumerationMember>();
-        }
-
-        public EnumScope AddBlankLine()
-        {
-            var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return this;
-        }
-
-        public EnumScope AddBlankLines(int num)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
-                AddNestedScope(result);
-            }
-
-            return this;
-        }
-
-        public EnumScope AddCodeLine(string text)
-        {
-            var result = new CodeLineScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return this;
-        }
-
-        public CodeBlockScope AddCodeBlock(string text)
-        {
-            var result = new CodeBlockScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
         }
 
         public EnumScope AddMember(string name, int? value = null)
@@ -79,9 +45,45 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return this;
         }
 
-        protected override void WriteCodeLines(CodeResult result)
+        public EnumScope Sort()
         {
-            result.OpenScopeLines.Add($"enum {StyledValue}");
+            // Dictionary to store EnumMemberScope and its preceding scopes
+            var scopesDictionary = new Dictionary<EnumMemberScope, List<Scope>>();
+            var precedingScopes = new List<Scope>();
+
+            foreach (var scope in Scopes)
+            {
+                if (scope is EnumMemberScope enumMemberScope)
+                {
+                    scopesDictionary[enumMemberScope] = precedingScopes;
+                    precedingScopes = new List<Scope>();
+                }
+                else
+                {
+                    precedingScopes.Add(scope);
+                }
+            }
+
+            // Clear the scopes list
+            Scopes.Clear();
+
+            // Order EnumMemberScopes alphabetically
+            foreach (var entry in scopesDictionary.OrderBy(e => e.Key.Value))
+            {
+                // Add preceding scopes first, then the EnumMemberScope
+                Scopes.AddRange(entry.Value);
+                Scopes.Add(entry.Key);
+            }
+
+            // Add remaining scopes that are not EnumMemberScopes and do not have a following EnumMemberScope
+            Scopes.AddRange(precedingScopes);
+
+            return this;
+        }
+
+        protected override void WriteCode(CodeResult result)
+        {
+            result.PreOpenScopeLines.Add($"enum {StyledValue}");
         }
     }
 }

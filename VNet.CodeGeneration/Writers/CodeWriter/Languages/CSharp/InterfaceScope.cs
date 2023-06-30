@@ -3,7 +3,7 @@ using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class InterfaceScope : IndentedBlockScope
+    public class InterfaceScope : CSharpBlockScope<InterfaceScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.InterfaceCaseConversionStyle;
 
@@ -13,47 +13,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         {
         }
 
-        public InterfaceScope AddBlankLine()
+        protected override void WriteCode(CodeResult result)
         {
-            var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return this;
-        }
-
-        public InterfaceScope AddBlankLines(int num)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
-                AddNestedScope(result);
-            }
-
-            return this;
-        }
-
-        public InterfaceScope AddCodeLine(string text)
-        {
-            var result = new CodeLineScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return this;
-        }
-
-        public CodeBlockScope AddCodeBlock(string text)
-        {
-            var result = new CodeBlockScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        protected override List<string> WriteCodeLines()
-        {
-            return new List<string>()
-            {
-                $""
-            };
+            return;
         }
     }
 }

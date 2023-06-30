@@ -4,10 +4,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
 {
     public abstract class LineScope : Scope
     {
-        protected LineScope() : base()
-        {
-        }
-
         protected LineScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
@@ -16,9 +12,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         internal override void GenerateCode()
         {
             var cr = new CodeResult();
-            WriteCodeLines(cr);
 
-            ProcessCodeResult(cr);
+            WriteCode(cr);
+            ProcessCodeResult(cr, false);
         }
     }
 }

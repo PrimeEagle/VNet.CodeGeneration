@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class NamespaceSingleLineScope : LineScope
+    public class NamespaceSingleLineScope : CSharpLineScope<NamespaceSingleLineScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.ModuleCaseConversionStyle;
 
@@ -12,7 +12,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         { 
         }
 
-        protected override void WriteCodeLines(CodeResult result)
+        protected override void WriteCode(CodeResult result)
         {
             result.UnscopedCodeLines.Add($"namespace {StyledValue};");
         }

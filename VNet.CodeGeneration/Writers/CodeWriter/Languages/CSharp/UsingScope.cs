@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class UsingScope : LineScope
+    public class UsingScope : CSharpLineScope<UsingScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.ImportCaseConversionStyle;
 
@@ -11,7 +11,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         { }
 
-        protected override void WriteCodeLines(CodeResult result)
+        protected override void WriteCode(CodeResult result)
         {
             result.UnscopedCodeLines.Add($"using {StyledValue};");
         }

@@ -1,59 +1,95 @@
-﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class MethodScope : IndentedBlockScope
+    public class MethodScope : CSharpBlockScope<MethodScope>
     {
+        private List<string> _modifiers;
+        private List<string> _genericTypes;
+        private List<string> _genericConstraints;
+        private List<Tuple<string, string>> _parameters;
+        private List<string> _baseParameters;
+
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.FunctionCaseConversionStyle;
 
 
         public MethodScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
+            _modifiers = new List<string>();
+            _genericTypes = new List<string>();
+            _genericConstraints = new List<string>();
+            _parameters = new List<Tuple<string, string>>();
+            _baseParameters = new List<string>();
         }
 
-        public MethodScope AddBlankLine()
+        public MethodScope WithModifier(string name)
         {
-            var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
+            _modifiers.Add(name);
 
             return this;
         }
 
-        public MethodScope AddBlankLines(int num)
+        public MethodScope WithGenericType(string name)
         {
-            for (int i = 0; i < num; i++)
-            {
-                var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
-                AddNestedScope(result);
-            }
+            _genericTypes.Add(name);
 
             return this;
         }
 
-        public MethodScope AddCodeLine(string text)
+        public MethodScope WithGenericConstraint(string name)
         {
-            var result = new CodeLineScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
+            _genericConstraints.Add(name);
 
             return this;
         }
 
-        public CodeBlockScope AddCodeBlock(string text)
+        public MethodScope WithParameter(string type, string name)
         {
-            var result = new CodeBlockScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
+            _parameters.Add(new Tuple<string, string>(type, name));
 
-            return result;
+            return this;
         }
 
-        protected override List<string> WriteCodeLines()
+        public MethodScope WithBaseParameter(string name)
         {
-            return new List<string>()
-            {
-                $""
-            };
+            _baseParameters.Add(name);
+
+            return this;
+        }
+
+        public MethodScope ThatIsAConstructor()
+        {
+            _baseParameters.Add(string.Empty);
+            Value = this.Parent.Value;
+
+            return this;
+        }
+
+        protected override void WriteCode(CodeResult result)
+        {
+            var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
+            var commaSpace = LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
+
+            var genType = $"<{string.Join($",{commaSpace}", _genericTypes)}>".Trim();
+            if (genType.Length <= 2) genType = string.Empty;
+
+            var genConstraint = string.Join($",{commaSpace}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
+
+            var modifiers = string.Join(" ", _modifiers).Trim();
+            if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
+
+            var flattened = _parameters.Select(p => $"{p.Item1} {p.Item2}").ToList();
+            var paramStr = string.Join(" ", flattened).Trim();
+
+            var baseOpen = _baseParameters.Count > 0 ? $"{opSpace}:{opSpace}base(" : string.Empty;
+            var baseClose = _baseParameters.Count > 0 ? $")" : string.Empty;
+
+            var baseParams = string.Join($",{commaSpace}", _baseParameters.Where(b => !string.IsNullOrEmpty(b)));
+
+            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}{genType}({paramStr}){baseOpen}{baseParams}{baseClose}{genConstraint}");
         }
     }
 }

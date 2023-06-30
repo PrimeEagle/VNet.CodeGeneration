@@ -58,11 +58,21 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             return result;
         }
 
-        public static void AppentToLastElement(List<string> list, string text)
+        public static void AppendToLastElement(List<string> list, string text)
         {
             if(list == null || list.Count == 0) return;
 
             list[list.Count - 1] = $"{list[list.Count - 1]}{text}";
+        }
+
+        public static void InsertRange<T>(this List<T> source, int index, List<T> list)
+        {
+            if (index > source.Count) throw new ArgumentOutOfRangeException(nameof(index));
+
+            for(var i = list.Count - 1; i >= 0; i--) 
+            {
+                source.Insert(index, list[i]);
+            }
         }
     }
 }

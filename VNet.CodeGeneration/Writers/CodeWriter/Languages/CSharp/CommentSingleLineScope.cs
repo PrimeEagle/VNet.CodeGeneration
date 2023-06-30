@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class CommentSingleLineScope : LineScope
+    public class CommentSingleLineScope : CSharpLineScope<CommentSingleLineScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
 
@@ -12,9 +12,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         { 
         }
 
-        protected override void WriteCodeLines(CodeResult result)
+        protected override void WriteCode(CodeResult result)
         {
-            result.UnscopedCodeLines.Add($"//{(LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty)}{StyledValue}");
+            var space = (LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty);
+
+            result.UnscopedCodeLines.Add($"//{space}{StyledValue}");
         }
     }
 }

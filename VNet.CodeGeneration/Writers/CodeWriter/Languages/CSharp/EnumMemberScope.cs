@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
 {
-    public class EnumMemberScope : LineScope
+    public class EnumMemberScope : CSharpLineScope<EnumMemberScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
 
@@ -12,11 +13,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
         {
         }
 
-        protected override void WriteCodeLines(CodeResult result)
+        protected override void WriteCode(CodeResult result)
         {
             var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
             var valStr = string.Empty;
-            if(Parameters != null && Parameters.Count > 0 && int.TryParse(Parameters[0].ToString(), out var intVal))
+            if(Parameters != null && Parameters.Count > 0 && Parameters[0] != null && int.TryParse(Parameters[0].ToString(), out var intVal))
             {
                 valStr = $"{opSpace}={opSpace}{intVal.ToString()}";
             }
