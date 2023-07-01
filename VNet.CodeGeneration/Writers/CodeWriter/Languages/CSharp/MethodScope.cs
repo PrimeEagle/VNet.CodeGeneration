@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class MethodScope : CSharpBlockScope<MethodScope>
@@ -79,25 +80,22 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         protected override void WriteCode(CodeResult result)
         {
-            var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
-            var commaSpace = LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
-
-            var genType = $"<{string.Join($",{commaSpace}", _genericTypes)}>".Trim();
+            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
             if (genType.Length <= 2) genType = string.Empty;
 
-            var genConstraint = string.Join($",{commaSpace}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
+            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
 
             _modifiers.Add(_returnType);
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
 
             var flattened = _parameters.Select(p => $"{p.Item1} {p.Item2}").ToList();
-            var paramStr = string.Join(" ", flattened).Trim();
+            var paramStr = string.Join($",{spComma}", flattened).Trim();
 
-            var baseOpen = _baseParameters.Count > 0 ? $"{opSpace}:{opSpace}base(" : string.Empty;
+            var baseOpen = _baseParameters.Count > 0 ? $"{spOp}:{spOp}base(" : string.Empty;
             var baseClose = _baseParameters.Count > 0 ? $")" : string.Empty;
 
-            var baseParams = string.Join($",{commaSpace}", _baseParameters.Where(b => !string.IsNullOrEmpty(b)));
+            var baseParams = string.Join($",{spComma}", _baseParameters.Where(b => !string.IsNullOrEmpty(b)));
 
             result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}{genType}({paramStr}){baseOpen}{baseParams}{baseClose}{genConstraint}");
         }

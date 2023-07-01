@@ -1,55 +1,50 @@
-﻿namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
+﻿using VNet.CodeGeneration.Writers.CodeWriter;
+
+namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.JavaScript
 {
     public class JavaScriptDefaultStyle : IProgrammingLanguageStyle
     {
         #region White Space
         public int IndentationWidth => 2;
         public bool UseSpacesForIndentation => true;
-        public string LineBreakSymbol => "\n";
+        public string LineBreakSymbol => "\r\n";
         public bool SpaceAroundOperators => true;
         public bool SpaceInsideParentheses => false;
-        public bool SpaceOutsideParentheses => true;
+        public bool SpaceOutsideParentheses => false;
         public bool SpaceAfterComma => true;
         public bool SpaceAfterCommentCharacter => true;
+        public bool SpaceBeforeSameLineScope => true;
         #endregion White Space
 
 
         #region Line Breaks
+        public bool GenericConstraintsOnSingleLine => false;
         public bool BreakLongLines => true;
         public int MaxLineLength => 80;
         public int LineBreakIndentationWidth => 2;
-        public bool GenericConstraintsOnSingleLine => true;
         #endregion Line Breaks
 
 
         #region Cases
         public bool AutomaticCaseConversion => true;
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.Camel;
+        public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Camel;
-        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.Kebab;
-        public CaseConversionStyle VariableCaseConversionStyle => CaseConversionStyle.Camel;
+        public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.Lower;
+        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.Lower;
+        public CaseConversionStyle AccessorCaseConversionStyle => CaseConversionStyle.Camel;
+        public CaseConversionStyle GetterCaseConversionStyle => CaseConversionStyle.None;
+        public CaseConversionStyle SetterCaseConversionStyle => CaseConversionStyle.None;
+        public CaseConversionStyle CodeGroupingCaseConversionStyle => CaseConversionStyle.Lower;
+        public CaseConversionStyle StructCaseConversionStyle => CaseConversionStyle.Camel;
         #endregion Cases
 
 
         #region Scoping
-        public ScopeDelimiterStyle ScopeOpenStyle => ScopeDelimiterStyle.SameLine;
-        public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.NewLine;
-        public ModuleStyle ModuleStyle => ModuleStyle.Scoped;
-
-        public CaseConversionStyle DelegateCaseConversionStyle => throw new System.NotImplementedException();
-
-        public CaseConversionStyle EnumerationCaseConversionStyle => throw new System.NotImplementedException();
-
-        public CaseConversionStyle FieldCaseConversionStyle => throw new System.NotImplementedException();
-
-        public CaseConversionStyle InterfaceCaseConversionStyle => throw new System.NotImplementedException();
-
-        public CaseConversionStyle AccessorCaseConversionStyle => throw new System.NotImplementedException();
-
-        public CaseConversionStyle CodeGroupingCaseConversionStyle => throw new System.NotImplementedException();
-
-        public CaseConversionStyle StructCaseConversionStyle => throw new System.NotImplementedException();
+        public ScopeStyle ScopeOpenStyle => ScopeStyle.SameLine;
+        public ScopeStyle ScopeCloseStyle => ScopeStyle.NewLine;
+        public ScopeStyle MultilineCommentStyle => ScopeStyle.NewLine;
         #endregion Scoping
     }
 

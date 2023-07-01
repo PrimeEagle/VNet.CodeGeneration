@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class ClassScope : CSharpBlockScope<ClassScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.ClassCaseConversionStyle;
-
+        
         private List<string> _modifiers;
         private List<string> _genericTypes;
         private List<string> _genericConstraints;
@@ -114,17 +113,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         protected override void WriteCode(CodeResult result)
         {
-            var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
-            var commaSpace = LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
-
-            var genType = $"<{string.Join($",{commaSpace}", _genericTypes)}>".Trim();
-            var genConstraint = string.Join($",{commaSpace}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
+            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
+            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
             
-            var baseComma = !string.IsNullOrEmpty(_baseClass) && _interfaces.Count > 0 ? $",{commaSpace}" : string.Empty;
-            var inheritance = $"{_baseClass}{baseComma}{string.Join($",{commaSpace}", _interfaces)}".Trim();
+            var baseComma = !string.IsNullOrEmpty(_baseClass) && _interfaces.Count > 0 ? $",{spComma}" : string.Empty;
+            var inheritance = $"{_baseClass}{baseComma}{string.Join($",{spComma}", _interfaces)}".Trim();
             if (!string.IsNullOrEmpty(inheritance))
             {
-                inheritance = $"{opSpace}:{opSpace}{inheritance}";
+                inheritance = $"{spOp}:{spOp}{inheritance}";
                 genConstraint = $" {genConstraint}";
             }
             

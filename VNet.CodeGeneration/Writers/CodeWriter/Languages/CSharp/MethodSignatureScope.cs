@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class MethodSignatureScope : CSharpLineScope<MethodSignatureScope>
@@ -61,13 +62,10 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         protected override void WriteCode(CodeResult result)
         {
-            var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
-            var commaSpace = LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
-
-            var genType = $"<{string.Join($",{commaSpace}", _genericTypes)}>".Trim();
+            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
             if (genType.Length <= 2) genType = string.Empty;
 
-            var genConstraint = string.Join($",{commaSpace}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
+            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
 
             _modifiers.Add(_returnType);
             var modifiers = string.Join(" ", _modifiers).Trim();

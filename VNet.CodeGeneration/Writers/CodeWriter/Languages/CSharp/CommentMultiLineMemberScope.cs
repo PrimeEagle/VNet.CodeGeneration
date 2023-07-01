@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
 
-namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
+
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CommentMultiLineMemberScope : CSharpLineScope<CommentMultiLineMemberScope>
     {
@@ -15,9 +15,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
 
         protected override void WriteCode(CodeResult result)
         {
-            var space = LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty;
-
-            result.ScopedCodeLines.Add($"*{space}{StyledValue}");
+            result.ScopedCodeLines.Add($"*{spComment}{StyledValue}");
         }
     }
 }

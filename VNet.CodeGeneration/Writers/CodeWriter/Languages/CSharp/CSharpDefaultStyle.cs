@@ -27,9 +27,7 @@
         public bool AutomaticCaseConversion => true;
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle DelegateCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle FieldCaseConversionStyle => CaseConversionStyle.Camel;
         public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.TitleDot;
@@ -39,14 +37,13 @@
         public CaseConversionStyle SetterCaseConversionStyle => CaseConversionStyle.None;
         public CaseConversionStyle CodeGroupingCaseConversionStyle => CaseConversionStyle.Title;
         public CaseConversionStyle StructCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle VariableCaseConversionStyle => CaseConversionStyle.Camel;
         #endregion Cases
 
 
         #region Scoping
-        public LineStyle ScopeOpenStyle => LineStyle.NewLine;
-        public LineStyle ScopeCloseStyle => LineStyle.NewLine;
-        public LineStyle MultilineCommentStyle => LineStyle.NewLine;
+        public ScopeStyle ScopeOpenStyle => ScopeStyle.NewLine;
+        public ScopeStyle ScopeCloseStyle => ScopeStyle.NewLine;
+        public ScopeStyle MultilineCommentStyle => ScopeStyle.NewLine;
         #endregion Scoping
     }
 }

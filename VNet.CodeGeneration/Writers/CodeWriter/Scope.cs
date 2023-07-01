@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using VNet.CodeGeneration.Log;
 #pragma warning disable IDE0051
@@ -33,14 +34,16 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         protected virtual string AlternateScopeCloseSymbol { get; }
 
 
-        //protected Scope()
-        //{
-        //    IndentLevel = new IndentationManager();
-        //    CodeLines = new List<string>();
-        //    Modifiers = new List<string>();
-        //    Scopes = new List<Scope>();
-        //    Parameters = new List<object>();
-        //}
+        #region Style Helpers
+        protected string spOp => LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
+        protected string spComma => LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
+        protected string spIParen => LanguageSettings.Style.SpaceInsideParentheses ? " " : string.Empty;
+        protected string spOParen => LanguageSettings.Style.SpaceOutsideParentheses ? " " : string.Empty;
+        protected string spComment => LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty;
+        protected string spScope => LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty;
+
+        #endregion Style Helpers
+
 
         protected Scope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
         {
@@ -76,7 +79,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
                 // open scope
                 var os = new CodeResult();
                 GetOpenScope(os);
-                CodeWriter.AppendToLastElement(CodeLines, os.PreviousCodeLineSuffix);
+                CodeLines.AppendToLastElement(os.PreviousCodeLineSuffix);
                 result.PostOpenScopeLines.InsertRange(0, os.PostOpenScopeLines);
 
                 for (var i = 0; i < result.PostOpenScopeLines.Count; i++)
@@ -105,7 +108,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             // Scope closing
             if (scoped)
             {
-                CodeWriter.AppendToLastElement(CodeLines, $"{(result.PreviousCodeLineSuffix ?? string.Empty)}");
+                CodeLines.AppendToLastElement($"{(result.PreviousCodeLineSuffix ?? string.Empty)}");
 
                 IndentLevel.Decrease();
                 indentStr = GetIndent(IndentLevel.Current);
@@ -113,7 +116,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
                 //
                 var cs = new CodeResult();
                 GetCloseScope(cs);
-                CodeWriter.AppendToLastElement(CodeLines, cs.PreviousCodeLineSuffix);
+                CodeLines.AppendToLastElement(cs.PreviousCodeLineSuffix);
                 result.PostCloseScopeLines.InsertRange(0, cs.PostCloseScopeLines);
 
                 for (var i = 0; i < result.PostCloseScopeLines.Count; i++)
@@ -128,16 +131,24 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             Scopes.Add(scope);
         }
 
-        public virtual void Save(string filename)
+        public virtual void Save(string fileName)
         {
             var text = ToString();
 
             var log = new Logger();
             log.Initialize(@"D:\generator.log");
             log.WriteLine(text);
-            //if (File.Exists(filename)) File.Delete(filename);
+            //if (LanguageSettings.EnforceDefaultFileExtension)
+            //{
+            //    var newExtension = $"{LanguageSettings.DefaultFileExtensionPrefix}{LanguageSettings.DefaultFileExtension}";
+            //    if (newExtension.StartsWith(".")) newExtension = newExtension.Substring(1);
 
-            //using (var writer = new StreamWriter(filename))
+            //    Path.ChangeExtension(fileName, newExtension);
+            //}
+
+            //if (File.Exists(fileName)) File.Delete(fileName);
+
+            //using (var writer = new StreamWriter(fileName))
             //{
             //    writer.Write(text);
             //}
@@ -239,11 +250,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         {
             var scopeSymbol = AlternateScopeOpenSymbol == null ? LanguageSettings.Syntax.OpenScopeSymbol : AlternateScopeOpenSymbol;
 
-            if (LanguageSettings.Style.ScopeOpenStyle == LineStyle.SameLine)
+            if (LanguageSettings.Style.ScopeOpenStyle == ScopeStyle.SameLine)
             {
-                result.PreviousCodeLineSuffix = $"{(LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty)}{scopeSymbol}";
+                result.PreviousCodeLineSuffix = $"{spScope}{scopeSymbol}";
             }
-            else if (LanguageSettings.Style.ScopeOpenStyle == LineStyle.NewLine)
+            else if (LanguageSettings.Style.ScopeOpenStyle == ScopeStyle.NewLine)
             {
                 result.PostOpenScopeLines.Add($"{scopeSymbol}");
             }
@@ -253,11 +264,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         {
             var scopeSymbol = AlternateScopeCloseSymbol == null ? LanguageSettings.Syntax.CloseScopeSymbol : AlternateScopeCloseSymbol;
 
-            if (LanguageSettings.Style.ScopeCloseStyle == LineStyle.SameLine)
+            if (LanguageSettings.Style.ScopeCloseStyle == ScopeStyle.SameLine)
             {
-                result.PreviousCodeLineSuffix = $"{(LanguageSettings.Style.SpaceBeforeSameLineScope ? " " : string.Empty)}{scopeSymbol}";
+                result.PreviousCodeLineSuffix = $"{spScope}{scopeSymbol}";
             }
-            else if (LanguageSettings.Style.ScopeCloseStyle == LineStyle.NewLine)
+            else if (LanguageSettings.Style.ScopeCloseStyle == ScopeStyle.NewLine)
             {
                 result.PostCloseScopeLines.Add($"{scopeSymbol}");
             }

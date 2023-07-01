@@ -1,6 +1,6 @@
 ﻿namespace VNet.CodeGeneration.Writers.CodeWriter
 {
-    public enum LineStyle
+    public enum ScopeStyle
     {
         SameLine,
         NewLine

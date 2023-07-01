@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class PropertySignatureScope : CSharpBlockScope<PropertyScope>
@@ -34,16 +35,11 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         }
 
         protected override void WriteCode(CodeResult result)
-        {
-            var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
-            var commaSpace = LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
-
-           
+        {     
             _modifiers.Add(_returnType);
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
 
-           
             result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}");
         }
     }

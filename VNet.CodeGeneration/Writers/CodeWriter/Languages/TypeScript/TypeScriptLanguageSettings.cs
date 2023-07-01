@@ -1,21 +1,20 @@
-﻿using VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript;
+﻿using VNet.CodeGeneration.Writers.CodeWriter;
 
-namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
+namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.TypeScript
 {
     public class TypeScriptLanguageSettings : IProgrammingLanguageSettings
     {
         public string Name => "TypeScript";
-        public IProgrammingLanguageFeatures Features { get; }
+        public string DefaultFileExtension => ".ts";
+        public bool EnforceDefaultFileExtension => true;
+        public string DefaultFileExtensionPrefix => ".g";
         public IProgrammingLanguageSyntax Syntax { get; }
-        public IProgrammingLanguageStyle Style { get; }
-        public IProgrammingLanguageStyledSyntax StyledSyntax { get; }
+        public IProgrammingLanguageStyle Style { get; set; }
 
         public TypeScriptLanguageSettings(IProgrammingLanguageStyle style)
         {
-            Features = new TypeScriptFeatures();
             Syntax = new TypeScriptSyntax();
             Style = style;
-            StyledSyntax = new TypeScriptStyledSyntax(Syntax, Style);
         }
     }
 }

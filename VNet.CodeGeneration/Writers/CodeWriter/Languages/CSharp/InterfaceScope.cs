@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class InterfaceScope : CSharpBlockScope<InterfaceScope>
@@ -68,16 +69,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         protected override void WriteCode(CodeResult result)
         {
-            var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
-            var commaSpace = LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
+            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
+            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
 
-            var genType = $"<{string.Join($",{commaSpace}", _genericTypes)}>".Trim();
-            var genConstraint = string.Join($",{commaSpace}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
-
-            var inheritance = $"{string.Join($",{commaSpace}", _interfaces)}".Trim();
+            var inheritance = $"{string.Join($",{spComma}", _interfaces)}".Trim();
             if (!string.IsNullOrEmpty(inheritance))
             {
-                inheritance = $"{opSpace}:{opSpace}{inheritance}";
+                inheritance = $"{spOp}:{spOp}{inheritance}";
                 genConstraint = $" {genConstraint}";
             }
 

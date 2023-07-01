@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
+
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class CommentMultiLineScope : CSharpBlockScope<CommentMultiLineScope>
+    public class CommentMultiLineScope : BlockScope
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => "/*";
@@ -14,19 +14,28 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         { 
         }
 
-        public CommentMultiLineMemberScope AddComment(string text)
+        public CommentMultiLineScope AddComment(string name)
         {
-            var result = new CommentMultiLineMemberScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new CommentMultiLineMemberScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
-            return result;
+            return this;
         }
 
         protected override void WriteCode(CodeResult result)
         {
-            var space = LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty;
+            var style = LanguageSettings.Style.MultilineCommentStyle;
 
-            result.ScopedCodeLines.Add($"*{space}{StyledValue}");
+            if(style == ScopeStyle.SameLine) 
+            {
+                result.PreviousCodeLineSuffix = $"{StyledValue}";
+            }
+
+            if(style == ScopeStyle.NewLine)
+            {
+                var member = new CommentMultiLineMemberScope(Value, null, LanguageSettings, this, IndentLevel, CodeLines);
+                Scopes.Insert(0, member);
+            }
         }
     }
 }

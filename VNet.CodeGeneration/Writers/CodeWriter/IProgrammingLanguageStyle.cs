@@ -26,9 +26,7 @@
         #region Cases
         bool AutomaticCaseConversion { get; }
         CaseConversionStyle ClassCaseConversionStyle { get; }
-        CaseConversionStyle DelegateCaseConversionStyle { get; }
         CaseConversionStyle EnumerationCaseConversionStyle { get; }
-        CaseConversionStyle FieldCaseConversionStyle { get; }
         CaseConversionStyle InterfaceCaseConversionStyle { get; }
         CaseConversionStyle FunctionCaseConversionStyle { get; }
         CaseConversionStyle ImportCaseConversionStyle { get; }
@@ -38,14 +36,13 @@
         CaseConversionStyle SetterCaseConversionStyle { get; }
         CaseConversionStyle CodeGroupingCaseConversionStyle { get; }
         CaseConversionStyle StructCaseConversionStyle { get; }
-        CaseConversionStyle VariableCaseConversionStyle { get; }
         #endregion Cases
 
 
         #region Scoping
-        LineStyle ScopeOpenStyle { get; }
-        LineStyle ScopeCloseStyle { get; }
-        LineStyle MultilineCommentStyle { get; }
+        ScopeStyle ScopeOpenStyle { get; }
+        ScopeStyle ScopeCloseStyle { get; }
+        ScopeStyle MultilineCommentStyle { get; }
         #endregion Scoping
     }
 }

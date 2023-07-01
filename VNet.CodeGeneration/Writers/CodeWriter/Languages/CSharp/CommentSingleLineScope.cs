@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CommentSingleLineScope : CSharpLineScope<CommentSingleLineScope>
@@ -14,9 +15,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         protected override void WriteCode(CodeResult result)
         {
-            var space = (LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty);
-
-            result.UnscopedCodeLines.Add($"//{space}{StyledValue}");
+            result.UnscopedCodeLines.Add($"//{spComment}{StyledValue}");
         }
     }
 }

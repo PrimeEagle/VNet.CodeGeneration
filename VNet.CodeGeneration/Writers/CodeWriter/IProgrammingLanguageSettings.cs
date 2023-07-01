@@ -3,9 +3,10 @@
     public interface IProgrammingLanguageSettings
     {
         string Name { get; }
-        //IProgrammingLanguageFeatures Features { get; }
+        string DefaultFileExtension { get; }
+        bool EnforceDefaultFileExtension { get; }
+        string DefaultFileExtensionPrefix { get; }
         IProgrammingLanguageSyntax Syntax { get; }
         IProgrammingLanguageStyle Style { get; set; }
-        //IProgrammingLanguageStyledSyntax StyledSyntax { get; }
     }
 }

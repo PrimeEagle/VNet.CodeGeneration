@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class StructScope : CSharpBlockScope<StructScope>
@@ -60,10 +61,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         }
 
         protected override void WriteCode(CodeResult result)
-        {
-            var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
-            var commaSpace = LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
-
+        { 
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
 

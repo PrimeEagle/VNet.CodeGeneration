@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
 
+
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public abstract class CSharpBlockScope<T> : BlockScope where T : CSharpBlockScope<T>
@@ -73,7 +74,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return (T)this;
         }
 
-        public CommentMultiLineScope AddMultiLineComment(string name)
+        public CommentMultiLineScope AddMultiLineComments(string name)
         {
             var result = new CommentMultiLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
@@ -81,7 +82,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return result;
         }
 
-        public CommentDocumentationScope AddDocumentationComment(string name)
+        public CommentDocumentationScope AddDocumentationComments(string name)
         {
             var result = new CommentDocumentationScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
 
+
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
 {
     public class EnumMemberScope : CSharpLineScope<EnumMemberScope>
@@ -15,14 +16,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
 
         protected override void WriteCode(CodeResult result)
         {
-            var opSpace = LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
             var valStr = string.Empty;
             if(Parameters != null && Parameters.Count > 0 && Parameters[0] != null && int.TryParse(Parameters[0].ToString(), out var intVal))
             {
-                valStr = $"{opSpace}={opSpace}{intVal.ToString()}";
+                valStr = $"{spOp}={spOp}{intVal.ToString()}";
             }
 
-            result.UnscopedCodeLines.Add($"{StyledValue}{valStr}");
+            result.UnscopedCodeLines.Add($"{StyledValue}{valStr},");
         }
     }
 }

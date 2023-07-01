@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter
 {
-    public static class CodeWriter
+    internal static class CodeWriter
     {
         internal static string[] NewLineDelimiters => new string[]{ "\r\n", "\r", "\n" };
 
@@ -58,14 +58,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             return result;
         }
 
-        public static void AppendToLastElement(List<string> list, string text)
+        internal static void AppendToLastElement(this List<string> source, string text)
         {
-            if(list == null || list.Count == 0) return;
+            if(source == null || source.Count == 0) return;
 
-            list[list.Count - 1] = $"{list[list.Count - 1]}{text}";
+            source[source.Count - 1] = $"{source[source.Count - 1]}{text}";
         }
 
-        public static void InsertRange<T>(this List<T> source, int index, List<T> list)
+        internal static void InsertRange<T>(this List<T> source, int index, List<T> list)
         {
             if (index > source.Count) throw new ArgumentOutOfRangeException(nameof(index));
 
