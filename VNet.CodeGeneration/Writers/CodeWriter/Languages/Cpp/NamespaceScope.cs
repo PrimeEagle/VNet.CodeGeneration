@@ -28,14 +28,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             return result;
         }
 
-        public InterfaceScope AddInterface(string name)
-        {
-            var result = new InterfaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
         public StructScope AddStruct(string name)
         {
             var result = new StructScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);

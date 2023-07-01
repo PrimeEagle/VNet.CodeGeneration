@@ -53,7 +53,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
                        
-            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}");
+            result.PreOpenScopeLines.Add($"{modifiers} property {_returnType} {StyledValue}");
         }
     }
 }

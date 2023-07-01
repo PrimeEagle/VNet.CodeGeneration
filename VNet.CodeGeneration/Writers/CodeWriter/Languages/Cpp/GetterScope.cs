@@ -25,7 +25,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
         protected override void WriteCode(CodeResult result)
         {
-            result.PreOpenScopeLines.Add($"get");
+            result.PreOpenScopeLines.Add($"get()");
         }
     }
 }

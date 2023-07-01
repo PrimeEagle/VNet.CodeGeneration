@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
-using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
@@ -40,8 +38,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             _modifiers.Add(_returnType);
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
+            if (string.IsNullOrEmpty(_returnType)) _returnType = "void";
 
-            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}");
+            result.PreOpenScopeLines.Add($"{modifiers}{_returnType} {StyledValue}");
         }
     }
 }

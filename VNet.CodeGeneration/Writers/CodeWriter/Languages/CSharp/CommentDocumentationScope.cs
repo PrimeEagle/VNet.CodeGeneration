@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
@@ -18,6 +17,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
         public CommentDocumentationScope AddComment(string name)
         {
             var result = new CommentDocumentationMemberScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return this;
+        }
+
+        public CommentDocumentationScope AddParameterComment(string name)
+        {
+            var result = new CommentDocumentationParameterScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return this;

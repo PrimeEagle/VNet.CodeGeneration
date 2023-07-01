@@ -64,7 +64,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
 
-            result.PreOpenScopeLines.Add($"{modifiers}struct {StyledValue}");
+            result.PreOpenScopeLines.Add($"{modifiers}struct");
+            result.PostCloseScopeLines.Add($"{StyledValue}");
         }
     }
 }

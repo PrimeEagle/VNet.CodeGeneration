@@ -24,15 +24,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             return this;
         }
 
-        public CppCodeFile AddNamespace(string name)
-        {
-            var result = new NamespaceSingleLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return this;
-        }
-
-        public NamespaceScope AddScopedNamespace(string name)
+        public NamespaceScope AddNamespace(string name)
         {
             var result = new NamespaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
@@ -48,6 +40,22 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             return this;
         }
 
+        public CppCodeFile AddInclude(string name)
+        {
+            var result = new IncludeScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return this;
+        }
+
+        public CppCodeFile AddTypeTemplate(string name)
+        {
+            var result = new TypeTemplateScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return this;
+        }
+
         public ClassScope AddClass(string name)
         {
             var result = new ClassScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
@@ -56,12 +64,20 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             return result;
         }
 
-        public InterfaceScope AddInterface(string name)
+        public MethodScope AddFunction(string name)
         {
-            var result = new InterfaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new MethodScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
+        }
+
+        public CppCodeFile AddFunctionSignature(string name)
+        {
+            var result = new MethodSignatureScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return this;
         }
 
         public StructScope AddStruct(string name)

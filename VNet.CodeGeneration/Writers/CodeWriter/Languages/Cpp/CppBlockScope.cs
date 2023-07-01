@@ -56,14 +56,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
         }
         #endregion Common language methods
 
-        #region C# language methods
-        public RegionScope AddRegion(string name)
-        {
-            var result = new RegionScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
+        #region C++ language methods
 
         public T AddComment(string name)
         {

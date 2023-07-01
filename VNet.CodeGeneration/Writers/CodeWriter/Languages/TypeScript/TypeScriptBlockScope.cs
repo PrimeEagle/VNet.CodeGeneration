@@ -57,7 +57,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
         }
         #endregion Common language methods
 
-        #region JavaScript language methods
+        #region TypeScript language methods
        
         public T AddSingleLineComment(string name)
         {

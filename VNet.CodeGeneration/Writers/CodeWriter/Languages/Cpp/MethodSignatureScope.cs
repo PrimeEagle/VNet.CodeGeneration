@@ -8,8 +8,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
     {
         private string _returnType;
         private List<string> _modifiers;
-        private List<string> _genericTypes;
-        private List<string> _genericConstraints;
         private List<Tuple<string, string>> _parameters;
 
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.FunctionCaseConversionStyle;
@@ -19,28 +17,12 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
             _modifiers = new List<string>();
-            _genericTypes = new List<string>();
-            _genericConstraints = new List<string>();
             _parameters = new List<Tuple<string, string>>();
         }
 
         public MethodSignatureScope WithModifier(string name)
         {
             _modifiers.Add(name);
-
-            return this;
-        }
-
-        public MethodSignatureScope WithGenericType(string name)
-        {
-            _genericTypes.Add(name);
-
-            return this;
-        }
-
-        public MethodSignatureScope WithGenericConstraint(string name)
-        {
-            _genericConstraints.Add(name);
 
             return this;
         }
@@ -61,11 +43,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
         protected override void WriteCode(CodeResult result)
         {
-            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
-            if (genType.Length <= 2) genType = string.Empty;
-
-            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
-
             _modifiers.Add(_returnType);
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
@@ -73,7 +50,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             var flattened = _parameters.Select(p => $"{p.Item1} {p.Item2}").ToList();
             var paramStr = string.Join(" ", flattened).Trim();
 
-            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}{genType}({paramStr}){genConstraint};");
+            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}({paramStr});");
         }
     }
 }

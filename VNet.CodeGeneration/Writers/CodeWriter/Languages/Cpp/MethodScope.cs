@@ -7,9 +7,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
     public class MethodScope : CppBlockScope<MethodScope>
     {
         private string _returnType;
+        private string _namespace;
         private List<string> _modifiers;
-        private List<string> _genericTypes;
-        private List<string> _genericConstraints;
         private List<Tuple<string, string>> _parameters;
         private List<string> _baseParameters;
 
@@ -20,8 +19,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
             _modifiers = new List<string>();
-            _genericTypes = new List<string>();
-            _genericConstraints = new List<string>();
             _parameters = new List<Tuple<string, string>>();
             _baseParameters = new List<string>();
         }
@@ -33,16 +30,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             return this;
         }
 
-        public MethodScope WithGenericType(string name)
+        public MethodScope WithNamespace(string name)
         {
-            _genericTypes.Add(name);
-
-            return this;
-        }
-
-        public MethodScope WithGenericConstraint(string name)
-        {
-            _genericConstraints.Add(name);
+            _namespace = name;
 
             return this;
         }
@@ -79,11 +69,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
         protected override void WriteCode(CodeResult result)
         {
-            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
-            if (genType.Length <= 2) genType = string.Empty;
-
-            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
-
             _modifiers.Add(_returnType);
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
@@ -95,8 +80,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             var baseClose = _baseParameters.Count > 0 ? $")" : string.Empty;
 
             var baseParams = string.Join($",{spComma}", _baseParameters.Where(b => !string.IsNullOrEmpty(b)));
+            var ns = !string.IsNullOrEmpty(_namespace) ? $"{_namespace}::" : string.Empty;
 
-            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}{genType}({paramStr}){baseOpen}{baseParams}{baseClose}{genConstraint}");
+            result.PreOpenScopeLines.Add($"{modifiers}{ns}{StyledValue}({paramStr}){baseOpen}{baseParams}{baseClose}");
         }
     }
 }

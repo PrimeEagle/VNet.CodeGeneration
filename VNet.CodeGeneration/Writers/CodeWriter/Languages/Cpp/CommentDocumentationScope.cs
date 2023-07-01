@@ -22,6 +22,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             return this;
         }
 
+        public CommentDocumentationScope AddParameterComment(string name)
+        {
+            var result = new CommentDocumentationParameterScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return this;
+        }
+
         protected override void WriteCode(CodeResult result)
         {
             var style = LanguageSettings.Style.MultilineCommentStyle;

@@ -56,7 +56,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
         }
         #endregion Common language methods
 
-        #region C# language methods
+        #region Lua language methods
         public RegionScope AddRegion(string name)
         {
             var result = new RegionScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
