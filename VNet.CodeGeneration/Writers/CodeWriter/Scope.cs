@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using VNet.CodeGeneration.Log;
 #pragma warning disable IDE0051
@@ -274,11 +273,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
             }
 
             return result;
-        }
-
-        public T UpTo<T>() where T : Scope
-        {
-            return (T)(this.Parent);
         }
     }
 }

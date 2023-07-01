@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SyntaxNodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparerEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\BlankLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\CustomScope.cs" />
@@ -30,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\CppExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\EnumMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\EnumScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\GetterScope.cs" />
@@ -48,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CommentMultiLineMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CommentDocumentationMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpBlockScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\EnumMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\EnumScope.cs" />
@@ -73,12 +76,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\NamespaceScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\UsingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\BlockScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\JavaScript\JavaScriptExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\ClassScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\CommentDocumentationMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\CommentDocumentationScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\CommentMultiLineMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\CommentMultiLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\CommentSingleLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaCodeFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaDefaultStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Java\JavaLanguageSettings.cs" />
@@ -107,6 +112,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Lua\CommentMultiLineMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Lua\CommentMultiLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Lua\CommentSingleLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Lua\LuaExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Lua\EnumMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Lua\EnumScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Lua\GetterScope.cs" />
@@ -135,6 +141,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\CommentMultiLineMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\CommentMultiLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\CommentSingleLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\EnumMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\EnumScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\GetterScope.cs" />
@@ -163,6 +170,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\CommentMultiLineMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\CommentMultiLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\CommentSingleLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\PythonExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\EnumMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\EnumScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\GetterScope.cs" />
@@ -185,6 +193,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\SetterSignatureScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\StructScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\UsingScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\TypeScriptExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\InterfaceScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\JavaScript\ClassScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\JavaScript\CommentDocumentationMemberScope.cs" />

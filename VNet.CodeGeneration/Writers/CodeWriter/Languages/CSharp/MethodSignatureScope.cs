@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class MethodSignatureScope : CSharpLineScope<MethodSignatureScope>
+    public class MethodSignatureScope : CSharpExtendedLineScope<MethodSignatureScope>
     {
         private string _returnType;
         private List<string> _modifiers;

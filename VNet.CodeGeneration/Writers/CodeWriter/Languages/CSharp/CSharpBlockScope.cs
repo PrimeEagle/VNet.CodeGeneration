@@ -9,7 +9,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         protected CSharpBlockScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
-        { }
+        {
+        }
 
 
         #region Common language methods

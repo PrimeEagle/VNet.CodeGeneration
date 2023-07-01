@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
-using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class SetterSignatureScope : CSharpBlockScope<SetterSignatureScope>
+    public class SetterSignatureScope : CSharpExtendedLineScope<SetterSignatureScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.SetterCaseConversionStyle;
 
