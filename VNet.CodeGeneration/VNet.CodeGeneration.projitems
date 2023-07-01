@@ -232,10 +232,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\FunctionSignatureScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\TypeScript\SetterScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\LineScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ZeroDepJson\Class1.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Json\VNetJsonIgnoreAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Json\VNetJsonPropertyAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Json\VNetJsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Json\Json.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IndentationManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ScopeStyle.cs" />
@@ -256,6 +253,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageStyleSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)ZeroDepJson\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Json\" />
   </ItemGroup>
 </Project>

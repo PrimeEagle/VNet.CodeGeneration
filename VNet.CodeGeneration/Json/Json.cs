@@ -24,7 +24,7 @@ using System.Xml.Serialization;
 #pragma warning disable CA1031 // Do not catch general exception types
 #pragma warning disable CA1034 // Nested types should not be visible
 
-namespace VNet.CodeGeneration.ZeroDepJson
+namespace VNet.CodeGeneration.Json
 {
     /// <summary>
     /// A utility class to serialize and deserialize JSON.
