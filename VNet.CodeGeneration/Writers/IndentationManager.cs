@@ -1,6 +1,6 @@
 ﻿// ReSharper disable NotAccessedField.Local
 
-namespace VNet.CodeGeneration.Writers.CodeWriter
+namespace VNet.CodeGeneration.Writers
 {
     public class IndentationManager
     {

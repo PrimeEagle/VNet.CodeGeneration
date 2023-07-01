@@ -4,12 +4,60 @@ using System.Linq;
 // ReSharper disable InconsistentNaming
 #pragma warning disable IDE0044
 
-namespace VNet.CodeGeneration.Writers.CodeWriter
+namespace VNet.CodeGeneration.Writers
 {
     public static class ConvertCase
     {
         private static char[] delimiters = new char[] { ' ', '_', '-', '.' };
 
+        internal static string ConvertStyleCase(string name, CaseConversionStyle conversionStyle)
+        {
+            string result;
+
+            switch (conversionStyle)
+            {
+                case CaseConversionStyle.None:
+                    result = name;
+                    break;
+                case CaseConversionStyle.Lower:
+                    result = ConvertCase.ToAlLLower(name);
+                    break;
+                case CaseConversionStyle.Upper:
+                    result = ConvertCase.ToAllUpper(name);
+                    break;
+                case CaseConversionStyle.Pascal:
+                    result = ConvertCase.ToPascal(name);
+                    break;
+                case CaseConversionStyle.Camel:
+                    result = ConvertCase.ToCamel(name);
+                    break;
+                case CaseConversionStyle.Snake:
+                    result = ConvertCase.ToSnake(name);
+                    break;
+                case CaseConversionStyle.Kebab:
+                    result = ConvertCase.ToKebab(name);
+                    break;
+                case CaseConversionStyle.ScreamingSnake:
+                    result = ConvertCase.ToScreamingSnake(name);
+                    break;
+                case CaseConversionStyle.ScreamingKebab:
+                    result = ConvertCase.ToScreamingKebab(name);
+                    break;
+                case CaseConversionStyle.Title:
+                    result = ConvertCase.ToTitle(name);
+                    break;
+                case CaseConversionStyle.TitleDot:
+                    result = ConvertCase.ToTitleDot(name);
+                    break;
+                case CaseConversionStyle.LowerDot:
+                    result = ConvertCase.ToLowerDot(name);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(conversionStyle), conversionStyle, null);
+            }
+
+            return result;
+        }
 
         public static string ToPascal(string input)
         {

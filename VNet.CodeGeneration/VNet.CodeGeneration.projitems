@@ -234,11 +234,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\LineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\Json.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log\Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IndentationManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\IndentationManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ScopeStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CaseConversionStyle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ConvertCase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CaseConversionStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\ConvertCase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpDefaultStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\CSharp\CSharpLanguageSettings.cs" />
@@ -246,7 +245,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageStyle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StringBuilderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\ListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\Lookups.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageFeatureSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageKeywordSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageSettings.cs" />

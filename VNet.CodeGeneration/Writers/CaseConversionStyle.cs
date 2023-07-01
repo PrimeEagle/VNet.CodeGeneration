@@ -1,4 +1,4 @@
-﻿namespace VNet.CodeGeneration.Writers.CodeWriter
+﻿namespace VNet.CodeGeneration.Writers
 {
     public enum CaseConversionStyle
     {

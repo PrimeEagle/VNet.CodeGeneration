@@ -17,7 +17,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
                 var result = Value;
 
                 if (!LanguageSettings.Style.AutomaticCaseConversion) return result;
-                result = CodeWriter.ConvertStyleCase(result, CaseConversionStyle);
+                result = ConvertCase.ConvertStyleCase(result, CaseConversionStyle);
 
                 return result;
             }
