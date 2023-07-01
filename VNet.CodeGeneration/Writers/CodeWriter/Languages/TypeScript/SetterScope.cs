@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
 {
-    public class SetterScope : TypeScriptBlockScope<SetterScope>
+    public class SetterScope : TypeScriptExtendedLineScope<SetterScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.SetterCaseConversionStyle;
 
@@ -36,13 +35,16 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
 
         protected override void WriteCode(CodeResult result)
         {
+            var modifiers = string.Join(" ", _modifiers).Trim();
+            if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
+
             var param = !string.IsNullOrEmpty(_parameterName) ? _parameterName : string.Empty;
             if (!string.IsNullOrEmpty(param) && !string.IsNullOrEmpty(_parameterType))
             {
                 param += $": {_parameterType}";
             }
 
-            result.PreOpenScopeLines.Add($"set set{StyledValue}({param})");
+            result.PreOpenScopeLines.Add($"set {modifiers}set{StyledValue}({param})");
         }
     }
 }

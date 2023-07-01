@@ -71,7 +71,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
 
             var flattened = _parameters.Select(p => $"{p.Item1} {p.Item2}").ToList();
-            var paramStr = string.Join(" ", flattened).Trim();
+            var paramStr = string.Join($",{spComma}", flattened).Trim();
 
             result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}{genType}({paramStr}){genConstraint};");
         }

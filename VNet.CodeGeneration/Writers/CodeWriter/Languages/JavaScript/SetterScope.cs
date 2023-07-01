@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
 {
@@ -9,12 +8,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
 
 
         private List<string> _modifiers;
+        private List<string> _parameters;
 
 
         public SetterScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
             _modifiers = new List<string>();
+            _parameters = new List<string>();
         }
 
         public SetterScope WithModifier(string name)
@@ -24,9 +25,21 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
             return this;
         }
 
+        public SetterScope WithParameter(string name)
+        {
+            _parameters.Add(name);
+
+            return this;
+        }
+
         protected override void WriteCode(CodeResult result)
         {
-            result.PreOpenScopeLines.Add($"set set{StyledValue}");
+            var modifiers = string.Join(" ", _modifiers).Trim();
+            if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
+
+            var paramStr = string.Join($",{spComma}", _parameters).Trim();
+
+            result.PreOpenScopeLines.Add($"set {modifiers}set{StyledValue}({paramStr})");
         }
     }
 }

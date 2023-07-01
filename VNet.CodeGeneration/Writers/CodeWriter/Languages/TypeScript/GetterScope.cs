@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
 {
-    public class GetterScope : TypeScriptBlockScope<GetterScope>
+    public class GetterScope : TypeScriptExtendedLineScope<GetterScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.GetterCaseConversionStyle;
 
