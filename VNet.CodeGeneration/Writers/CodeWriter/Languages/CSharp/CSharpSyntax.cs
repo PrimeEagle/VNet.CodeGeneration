@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CSharpSyntax : IProgrammingLanguageSyntax

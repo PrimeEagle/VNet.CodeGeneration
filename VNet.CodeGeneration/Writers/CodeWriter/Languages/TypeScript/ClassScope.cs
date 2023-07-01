@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using VNet.CodeGeneration.Writers.CodeWriter;
 using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
+using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
 
-namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.TypeScript
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
 {
     public class ClassScope : CSharpBlockScope<ClassScope>
     {
@@ -43,9 +44,9 @@ namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.TypeScript
             return result;
         }
 
-        public CodeGeneration.Writers.CodeWriter.Languages.CSharp.EnumScope AddEnum(string text)
+        public CSharp.EnumScope AddEnum(string text)
         {
-            var result = new CodeGeneration.Writers.CodeWriter.Languages.CSharp.EnumScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new CSharp.EnumScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
@@ -59,9 +60,9 @@ namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.TypeScript
             return result;
         }
 
-        public CodeGeneration.Writers.CodeWriter.Languages.CSharp.InterfaceScope AddInterface(string text)
+        public CSharp.InterfaceScope AddInterface(string text)
         {
-            var result = new CodeGeneration.Writers.CodeWriter.Languages.CSharp.InterfaceScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new CSharp.InterfaceScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;

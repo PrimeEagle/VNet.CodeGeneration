@@ -1,4 +1,6 @@
-﻿namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
+﻿using VNet.CodeGeneration.Writers.CodeWriter;
+
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CSharpLanguageSettings : IProgrammingLanguageSettings
     {

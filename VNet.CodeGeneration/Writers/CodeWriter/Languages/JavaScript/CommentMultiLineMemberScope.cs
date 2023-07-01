@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using VNet.CodeGeneration.Writers.CodeWriter;
 
-namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.JavaScript
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
 {
     public class CommentMultiLineMemberScope : JavaScriptLineScope<CommentMultiLineMemberScope>
     {

@@ -3,17 +3,16 @@
     public class PythonLanguageSettings : IProgrammingLanguageSettings
     {
         public string Name => "Python";
-        public IProgrammingLanguageFeatures Features { get; }
+        public string DefaultFileExtension => ".py";
+        public bool EnforceDefaultFileExtension => true;
+        public string DefaultFileExtensionPrefix => ".g";
         public IProgrammingLanguageSyntax Syntax { get; }
-        public IProgrammingLanguageStyle Style { get; }
-        public IProgrammingLanguageStyledSyntax StyledSyntax { get; }
+        public IProgrammingLanguageStyle Style { get; set; }
 
         public PythonLanguageSettings(IProgrammingLanguageStyle style)
         {
-            Features = new PythonFeatures();
             Syntax = new PythonSyntax();
             Style = style;
-            StyledSyntax = new PythonStyledSyntax(Syntax, Style);
         }
     }
 }

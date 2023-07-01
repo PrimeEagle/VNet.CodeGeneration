@@ -5,19 +5,20 @@
         #region White Space
         public int IndentationWidth => 4;
         public bool UseSpacesForIndentation => true;
-        public string LineBreakSymbol => "\n";
+        public string LineBreakSymbol => "\r\n";
         public bool SpaceAroundOperators => true;
         public bool SpaceInsideParentheses => false;
-        public bool SpaceOutsideParentheses => true;
+        public bool SpaceOutsideParentheses => false;
         public bool SpaceAfterComma => true;
         public bool SpaceAfterCommentCharacter => true;
+        public bool SpaceBeforeSameLineScope => true;
         #endregion White Space
 
 
         #region Line Breaks
-        public bool GenericConstraintsOnSingleLine => false; // C++ does not have a concept of generic constraints, but templates are usually broken into multiple lines for readability.
+        public bool GenericConstraintsOnSingleLine => false;
         public bool BreakLongLines => true;
-        public int MaxLineLength => 80; // A common standard in C++ coding conventions.
+        public int MaxLineLength => 185;
         public int LineBreakIndentationWidth => 4;
         #endregion Line Breaks
 
@@ -25,25 +26,24 @@
         #region Cases
         public bool AutomaticCaseConversion => true;
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal; // Constructors in C++ typically use the same case as the class.
-        public CaseConversionStyle DelegateCaseConversionStyle => CaseConversionStyle.Camel; // C++ does not have a concept of delegates, so this could be a placeholder.
+        public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle FieldCaseConversionStyle => CaseConversionStyle.Camel;
-        public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal; // C++ does not have a concept of interfaces, so this could be a placeholder.
-        public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Camel;
-        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.TitleDot; // The module could be a file, so it's commonly snake case.
-        public CaseConversionStyle AccessorCaseConversionStyle => CaseConversionStyle.Camel; // C++ does not have a concept of accessors, so this could be a placeholder.
+        public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.TitleDot;
+        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.TitleDot;
+        public CaseConversionStyle AccessorCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle GetterCaseConversionStyle => CaseConversionStyle.None;
+        public CaseConversionStyle SetterCaseConversionStyle => CaseConversionStyle.None;
         public CaseConversionStyle CodeGroupingCaseConversionStyle => CaseConversionStyle.Title;
         public CaseConversionStyle StructCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle VariableCaseConversionStyle => CaseConversionStyle.Camel;
         #endregion Cases
 
 
         #region Scoping
-        public ScopeDelimiterStyle ScopeOpenStyle => ScopeDelimiterStyle.SameLine;
-        public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.NewLine;
-        public ModuleStyle ModuleStyle => ModuleStyle.Scoped;
+        public ScopeStyle ScopeOpenStyle => ScopeStyle.NewLine;
+        public ScopeStyle ScopeCloseStyle => ScopeStyle.NewLine;
+        public ScopeStyle MultilineCommentStyle => ScopeStyle.NewLine;
         #endregion Scoping
     }
-
 }

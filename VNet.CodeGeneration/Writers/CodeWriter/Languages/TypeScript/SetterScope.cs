@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using VNet.CodeGeneration.Writers.CodeWriter;
 
-namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.TypeScript
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
 {
     public class SetterScope : TypeScriptBlockScope<SetterScope>
     {

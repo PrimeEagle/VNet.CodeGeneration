@@ -1,47 +1,54 @@
-﻿namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
+﻿using System.Collections.Generic;
+
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
 {
     public class JavaSyntax : IProgrammingLanguageSyntax
     {
-        #region Keywords
-        public string ImportKeyword => "import";
-        public string ModuleKeyword => "package";
-        public string ClassKeyword => "class";
-        public string FunctionKeyword => string.Empty; // Java doesn't use a keyword for declaring methods
-        public string VoidKeyword => "void";
-        public string PublicKeyword => "public";
-        public string InterfaceKeyword => "interface";
-        public string StructKeyword => string.Empty; // Java doesn't support structures
-        public string EnumerationKeyword => "enum";
-        public string DelegateKeyword => string.Empty; // Java doesn't support delegates
-        public string EventKeyword => string.Empty; // Java doesn't have an equivalent concept for C# events
-        public string AccessorKeyword => string.Empty; // Java doesn't use a keyword for property accessors
-        public string GetterKeyword => "get"; // Not a keyword, but a convention for getter methods
-        public string SetterKeyword => "set"; // Not a keyword, but a convention for setter methods
-        #endregion Keywords
-
-        #region Symbols
-        public string StatementEndSymbol => ";";
         public string OpenScopeSymbol => "{";
         public string CloseScopeSymbol => "}";
-        public string CodeGroupingOpenSymbol => string.Empty; // Java doesn't have an equivalent concept for C# regions
-        public string CodeGroupingCloseSymbol => string.Empty; // Java doesn't have an equivalent concept for C# regions
-        public string GenericScopeOpenSymbol => "<";
-        public string GenericScopeCloseSymbol => ">";
-        public string EnumerationValueSeparatorSymbol => "=";
-        public string EnumerationMemberSeparatorSymbol => ",";
-        public string SingleLineCommentSymbol => "//";
-        public string MultilineCommentOpenScopeSymbol => "/*";
-        public string MultilineCommentCloseScopeSymbol => "*/";
-        public string DocumentationCommentSymbol => "*"; // This is the convention for JSDoc comments within the multi-line comment
-        public string DocumentationCommentOpenScopeSymbol => "/**"; // JSDoc comments start with this symbol
-        public string DocumentationCommentCloseScopeSymbol => "*/"; // JSDoc comments end with this symbol
-        public string ClassDerivationSymbol => "extends";
 
-        bool IProgrammingLanguageSyntax.IsValidNaming(string name)
+
+        public bool IsValidNaming(string name)
         {
-            throw new System.NotImplementedException();
-        }
-        #endregion Symbols
-    }
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
 
+            // First character must be a letter or an underscore
+            if (!char.IsLetter(name[0]) && name[0] != '_')
+            {
+                return false;
+            }
+
+            // The rest of the string must be letters, digits, or underscores
+            for (int i = 1; i < name.Length; i++)
+            {
+                if (!char.IsLetterOrDigit(name[i]) && name[i] != '_')
+                {
+                    return false;
+                }
+            }
+
+            // Check for reserved keywords
+            var keywords = new List<string>()
+            {
+                "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class",
+                "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event",
+                "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if",
+                "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new",
+                "null", "object", "operator", "out", "override", "params", "private", "protected", "public",
+                "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static",
+                "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
+                "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while"
+            };
+
+            if (keywords.Contains(name))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
 }

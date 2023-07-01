@@ -3,17 +3,16 @@
     public class CppLanguageSettings : IProgrammingLanguageSettings
     {
         public string Name => "C++";
-        public IProgrammingLanguageFeatures Features { get; }
+        public string DefaultFileExtension => ".cpp";
+        public bool EnforceDefaultFileExtension => true;
+        public string DefaultFileExtensionPrefix => ".g";
         public IProgrammingLanguageSyntax Syntax { get; }
-        public IProgrammingLanguageStyle Style { get; }
-        public IProgrammingLanguageStyledSyntax StyledSyntax { get; }
+        public IProgrammingLanguageStyle Style { get; set; }
 
         public CppLanguageSettings(IProgrammingLanguageStyle style)
         {
-            Features = new CppFeatures();
             Syntax = new CppSyntax();
             Style = style;
-            StyledSyntax = new CppStyledSyntax(Syntax, Style);
         }
     }
 }

@@ -2,7 +2,7 @@
 using VNet.CodeGeneration.Writers.CodeWriter;
 using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
 
-namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.TypeScript
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
 {
     public abstract class TypeScriptBlockScope<T> : BlockScope where T : TypeScriptBlockScope<T>
     {

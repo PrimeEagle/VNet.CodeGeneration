@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using VNet.CodeGeneration.Writers.CodeWriter;
+using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {

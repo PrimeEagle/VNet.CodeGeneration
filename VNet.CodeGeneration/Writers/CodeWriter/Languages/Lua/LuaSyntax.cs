@@ -1,47 +1,54 @@
-﻿namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
+﻿using System.Collections.Generic;
+
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
 {
     public class LuaSyntax : IProgrammingLanguageSyntax
     {
-        #region Keywords
-        public string ImportKeyword => "require";
-        public string ModuleKeyword => string.Empty;
-        public string ClassKeyword => "setmetatable";
-        public string FunctionKeyword => "function";
-        public string VoidKeyword => string.Empty;
-        public string PublicKeyword => string.Empty;
-        public string InterfaceKeyword => string.Empty;
-        public string StructKeyword => string.Empty;
-        public string EnumerationKeyword => string.Empty;
-        public string DelegateKeyword => string.Empty;
-        public string EventKeyword => string.Empty;
-        public string AccessorKeyword => string.Empty;
-        public string GetterKeyword => string.Empty;
-        public string SetterKeyword => string.Empty;
-        #endregion Keywords
+        public string OpenScopeSymbol => "{";
+        public string CloseScopeSymbol => "}";
 
 
-        #region Symbols
-        public string StatementEndSymbol => string.Empty; // In Lua, end of line or a new block denotes end of statement
-        public string OpenScopeSymbol => "do";
-        public string CloseScopeSymbol => "end";
-        public string CodeGroupingOpenSymbol => string.Empty;
-        public string CodeGroupingCloseSymbol => string.Empty;
-        public string GenericScopeOpenSymbol => string.Empty;  // Lua doesn't have a built-in generic scope symbol
-        public string GenericScopeCloseSymbol => string.Empty;  // Lua doesn't have a built-in generic scope symbol
-        public string EnumerationValueSeparatorSymbol => "=";
-        public string EnumerationMemberSeparatorSymbol => ",";
-        public string SingleLineCommentSymbol => "--";
-        public string MultilineCommentOpenScopeSymbol => "--[[";
-        public string MultilineCommentCloseScopeSymbol => "--]]";
-        public string DocumentationCommentSymbol => string.Empty;
-        public string DocumentationCommentOpenScopeSymbol => string.Empty;
-        public string DocumentationCommentCloseScopeSymbol => string.Empty;
-        public string ClassDerivationSymbol => string.Empty;
-
-        bool IProgrammingLanguageSyntax.IsValidNaming(string name)
+        public bool IsValidNaming(string name)
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            // First character must be a letter or an underscore
+            if (!char.IsLetter(name[0]) && name[0] != '_')
+            {
+                return false;
+            }
+
+            // The rest of the string must be letters, digits, or underscores
+            for (int i = 1; i < name.Length; i++)
+            {
+                if (!char.IsLetterOrDigit(name[i]) && name[i] != '_')
+                {
+                    return false;
+                }
+            }
+
+            // Check for reserved keywords
+            var keywords = new List<string>()
+            {
+                "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class",
+                "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event",
+                "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if",
+                "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new",
+                "null", "object", "operator", "out", "override", "params", "private", "protected", "public",
+                "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static",
+                "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
+                "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while"
+            };
+
+            if (keywords.Contains(name))
+            {
+                return false;
+            }
+
+            return true;
         }
-        #endregion Symbols
     }
 }

@@ -5,19 +5,20 @@
         #region White Space
         public int IndentationWidth => 4;
         public bool UseSpacesForIndentation => true;
-        public string LineBreakSymbol => "\n";
+        public string LineBreakSymbol => "\r\n";
         public bool SpaceAroundOperators => true;
         public bool SpaceInsideParentheses => false;
         public bool SpaceOutsideParentheses => false;
         public bool SpaceAfterComma => true;
         public bool SpaceAfterCommentCharacter => true;
+        public bool SpaceBeforeSameLineScope => true;
         #endregion White Space
 
 
         #region Line Breaks
-        public bool GenericConstraintsOnSingleLine => true;
+        public bool GenericConstraintsOnSingleLine => false;
         public bool BreakLongLines => true;
-        public int MaxLineLength => 79;
+        public int MaxLineLength => 185;
         public int LineBreakIndentationWidth => 4;
         #endregion Line Breaks
 
@@ -25,24 +26,24 @@
         #region Cases
         public bool AutomaticCaseConversion => true;
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Snake;
-        public CaseConversionStyle DelegateCaseConversionStyle => CaseConversionStyle.Snake;
-        public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.AllUpper;
-        public CaseConversionStyle FieldCaseConversionStyle => CaseConversionStyle.Snake;
+        public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Snake;
-        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.Snake;
-        public CaseConversionStyle AccessorCaseConversionStyle => CaseConversionStyle.Snake;
-        public CaseConversionStyle CodeGroupingCaseConversionStyle => CaseConversionStyle.Snake;
-        public CaseConversionStyle StructCaseConversionStyle => CaseConversionStyle.Snake;
-        public CaseConversionStyle VariableCaseConversionStyle => CaseConversionStyle.Snake;
+        public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.TitleDot;
+        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.TitleDot;
+        public CaseConversionStyle AccessorCaseConversionStyle => CaseConversionStyle.Pascal;
+        public CaseConversionStyle GetterCaseConversionStyle => CaseConversionStyle.None;
+        public CaseConversionStyle SetterCaseConversionStyle => CaseConversionStyle.None;
+        public CaseConversionStyle CodeGroupingCaseConversionStyle => CaseConversionStyle.Title;
+        public CaseConversionStyle StructCaseConversionStyle => CaseConversionStyle.Pascal;
         #endregion Cases
 
 
         #region Scoping
-        public ScopeDelimiterStyle ScopeOpenStyle => ScopeDelimiterStyle.SameLine;
-        public MultilineCommentStyle MultilineCommentStyle => MultilineCommentStyle.SameLine;
-        public ModuleStyle ModuleStyle => ModuleStyle.Scoped;
+        public ScopeStyle ScopeOpenStyle => ScopeStyle.NewLine;
+        public ScopeStyle ScopeCloseStyle => ScopeStyle.NewLine;
+        public ScopeStyle MultilineCommentStyle => ScopeStyle.NewLine;
         #endregion Scoping
     }
 }

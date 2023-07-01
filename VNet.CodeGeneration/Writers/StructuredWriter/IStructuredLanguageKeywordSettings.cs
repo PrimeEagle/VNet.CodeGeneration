@@ -1,4 +1,4 @@
-﻿namespace VNet.Scientific.CodeGen.Writers.StructuredWriter
+﻿namespace VNet.CodeGeneration.Writers.StructuredWriter
 {
     public interface IStructuredLanguageKeywordSettings
     {

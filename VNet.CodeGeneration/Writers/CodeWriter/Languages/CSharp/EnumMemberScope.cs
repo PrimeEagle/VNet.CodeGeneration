@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp;
+using VNet.CodeGeneration.Writers.CodeWriter;
 
-
-namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class EnumMemberScope : CSharpLineScope<EnumMemberScope>
     {

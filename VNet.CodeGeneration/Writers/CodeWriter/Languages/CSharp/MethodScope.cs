@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class MethodScope : CSharpBlockScope<MethodScope>

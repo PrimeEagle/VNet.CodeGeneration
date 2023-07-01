@@ -2,7 +2,7 @@
 using VNet.CodeGeneration.Writers.CodeWriter;
 using VNet.CodeGeneration.Writers.CodeWriter.Languages.Common;
 
-namespace VNet.Scientific.CodeGen.Writers.CodeWriter.Languages.JavaScript
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
 {
     public abstract class JavaScriptBlockScope<T> : BlockScope where T : JavaScriptBlockScope<T>
     {

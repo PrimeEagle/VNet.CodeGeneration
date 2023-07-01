@@ -1,47 +1,54 @@
-﻿namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
+﻿using System.Collections.Generic;
+
+namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
 {
     public class PowerShellSyntax : IProgrammingLanguageSyntax
     {
-        #region Keywords
-        public string ImportKeyword => "Import-Module";
-        public string ModuleKeyword => string.Empty;
-        public string ClassKeyword => "class";
-        public string FunctionKeyword => "function";
-        public string VoidKeyword => string.Empty; // PowerShell doesn't have a void keyword
-        public string PublicKeyword => "public"; // Not really used, but for classes & methods it's implied public 
-        public string InterfaceKeyword => string.Empty; // PowerShell does not natively support interfaces
-        public string StructKeyword => string.Empty; // PowerShell does not natively support structs
-        public string EnumerationKeyword => "enum";
-        public string DelegateKeyword => string.Empty; // PowerShell does not natively support delegates
-        public string EventKeyword => "event";
-        public string AccessorKeyword => string.Empty;
-        public string GetterKeyword => "get";
-        public string SetterKeyword => "set";
-        #endregion Keywords
-
-        #region Symbols
-        public string StatementEndSymbol => string.Empty; // PowerShell does not require a statement end symbol
         public string OpenScopeSymbol => "{";
         public string CloseScopeSymbol => "}";
-        public string CodeGroupingOpenSymbol => string.Empty;
-        public string CodeGroupingCloseSymbol => string.Empty;
-        public string GenericScopeOpenSymbol => string.Empty;
-        public string GenericScopeCloseSymbol => string.Empty;
-        public string EnumerationValueSeparatorSymbol => "=";
-        public string EnumerationMemberSeparatorSymbol => ",";
-        public string SingleLineCommentSymbol => "#";
-        public string MultilineCommentOpenScopeSymbol => "<#";
-        public string MultilineCommentCloseScopeSymbol => "#>";
-        public string DocumentationCommentSymbol => string.Empty;
-        public string DocumentationCommentOpenScopeSymbol => string.Empty;
-        public string DocumentationCommentCloseScopeSymbol => string.Empty;
-        public string ClassDerivationSymbol => ":";
 
-        bool IProgrammingLanguageSyntax.IsValidNaming(string name)
+
+        public bool IsValidNaming(string name)
         {
-            throw new System.NotImplementedException();
-        }
-        #endregion Symbols
-    }
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
 
+            // First character must be a letter or an underscore
+            if (!char.IsLetter(name[0]) && name[0] != '_')
+            {
+                return false;
+            }
+
+            // The rest of the string must be letters, digits, or underscores
+            for (int i = 1; i < name.Length; i++)
+            {
+                if (!char.IsLetterOrDigit(name[i]) && name[i] != '_')
+                {
+                    return false;
+                }
+            }
+
+            // Check for reserved keywords
+            var keywords = new List<string>()
+            {
+                "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class",
+                "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event",
+                "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if",
+                "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new",
+                "null", "object", "operator", "out", "override", "params", "private", "protected", "public",
+                "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static",
+                "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
+                "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while"
+            };
+
+            if (keywords.Contains(name))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
 }
