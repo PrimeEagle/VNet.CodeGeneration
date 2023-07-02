@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
-    public class CSharpCodeFile : CSharpBlockScope<CSharpCodeFile>
+    public class CSharpCodeFile : CSharpBlockScope<CSharpCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => string.Empty;
@@ -12,9 +12,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
     : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         { }
 
-        public static CSharpCodeFile Create()
+        internal CSharpCodeFile() : base(null, null, new CSharpLanguageSettings(new CSharpDefaultStyle()), null, new IndentationManager(), new List<string>())
         {
-            return new CSharpCodeFile(null, null, new CSharpLanguageSettings(new CSharpDefaultStyle()), null, new IndentationManager(), new List<string>());
         }
 
         public CSharpCodeFile WithStyle(IProgrammingLanguageStyle style)

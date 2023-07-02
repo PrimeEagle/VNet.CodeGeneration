@@ -3,7 +3,7 @@ using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 {
-    public class PythonCodeFile : PythonBlockScope<PythonCodeFile>
+    public class PythonCodeFile : PythonBlockScope<PythonCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => string.Empty;

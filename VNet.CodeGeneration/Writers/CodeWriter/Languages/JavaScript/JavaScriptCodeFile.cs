@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
 {
-    public class JavaScriptCodeFile : JavaScriptBlockScope<JavaScriptCodeFile>
+    public class JavaScriptCodeFile : JavaScriptBlockScope<JavaScriptCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => string.Empty;

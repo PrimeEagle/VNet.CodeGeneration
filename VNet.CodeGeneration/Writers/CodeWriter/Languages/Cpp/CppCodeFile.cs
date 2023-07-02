@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 {
-    public class CppCodeFile : CppBlockScope<CppCodeFile>
+    public class CppCodeFile : CppBlockScope<CppCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => string.Empty;

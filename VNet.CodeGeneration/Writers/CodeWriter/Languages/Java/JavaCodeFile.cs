@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
 {
-    public class JavaCodeFile : JavaBlockScope<JavaCodeFile>
+    public class JavaCodeFile : JavaBlockScope<JavaCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => string.Empty;

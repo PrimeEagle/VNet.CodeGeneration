@@ -3,7 +3,7 @@ using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
 {
-    public class TypeScriptCodeFile : TypeScriptBlockScope<TypeScriptCodeFile>
+    public class TypeScriptCodeFile : TypeScriptBlockScope<TypeScriptCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => string.Empty;

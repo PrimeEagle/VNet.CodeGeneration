@@ -14,8 +14,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SyntaxNodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileComparer\FileComparerEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\ExtendedLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\CodeResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\IProgrammingLanguageCodeFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\BlankLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Common\CustomScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Cpp\ClassScope.cs" />

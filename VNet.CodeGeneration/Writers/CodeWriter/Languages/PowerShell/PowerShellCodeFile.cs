@@ -3,7 +3,7 @@ using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
 {
-    public class PowerShellCodeFile : PowerShellBlockScope<PowerShellCodeFile>
+    public class PowerShellCodeFile : PowerShellBlockScope<PowerShellCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => string.Empty;

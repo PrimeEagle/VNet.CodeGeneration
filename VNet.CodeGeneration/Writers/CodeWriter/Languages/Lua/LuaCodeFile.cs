@@ -3,7 +3,7 @@ using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
 {
-    public class LuaCodeFile : LuaBlockScope<LuaCodeFile>
+    public class LuaCodeFile : LuaBlockScope<LuaCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateScopeOpenSymbol => string.Empty;
