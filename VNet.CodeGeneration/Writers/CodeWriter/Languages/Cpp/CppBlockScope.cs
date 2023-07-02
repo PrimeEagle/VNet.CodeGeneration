@@ -81,6 +81,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
 
             return result;
         }
-        #endregion C# language methods
+        #endregion C++ language methods
     }
 }

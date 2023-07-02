@@ -82,6 +82,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
 
             return result;
         }
-        #endregion C# language methods
+        #endregion JavaScript language methods
     }
 }

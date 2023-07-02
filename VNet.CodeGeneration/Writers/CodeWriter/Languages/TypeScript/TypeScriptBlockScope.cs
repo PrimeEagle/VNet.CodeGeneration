@@ -82,6 +82,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.TypeScript
 
             return result;
         }
-        #endregion C# language methods
+        #endregion TypeScript language methods
     }
 }

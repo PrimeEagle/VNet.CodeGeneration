@@ -147,8 +147,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\EnumMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\EnumScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\GetterScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\GetterSignatureScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\InterfaceScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellBlockScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellCodeFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellDefaultStyle.cs" />
@@ -156,15 +154,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PowerShellSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\MethodScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\MethodSignatureScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\NamespaceScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\NamespaceSingleLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PropertyScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\PropertySignatureScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\RegionScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\SetterScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\SetterSignatureScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\StructScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\ImportScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\PowerShell\UsingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\ClassScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Python\CommentDocumentationMemberScope.cs" />
@@ -249,12 +241,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Scope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\ListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\Lookups.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageFeatureSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageKeywordSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\IStructuredLanguageStyleSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Json\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\" />
   </ItemGroup>
 </Project>

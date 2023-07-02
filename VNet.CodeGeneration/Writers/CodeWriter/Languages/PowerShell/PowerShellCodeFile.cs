@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
 {
@@ -25,25 +24,17 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
             return this;
         }
 
-        public PowerShellCodeFile AddNamespace(string name)
+        public PowerShellCodeFile AddUsing(string name)
         {
-            var result = new NamespaceSingleLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new UsingScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return this;
         }
 
-        public NamespaceScope AddScopedNamespace(string name)
+        public PowerShellCodeFile AddImport(string name)
         {
-            var result = new NamespaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public PowerShellCodeFile AddUsing(string name)
-        {
-            var result = new UsingScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new ImportScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return this;
@@ -57,17 +48,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
             return result;
         }
 
-        public InterfaceScope AddInterface(string name)
+        public MethodScope AddMethod(string name)
         {
-            var result = new InterfaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public StructScope AddStruct(string name)
-        {
-            var result = new StructScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new MethodScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;

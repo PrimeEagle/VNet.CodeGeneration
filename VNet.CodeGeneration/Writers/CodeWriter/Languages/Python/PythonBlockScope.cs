@@ -88,6 +88,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 
             return result;
         }
-        #endregion C# language methods
+        #endregion Python language methods
     }
 }

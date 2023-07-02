@@ -48,12 +48,13 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
         }
 
         protected override void WriteCode(CodeResult result)
-        {       
-            _modifiers.Add(_returnType);
+        {
+            if (string.IsNullOrEmpty(_returnType)) _returnType = "void";
+            _modifiers.Add($"[{_returnType}]");
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
-                       
-            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}");
+
+            result.PreOpenScopeLines.Add($"{modifiers}${StyledValue}");
         }
     }
 }

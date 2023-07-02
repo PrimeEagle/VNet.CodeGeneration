@@ -57,14 +57,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
         #endregion Common language methods
 
         #region PowerShell language methods
-        public RegionScope AddRegion(string name)
-        {
-            var result = new RegionScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
         public T AddComment(string name)
         {
             var result = new CommentSingleLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
@@ -88,6 +80,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
 
             return result;
         }
-        #endregion C# language methods
+        #endregion PowerShell language methods
     }
 }

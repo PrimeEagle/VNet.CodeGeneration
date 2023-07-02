@@ -88,6 +88,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
 
             return result;
         }
-        #endregion C# language methods
+        #endregion Java language methods
     }
 }

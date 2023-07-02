@@ -88,6 +88,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
 
             return result;
         }
-        #endregion C# language methods
+        #endregion Lua language methods
     }
 }
