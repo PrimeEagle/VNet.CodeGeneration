@@ -57,13 +57,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
         #endregion Common language methods
 
         #region Lua language methods
-        public RegionScope AddRegion(string name)
-        {
-            var result = new RegionScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
 
         public T AddComment(string name)
         {
@@ -76,14 +69,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
         public CommentMultiLineScope AddMultiLineComments(string name)
         {
             var result = new CommentMultiLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public CommentDocumentationScope AddDocumentationComments(string name)
-        {
-            var result = new CommentDocumentationScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
