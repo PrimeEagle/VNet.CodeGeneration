@@ -9,8 +9,8 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
         private string _standalone;
 
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
-        protected override string AlternateOpenScopeOpenSymbol => "<?xml ";
-        protected override string AlternateOpenScopeCloseSymbol => " ?>";
+        protected override string AlternateOpenScopeOpenSymbol => "<!DOCTYPE";
+        protected override string AlternateOpenScopeCloseSymbol => ">";
 
 
         public DeclarationScope(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
@@ -18,34 +18,9 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
         {
         }
 
-        public DeclarationScope WithVersion(string version)
-        {
-            _version = version;
-
-            return this;
-        }
-
-        public DeclarationScope WithEncoding(string encoding)
-        {
-            _encoding = encoding;
-
-            return this;
-        }
-
-        public DeclarationScope WithStandalone(string standalone)
-        {
-            _standalone = standalone;
-
-            return this;
-        }
-
         protected override void WriteCode(CodeResult result)
         {
-            var ver = $" version{spOp}={spOp}{qu}{_version}{qu}";
-            var enc = $" encoding{spOp}={spOp}{qu}{_encoding}{qu}";
-            var stn = $" standalone{spOp}={spOp}{qu}{_standalone}{qu}";
-
-            result.InsideOpenScope.Add($"{ver}{enc}{stn}");
+            result.InsideOpenScope.Add($"html");
         }
     }
 }

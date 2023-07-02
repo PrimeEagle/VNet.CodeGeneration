@@ -34,7 +34,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
         }
         #endregion Common language methods
 
-        #region XML language methods
-        #endregion XML language methods
+        #region YAML language methods
+        #endregion YAML language methods
     }
 }

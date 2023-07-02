@@ -25,25 +25,9 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
             return this;
         }
 
-        public ElementScope AddElement(string name)
+        public HtmlElementScope AddHtml(string name)
         {
-            var result = new ElementScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public CDataScope AddCData(string name)
-        {
-            var result = new CDataScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public CommentScope AddComment(string name)
-        {
-            var result = new CommentScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new HtmlElementScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;

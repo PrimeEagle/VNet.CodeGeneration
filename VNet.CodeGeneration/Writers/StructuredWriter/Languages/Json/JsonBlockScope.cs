@@ -34,7 +34,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
         }
         #endregion Common language methods
 
-        #region XML language methods
-        #endregion XML language methods
+        #region JSON language methods
+        #endregion JSON language methods
     }
 }

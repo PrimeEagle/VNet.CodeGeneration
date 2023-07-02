@@ -34,7 +34,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Css
         }
         #endregion Common language methods
 
-        #region XML language methods
-        #endregion XML language methods
+        #region CSS language methods
+        #endregion CSS language methods
     }
 }

@@ -227,11 +227,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Css\CssLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Css\CsslLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Css\CssSyntax.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\CDataMemberScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\CDataScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\AnchorElementScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\CommentScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\DeclarationScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\ElementScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\HtmlElementScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\BodyElementScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\StandardElementScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\HtmlBlockScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\HtmlCodeFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Html\HtmlDefaultStyle.cs" />
