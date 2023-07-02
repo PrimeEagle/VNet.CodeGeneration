@@ -1,6 +1,6 @@
-﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
 {
-    public class XmlDefaultStyle : IStructuredLanguageStyle
+    public class HtmlDefaultStyle : IStructuredLanguageStyle
     {
         #region White Space
         public int IndentationWidth => 4;

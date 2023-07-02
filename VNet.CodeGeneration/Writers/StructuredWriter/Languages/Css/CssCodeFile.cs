@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Css
 {
-    public class XmlCodeFile : XmlBlockScope<XmlCodeFile>, IStructuredLanguageCodeFile
+    public class CssCodeFile : CssBlockScope<CssCodeFile>, IStructuredLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateOpenScopeOpenSymbol => string.Empty;
@@ -10,15 +10,15 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
         protected override string AlternateCloseScopeOpenSymbol => string.Empty;
         protected override string AlternateCloseScopeCloseSymbol => string.Empty;
 
-        protected XmlCodeFile(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+        protected CssCodeFile(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
     : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         { }
 
-        internal XmlCodeFile() : base(null, null, new XmlLanguageSettings(new XmlDefaultStyle()), null, new IndentationManager(), new List<string>())
+        internal CssCodeFile() : base(null, null, new CssLanguageSettings(new CssDefaultStyle()), null, new IndentationManager(), new List<string>())
         {
         }
 
-        public XmlCodeFile WithStyle(IStructuredLanguageStyle style)
+        public CssCodeFile WithStyle(IStructuredLanguageStyle style)
         {
             LanguageSettings.Style = style;
 

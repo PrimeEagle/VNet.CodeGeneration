@@ -2,12 +2,12 @@
 using VNet.CodeGeneration.Writers.StructuredWriter.Languages.Common;
 
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
 {
-    public abstract class XmlBlockScope<T> : BlockScope where T : XmlBlockScope<T>
+    public abstract class HtmlBlockScope<T> : BlockScope where T : HtmlBlockScope<T>
     {
 
-        protected XmlBlockScope(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+        protected HtmlBlockScope(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
         }

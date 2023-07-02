@@ -2,12 +2,12 @@
 using VNet.CodeGeneration.Writers.StructuredWriter.Languages.Common;
 
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
 {
-    public abstract class XmlBlockScope<T> : BlockScope where T : XmlBlockScope<T>
+    public abstract class JsonBlockScope<T> : BlockScope where T : JsonBlockScope<T>
     {
 
-        protected XmlBlockScope(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+        protected JsonBlockScope(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
         }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
 {
-    public class ElementScope : XmlBlockScope<ElementScope>
+    public class ElementScope : YamlBlockScope<ElementScope>
     {
         private string _content;
         private List<Tuple<string, string>> _attributes;

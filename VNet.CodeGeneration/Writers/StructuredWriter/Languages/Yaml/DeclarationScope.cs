@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
 {
-    public class DeclarationScope : XmlExtendedLineScope<DeclarationScope>
+    public class DeclarationScope : YamlExtendedLineScope<DeclarationScope>
     {
         private string _version;
         private string _encoding;

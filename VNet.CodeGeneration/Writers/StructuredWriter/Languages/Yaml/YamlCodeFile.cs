@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
 {
-    public class XmlCodeFile : XmlBlockScope<XmlCodeFile>, IStructuredLanguageCodeFile
+    public class YamlCodeFile : YamlBlockScope<YamlCodeFile>, IStructuredLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateOpenScopeOpenSymbol => string.Empty;
@@ -10,15 +10,15 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
         protected override string AlternateCloseScopeOpenSymbol => string.Empty;
         protected override string AlternateCloseScopeCloseSymbol => string.Empty;
 
-        protected XmlCodeFile(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+        protected YamlCodeFile(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
     : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         { }
 
-        internal XmlCodeFile() : base(null, null, new XmlLanguageSettings(new XmlDefaultStyle()), null, new IndentationManager(), new List<string>())
+        internal YamlCodeFile() : base(null, null, new YamlLanguageSettings(new YamlDefaultStyle()), null, new IndentationManager(), new List<string>())
         {
         }
 
-        public XmlCodeFile WithStyle(IStructuredLanguageStyle style)
+        public YamlCodeFile WithStyle(IStructuredLanguageStyle style)
         {
             LanguageSettings.Style = style;
 

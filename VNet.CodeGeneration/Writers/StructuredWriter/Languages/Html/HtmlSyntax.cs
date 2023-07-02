@@ -1,6 +1,6 @@
-﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
 {
-    public class XmlSyntax : IStructuredLanguageSyntax
+    public class HtmlSyntax : IStructuredLanguageSyntax
     {
         public string OpenScopeOpenSymbol => "<";
         public string OpenScopeCloseSymbol => ">";

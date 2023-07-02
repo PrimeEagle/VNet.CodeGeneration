@@ -1,6 +1,6 @@
-﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
 {
-    public class XmlDefaultStyle : IStructuredLanguageStyle
+    public class JsonDefaultStyle : IStructuredLanguageStyle
     {
         #region White Space
         public int IndentationWidth => 4;

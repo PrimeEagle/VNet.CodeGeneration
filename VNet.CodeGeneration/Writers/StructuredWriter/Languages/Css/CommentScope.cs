@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Css
 {
-    public class CommentScope : XmlLineScope<CommentScope>
+    public class CommentScope : CssLineScope<CommentScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.CommentCaseConversionStyle;
         protected override string AlternateOpenScopeOpenSymbol => "<!--";

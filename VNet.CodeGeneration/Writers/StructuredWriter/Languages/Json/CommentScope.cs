@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
 {
-    public class CommentScope : XmlLineScope<CommentScope>
+    public class CommentScope : JsonLineScope<CommentScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.CommentCaseConversionStyle;
         protected override string AlternateOpenScopeOpenSymbol => "<!--";

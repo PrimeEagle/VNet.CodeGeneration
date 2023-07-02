@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
 {
-    public class DeclarationScope : XmlExtendedLineScope<DeclarationScope>
+    public class DeclarationScope : JsonExtendedLineScope<DeclarationScope>
     {
         private string _version;
         private string _encoding;

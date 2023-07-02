@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
 {
-    public class ElementScope : XmlBlockScope<ElementScope>
+    public class ElementScope : JsonBlockScope<ElementScope>
     {
         private string _content;
         private List<Tuple<string, string>> _attributes;

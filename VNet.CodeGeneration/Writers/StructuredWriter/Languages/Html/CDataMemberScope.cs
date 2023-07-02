@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
 {
-    public class CDataMemberScope : XmlBlockScope<CDataMemberScope>
+    public class CDataMemberScope : HtmlBlockScope<CDataMemberScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
         protected override string AlternateOpenScopeOpenSymbol => "<![CDATA[";

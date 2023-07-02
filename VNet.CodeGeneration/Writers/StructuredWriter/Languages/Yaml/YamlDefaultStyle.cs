@@ -1,6 +1,6 @@
-﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
 {
-    public class XmlDefaultStyle : IStructuredLanguageStyle
+    public class YamlDefaultStyle : IStructuredLanguageStyle
     {
         #region White Space
         public int IndentationWidth => 4;
