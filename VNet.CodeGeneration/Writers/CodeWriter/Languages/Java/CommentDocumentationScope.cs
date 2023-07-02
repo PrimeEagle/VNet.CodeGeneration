@@ -5,8 +5,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
     public class CommentDocumentationScope : BlockScope
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
-        protected override string AlternateScopeOpenSymbol => $"///{spComment}<summary>";
-        protected override string AlternateScopeCloseSymbol => $"///{spComment}</summary>";
+        protected override string AlternateScopeOpenSymbol => $"/**";
+        protected override string AlternateScopeCloseSymbol => $"*/";
 
 
         public CommentDocumentationScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)

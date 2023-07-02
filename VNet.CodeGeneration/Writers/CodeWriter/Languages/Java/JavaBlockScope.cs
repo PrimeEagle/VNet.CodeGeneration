@@ -57,14 +57,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
         #endregion Common language methods
 
         #region Java language methods
-        public RegionScope AddRegion(string name)
-        {
-            var result = new RegionScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
         public T AddComment(string name)
         {
             var result = new CommentSingleLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);

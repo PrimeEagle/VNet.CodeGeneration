@@ -1,6 +1,4 @@
-﻿using VNet.CodeGeneration.Writers.CodeWriter;
-
-namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
+﻿namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class CSharpDefaultStyle : IProgrammingLanguageStyle
     {

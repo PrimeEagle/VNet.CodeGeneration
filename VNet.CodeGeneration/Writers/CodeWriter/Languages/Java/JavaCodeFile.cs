@@ -24,25 +24,17 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             return this;
         }
 
-        public JavaCodeFile AddNamespace(string name)
+        public JavaCodeFile AddPackage(string name)
         {
-            var result = new NamespaceSingleLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new PackageScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return this;
         }
 
-        public NamespaceScope AddScopedNamespace(string name)
+        public JavaCodeFile AddImport(string name)
         {
-            var result = new NamespaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public JavaCodeFile AddUsing(string name)
-        {
-            var result = new UsingScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new ImportScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return this;
@@ -59,14 +51,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
         public InterfaceScope AddInterface(string name)
         {
             var result = new InterfaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public StructScope AddStruct(string name)
-        {
-            var result = new StructScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;

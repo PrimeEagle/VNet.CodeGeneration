@@ -61,10 +61,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
 
         protected override void WriteCode(CodeResult result)
         {
-            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
-            if (genType.Length <= 2) genType = string.Empty;
-
-            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
+            var genConstraint = string.Join($"{spOp}&{spOp}", _genericConstraints).Trim();
+            var gen = $"<{string.Join($",{spComma}", _genericTypes)} {genConstraint}>".Trim();
 
             _modifiers.Add(_returnType);
             var modifiers = string.Join(" ", _modifiers).Trim();
@@ -73,7 +71,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             var flattened = _parameters.Select(p => $"{p.Item1} {p.Item2}").ToList();
             var paramStr = string.Join($",{spComma}", flattened).Trim();
 
-            result.PreOpenScopeLines.Add($"{modifiers}{StyledValue}{genType}({paramStr}){genConstraint};");
+            result.PreOpenScopeLines.Add($"{modifiers}{gen}{StyledValue}({paramStr});");
         }
     }
 }

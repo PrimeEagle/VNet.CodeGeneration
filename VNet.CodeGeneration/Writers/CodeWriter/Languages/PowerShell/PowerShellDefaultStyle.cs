@@ -14,36 +14,34 @@
         public bool SpaceBeforeSameLineScope => true;
         #endregion White Space
 
-
         #region Line Breaks
         public bool GenericConstraintsOnSingleLine => false;
         public bool BreakLongLines => true;
-        public int MaxLineLength => 185;
+        public int MaxLineLength => 120;
         public int LineBreakIndentationWidth => 4;
         #endregion Line Breaks
 
-
         #region Cases
-        public bool AutomaticCaseConversion => true;
+        public bool AutomaticCaseConversion => false;
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.TitleDot;
-        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.TitleDot;
+        public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.None;
+        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.None;
         public CaseConversionStyle AccessorCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle GetterCaseConversionStyle => CaseConversionStyle.None;
         public CaseConversionStyle SetterCaseConversionStyle => CaseConversionStyle.None;
-        public CaseConversionStyle CodeGroupingCaseConversionStyle => CaseConversionStyle.Title;
+        public CaseConversionStyle CodeGroupingCaseConversionStyle => CaseConversionStyle.None;
         public CaseConversionStyle StructCaseConversionStyle => CaseConversionStyle.Pascal;
         #endregion Cases
 
-
         #region Scoping
-        public ScopeStyle ScopeOpenStyle => ScopeStyle.NewLine;
+        public ScopeStyle ScopeOpenStyle => ScopeStyle.SameLine;
         public ScopeStyle ScopeCloseStyle => ScopeStyle.NewLine;
-        public ScopeStyle MultilineCommentStyle => ScopeStyle.NewLine;
+        public ScopeStyle MultilineCommentStyle => ScopeStyle.SameLine;
         #endregion Scoping
     }
+
 }

@@ -30,14 +30,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             return this;
         }
 
-        public PropertySignatureScope AddPropertySignature(string text)
-        {
-            var result = new PropertySignatureScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
         public InterfaceScope ThatImplementsInterface(string name)
         {
             _interfaces.Add(name);

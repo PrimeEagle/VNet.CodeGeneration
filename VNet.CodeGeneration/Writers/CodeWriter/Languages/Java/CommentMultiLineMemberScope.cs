@@ -14,7 +14,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
 
         protected override void WriteCode(CodeResult result)
         {
-            result.ScopedCodeLines.Add($"*{spComment}{StyledValue}");
+            result.ScopedCodeLines.Add($"{StyledValue}");
         }
     }
 }

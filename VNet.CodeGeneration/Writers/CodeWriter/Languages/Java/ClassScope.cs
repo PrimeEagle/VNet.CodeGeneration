@@ -52,25 +52,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
             return result;
         }
 
-        public PropertyScope AddProperty(string text)
-        {
-            var result = new PropertyScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
         public InterfaceScope AddInterface(string text)
         {
             var result = new InterfaceScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public StructScope AddStruct(string text)
-        {
-            var result = new StructScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
@@ -113,21 +97,23 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Java
 
         protected override void WriteCode(CodeResult result)
         {
-            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
-            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
-            
-            var baseComma = !string.IsNullOrEmpty(_baseClass) && _interfaces.Count > 0 ? $",{spComma}" : string.Empty;
-            var inheritance = $"{_baseClass}{baseComma}{string.Join($",{spComma}", _interfaces)}".Trim();
+            var genConstraint = string.Join($"{spOp}&{spOp}", _genericConstraints).Trim();
+            var gen = $"<{string.Join($",{spComma}", _genericTypes)} {genConstraint}>".Trim();
+
+
+            var inheritance = $"extends {_baseClass}";
+            var imp = $"{string.Join($",{spComma}", _interfaces)}".Trim();
+            if (!string.IsNullOrEmpty(imp)) inheritance += $" implements {imp}";
+
             if (!string.IsNullOrEmpty(inheritance))
             {
-                inheritance = $"{spOp}:{spOp}{inheritance}";
-                genConstraint = $" {genConstraint}";
+                inheritance = $" {inheritance}";
             }
             
             var modifiers = string.Join(" ", _modifiers).Trim();
             if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
 
-            result.PreOpenScopeLines.Add($"{modifiers}class {StyledValue}{genType}{inheritance}{genConstraint}");
+            result.PreOpenScopeLines.Add($"{modifiers}class {StyledValue}{gen}{inheritance}");
         }
     }
 }
