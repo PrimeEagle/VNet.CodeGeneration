@@ -23,6 +23,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             _baseClass = string.Empty;
         }
 
+        public AttributeScope AddAttribute(string name)
+        {
+            var result = new AttributeScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return result;
+        }
+
         public ClassScope AddClass(string text)
         {
             var result = new ClassScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);

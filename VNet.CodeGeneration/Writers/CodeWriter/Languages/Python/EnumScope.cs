@@ -75,7 +75,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 
         protected override void WriteCode(CodeResult result)
         {
-            result.PreOpenScopeLines.Add($"enum {StyledValue}");
+            result.PreOpenScopeLines.Add($"class {StyledValue}(Enum)");
         }
     }
 }

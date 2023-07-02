@@ -14,7 +14,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 
         protected override void WriteCode(CodeResult result)
         {
-            result.UnscopedCodeLines.Add($"//{spComment}{StyledValue}");
+            result.UnscopedCodeLines.Add($"#{spComment}{StyledValue}");
         }
     }
 }

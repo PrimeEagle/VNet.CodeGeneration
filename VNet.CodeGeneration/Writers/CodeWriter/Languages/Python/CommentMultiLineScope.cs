@@ -5,8 +5,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
     public class CommentMultiLineScope : BlockScope
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
-        protected override string AlternateScopeOpenSymbol => "/*";
-        protected override string AlternateScopeCloseSymbol => "*/";
+        protected override string AlternateScopeOpenSymbol => "'''";
+        protected override string AlternateScopeCloseSymbol => "'''";
 
         public CommentMultiLineScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)

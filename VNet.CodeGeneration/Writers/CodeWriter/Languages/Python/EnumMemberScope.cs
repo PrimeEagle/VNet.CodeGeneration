@@ -20,7 +20,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
                 valStr = $"{spOp}={spOp}{intVal.ToString()}";
             }
 
-            result.UnscopedCodeLines.Add($"{StyledValue}{valStr},");
+            result.UnscopedCodeLines.Add($"{StyledValue}{valStr}");
         }
     }
 }

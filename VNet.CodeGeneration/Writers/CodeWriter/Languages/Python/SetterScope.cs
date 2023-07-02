@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 {
-    public class SetterScope : PythonBlockScope<SetterScope>
+    public class SetterScope : PythonLineScope<SetterScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.SetterCaseConversionStyle;
 
@@ -25,7 +25,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 
         protected override void WriteCode(CodeResult result)
         {
-            result.PreOpenScopeLines.Add($"set");
+            result.PreOpenScopeLines.Add($"@{StyledValue}.setter");
         }
     }
 }

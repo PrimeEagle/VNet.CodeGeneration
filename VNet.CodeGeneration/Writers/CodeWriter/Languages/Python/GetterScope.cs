@@ -2,7 +2,7 @@
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 {
-    public class GetterScope : PythonBlockScope<GetterScope>
+    public class GetterScope : PythonLineScope<GetterScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.GetterCaseConversionStyle;
 
@@ -25,7 +25,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 
         protected override void WriteCode(CodeResult result)
         {
-            result.PreOpenScopeLines.Add($"get");
+            result.PreOpenScopeLines.Add($"@property");
         }
     }
 }

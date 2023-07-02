@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.CodeWriter;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 {
     public class PythonCodeFile : PythonBlockScope<PythonCodeFile>, IProgrammingLanguageCodeFile
     {
         protected override CaseConversionStyle CaseConversionStyle => CaseConversionStyle.None;
-        protected override string AlternateScopeOpenSymbol => string.Empty;
+        protected override string AlternateScopeOpenSymbol => ":";
         protected override string AlternateScopeCloseSymbol => string.Empty;
 
         protected PythonCodeFile(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
     : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
-        { }
+        {
+        }
 
         public static PythonCodeFile Create()
         {
@@ -25,25 +25,9 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
             return this;
         }
 
-        public PythonCodeFile AddNamespace(string name)
+        public PythonCodeFile AddImport(string name)
         {
-            var result = new NamespaceSingleLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return this;
-        }
-
-        public NamespaceScope AddScopedNamespace(string name)
-        {
-            var result = new NamespaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public PythonCodeFile AddUsing(string name)
-        {
-            var result = new UsingScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new ImportScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return this;
@@ -57,17 +41,17 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
             return result;
         }
 
-        public InterfaceScope AddInterface(string name)
+        public DecoratorScope AddDecorator(string name)
         {
-            var result = new InterfaceScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new DecoratorScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
         }
 
-        public StructScope AddStruct(string name)
+        public FunctionScope AddFunction(string name)
         {
-            var result = new StructScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new FunctionScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;

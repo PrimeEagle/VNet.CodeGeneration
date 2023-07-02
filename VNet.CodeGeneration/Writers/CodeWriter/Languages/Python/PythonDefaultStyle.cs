@@ -38,8 +38,8 @@
         #endregion Cases
 
         #region Scoping
-        public ScopeStyle ScopeOpenStyle => ScopeStyle.NewLine;
-        public ScopeStyle ScopeCloseStyle => ScopeStyle.NewLine;
+        public ScopeStyle ScopeOpenStyle => ScopeStyle.SameLine;
+        public ScopeStyle ScopeCloseStyle => ScopeStyle.SameLine;
         public ScopeStyle MultilineCommentStyle => ScopeStyle.NewLine;
         #endregion Scoping
     }

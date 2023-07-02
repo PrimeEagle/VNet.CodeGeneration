@@ -57,14 +57,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
         #endregion Common language methods
 
         #region Python language methods
-        public RegionScope AddRegion(string name)
-        {
-            var result = new RegionScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
         public T AddComment(string name)
         {
             var result = new CommentSingleLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
@@ -76,14 +68,6 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
         public CommentMultiLineScope AddMultiLineComments(string name)
         {
             var result = new CommentMultiLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public CommentDocumentationScope AddDocumentationComments(string name)
-        {
-            var result = new CommentDocumentationScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;

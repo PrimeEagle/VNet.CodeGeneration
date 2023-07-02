@@ -5,8 +5,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Python
 {
     public class PythonSyntax : IProgrammingLanguageSyntax
     {
-        public string OpenScopeSymbol => "{";
-        public string CloseScopeSymbol => "}";
+        public string OpenScopeSymbol => string.Empty;
+        public string CloseScopeSymbol => string.Empty;
 
 
         private static readonly HashSet<string> ReservedKeywords = new HashSet<string>
