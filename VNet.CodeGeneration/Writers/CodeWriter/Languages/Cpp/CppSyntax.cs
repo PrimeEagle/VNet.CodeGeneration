@@ -8,6 +8,15 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
         public string CloseScopeSymbol => "}";
 
 
+        private static readonly HashSet<string> keywords = new HashSet<string>
+        {
+            "auto", "break", "case", "char", "const", "continue", "default",
+            "do", "double", "else", "enum", "extern", "float", "for", "goto",
+            "if", "inline", "int", "long", "register", "return", "short",
+            "signed", "sizeof", "static", "struct", "switch", "typedef",
+            "union", "unsigned", "void", "volatile", "while"
+        };
+
         public bool IsValidNaming(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -15,13 +24,19 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
                 return false;
             }
 
-            // First character must be a letter or an underscore
+            // Check if name is a C++ keyword
+            if (keywords.Contains(name))
+            {
+                return false;
+            }
+
+            // Check the first character
             if (!char.IsLetter(name[0]) && name[0] != '_')
             {
                 return false;
             }
 
-            // The rest of the string must be letters, digits, or underscores
+            // Check the remaining characters
             for (int i = 1; i < name.Length; i++)
             {
                 if (!char.IsLetterOrDigit(name[i]) && name[i] != '_')
@@ -30,24 +45,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
                 }
             }
 
-            // Check for reserved keywords
-            var keywords = new List<string>()
-            {
-                "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class",
-                "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event",
-                "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if",
-                "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new",
-                "null", "object", "operator", "out", "override", "params", "private", "protected", "public",
-                "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static",
-                "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
-                "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while"
-            };
-
-            if (keywords.Contains(name))
-            {
-                return false;
-            }
-
+            // If all checks pass, return true
             return true;
         }
     }

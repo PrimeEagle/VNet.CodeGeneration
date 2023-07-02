@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
 {
@@ -8,6 +10,22 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
         public string CloseScopeSymbol => "}";
 
 
+        private static readonly List<string> ReservedKeywords = new List<string>
+        {
+            "Begin", "Process", "End", "Function", "Return", "Filter",
+            "Where", "ForEach", "If", "Else", "ElseIf", "Switch", "While",
+            "Do", "Until", "For", "Throw", "Try", "Catch", "Finally",
+            "Trap", "Data", "Using", "Param", "DynamicParam", "Class",
+            "Enum", "DscResource", "RoleCapability", "Continue", "Break",
+            "Exit", "Return", "In", "NotIn", "Is", "IsNot", "As",
+            "Shl", "Shr", "Band", "Bor", "Bxor", "Ieq", "Ige", "Igt",
+            "Ile", "Ilt", "Ine", "Ilike", "Inotlike", "Ireplace", "Icontains",
+            "Inotcontains", "Iin", "Inotin", "Isplit", "Ijoin", "Ceq", "Cge",
+            "Cgt", "Cle", "Clt", "Cne", "Clike", "Cnotlike", "Creplace",
+            "Ccontains", "Cnotcontains", "Cin", "Cnotin", "Csplit", "Cjoin"
+        };
+
+
         public bool IsValidNaming(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -15,13 +33,19 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
                 return false;
             }
 
-            // First character must be a letter or an underscore
+            // Check if name is a reserved keyword
+            if (ReservedKeywords.Any(keyword => keyword.Equals(name, StringComparison.OrdinalIgnoreCase)))
+            {
+                return false;
+            }
+
+            // Check the first character
             if (!char.IsLetter(name[0]) && name[0] != '_')
             {
                 return false;
             }
 
-            // The rest of the string must be letters, digits, or underscores
+            // Check the remaining characters
             for (int i = 1; i < name.Length; i++)
             {
                 if (!char.IsLetterOrDigit(name[i]) && name[i] != '_')
@@ -30,24 +54,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
                 }
             }
 
-            // Check for reserved keywords
-            var keywords = new List<string>()
-            {
-                "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class",
-                "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event",
-                "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if",
-                "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new",
-                "null", "object", "operator", "out", "override", "params", "private", "protected", "public",
-                "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static",
-                "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
-                "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while"
-            };
-
-            if (keywords.Contains(name))
-            {
-                return false;
-            }
-
+            // If all checks pass, return true
             return true;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
 {
@@ -8,6 +9,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
         public string CloseScopeSymbol => "}";
 
 
+        private static readonly HashSet<string> ReservedKeywords = new HashSet<string>
+        {
+            // Add Lua reserved keywords here
+            "and", "break", "do", "else", "elseif", "end", "false", "for", "function",
+            "goto", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then",
+            "true", "until", "while"
+        };
+
         public bool IsValidNaming(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -15,39 +24,19 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
                 return false;
             }
 
-            // First character must be a letter or an underscore
-            if (!char.IsLetter(name[0]) && name[0] != '_')
+            // Check if name is a reserved keyword
+            if (ReservedKeywords.Contains(name))
             {
                 return false;
             }
 
-            // The rest of the string must be letters, digits, or underscores
-            for (int i = 1; i < name.Length; i++)
-            {
-                if (!char.IsLetterOrDigit(name[i]) && name[i] != '_')
-                {
-                    return false;
-                }
-            }
-
-            // Check for reserved keywords
-            var keywords = new List<string>()
-            {
-                "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class",
-                "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event",
-                "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if",
-                "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new",
-                "null", "object", "operator", "out", "override", "params", "private", "protected", "public",
-                "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static",
-                "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
-                "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while"
-            };
-
-            if (keywords.Contains(name))
+            // Check if name starts with a letter or underscore
+            if (!Regex.IsMatch(name, @"^[_a-zA-Z][_a-zA-Z0-9]*$"))
             {
                 return false;
             }
 
+            // If all checks pass, return true
             return true;
         }
     }
