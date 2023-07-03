@@ -128,7 +128,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
             Scopes.Add(scope);
         }
 
-        public virtual void Save(string fileName)
+        public virtual void Save(string fileName, bool append = false)
         {
             var text = ToString();
 
@@ -140,9 +140,9 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
                 Path.ChangeExtension(fileName, newExtension);
             }
 
-            if (File.Exists(fileName)) File.Delete(fileName);
+            if (File.Exists(fileName) && !append) File.Delete(fileName);
 
-            using (var writer = new StreamWriter(fileName))
+            using (var writer = new StreamWriter(fileName, append))
             {
                 writer.Write(text);
             }
