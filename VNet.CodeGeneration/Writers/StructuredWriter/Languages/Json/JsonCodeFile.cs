@@ -25,33 +25,25 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
             return this;
         }
 
-        public ElementScope AddElement(string name)
+        public NameScope AddName(string name)
         {
-            var result = new ElementScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new NameScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
         }
 
-        public CDataScope AddCData(string name)
+        public ObjectScope AddObject(string name)
         {
-            var result = new CDataScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new ObjectScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
         }
 
-        public CommentScope AddComment(string name)
+        public ArrayScope AddArray(string name)
         {
-            var result = new CommentScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public DeclarationScope AddDeclaration(string name)
-        {
-            var result = new DeclarationScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new ArrayScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;

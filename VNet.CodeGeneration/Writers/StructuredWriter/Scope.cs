@@ -99,7 +99,10 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
             }
 
             for (var s = 0; s < Scopes.Count; s++)
+            {
                 Scopes[s].GenerateCode();
+                CodeLines.AppendToLastElement(LanguageSettings.Syntax.ScopeListSeparatorSymbol);
+            }
 
             // Scope closing
             if (scoped)

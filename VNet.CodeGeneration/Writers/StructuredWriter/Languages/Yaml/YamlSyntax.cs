@@ -1,11 +1,14 @@
-﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
+﻿using System.Linq;
+
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
 {
     public class YamlSyntax : IStructuredLanguageSyntax
     {
-        public string OpenScopeOpenSymbol => "<";
-        public string OpenScopeCloseSymbol => ">";
-        public string CloseScopeOpenSymbol => "</";
-        public string CloseScopeCloseSymbol => ">";
+        public string OpenScopeOpenSymbol => string.Empty;
+        public string OpenScopeCloseSymbol => string.Empty;
+        public string CloseScopeOpenSymbol => string.Empty;
+        public string CloseScopeCloseSymbol => string.Empty;
+        public string ScopeListSeparatorSymbol => string.Empty;
 
 
         public bool IsValidNaming(string name)
@@ -13,20 +16,24 @@
             if (string.IsNullOrEmpty(name))
                 return false;
 
-            if (name.Length >= 3 && name.Substring(0, 3).ToLower() == "xml")
+            string[] reservedLiterals = { "true", "false", "null", "~", "y", "Y", "n", "N",
+                                  "yes", "Yes", "YES", "no", "No", "NO", "on", "On", "ON",
+                                  "off", "Off", "OFF" };
+
+            if (reservedLiterals.Contains(name))
                 return false;
 
-            if (!((name[0] >= 'a' && name[0] <= 'z') || (name[0] >= 'A' && name[0] <= 'Z') || name[0] == '_'))
+            if (name[0] == '@' || name[0] == '`')
                 return false;
 
-            for (int i = 1; i < name.Length; i++)
-            {
-                if (!((name[i] >= 'a' && name[i] <= 'z') || (name[i] >= 'A' && name[i] <= 'Z') ||
-                      (name[i] >= '0' && name[i] <= '9') || name[i] == '-' || name[i] == '_' || name[i] == '.'))
-                    return false;
-            }
+            char[] specialCharacters = { ':', '{', '}', '[', ']', ',', '&', '*', '#',
+                                 '?', '|', '-', '<', '>', '=', '!', '%', '@', '\'' };
+
+            if (name.IndexOfAny(specialCharacters) >= 0)
+                return false;
 
             return true;
         }
+
     }
 }

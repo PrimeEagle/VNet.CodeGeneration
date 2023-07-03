@@ -6,6 +6,7 @@
         string OpenScopeCloseSymbol { get; }
         string CloseScopeOpenSymbol { get; }
         string CloseScopeCloseSymbol { get; }
+        string ScopeListSeparatorSymbol { get; }
 
 
         bool IsValidNaming(string name);

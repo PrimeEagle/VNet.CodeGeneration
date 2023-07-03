@@ -35,6 +35,21 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Css
         #endregion Common language methods
 
         #region CSS language methods
+        public CommentSingleLineScope AddComment(string name)
+        {
+            var result = new CommentSingleLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return result;
+        }
+
+        public CommentMultiLineScope AddMultilineComment(string name)
+        {
+            var result = new CommentMultiLineScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return result;
+        }
         #endregion CSS language methods
     }
 }

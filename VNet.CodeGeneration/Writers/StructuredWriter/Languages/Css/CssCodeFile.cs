@@ -25,33 +25,25 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Css
             return this;
         }
 
-        public ElementScope AddElement(string name)
+        public ClassSelectorScope AddClassSelector(string name)
         {
-            var result = new ElementScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new ClassSelectorScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
         }
 
-        public CDataScope AddCData(string name)
+        public IdSelectorScope AddIdSelector(string name)
         {
-            var result = new CDataScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new IdSelectorScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;
         }
 
-        public CommentScope AddComment(string name)
+        public NameSelectorScope AddNameSelector(string name)
         {
-            var result = new CommentScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
-            AddNestedScope(result);
-
-            return result;
-        }
-
-        public DeclarationScope AddDeclaration(string name)
-        {
-            var result = new DeclarationScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
+            var result = new NameSelectorScope(name, null, LanguageSettings, this, IndentLevel, CodeLines);
             AddNestedScope(result);
 
             return result;

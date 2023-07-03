@@ -6,6 +6,7 @@
         public string OpenScopeCloseSymbol => ">";
         public string CloseScopeOpenSymbol => "</";
         public string CloseScopeCloseSymbol => ">";
+        public string ScopeListSeparatorSymbol => string.Empty;
 
 
         public bool IsValidNaming(string name)

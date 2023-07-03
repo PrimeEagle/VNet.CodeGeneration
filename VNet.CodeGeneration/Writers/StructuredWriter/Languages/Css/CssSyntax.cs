@@ -2,10 +2,11 @@
 {
     public class CssSyntax : IStructuredLanguageSyntax
     {
-        public string OpenScopeOpenSymbol => "<";
-        public string OpenScopeCloseSymbol => ">";
-        public string CloseScopeOpenSymbol => "</";
-        public string CloseScopeCloseSymbol => ">";
+        public string OpenScopeOpenSymbol => string.Empty;
+        public string OpenScopeCloseSymbol => "{";
+        public string CloseScopeOpenSymbol => string.Empty;
+        public string CloseScopeCloseSymbol => "}";
+        public string ScopeListSeparatorSymbol => string.Empty;
 
 
         public bool IsValidNaming(string name)
@@ -13,20 +14,20 @@
             if (string.IsNullOrEmpty(name))
                 return false;
 
-            if (name.Length >= 3 && name.Substring(0, 3).ToLower() == "xml")
+            if (char.IsDigit(name[0]) || (name[0] == '-' && name.Length > 1 && char.IsDigit(name[1])))
                 return false;
 
-            if (!((name[0] >= 'a' && name[0] <= 'z') || (name[0] >= 'A' && name[0] <= 'Z') || name[0] == '_'))
-                return false;
-
-            for (int i = 1; i < name.Length; i++)
+            for (int i = 0; i < name.Length; i++)
             {
-                if (!((name[i] >= 'a' && name[i] <= 'z') || (name[i] >= 'A' && name[i] <= 'Z') ||
-                      (name[i] >= '0' && name[i] <= '9') || name[i] == '-' || name[i] == '_' || name[i] == '.'))
+                char c = name[i];
+                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+                      (c >= '0' && c <= '9') || c == '-' || c == '_' ||
+                      (c >= '\u00a1' && c <= '\uffff')))
                     return false;
             }
 
             return true;
         }
+
     }
 }

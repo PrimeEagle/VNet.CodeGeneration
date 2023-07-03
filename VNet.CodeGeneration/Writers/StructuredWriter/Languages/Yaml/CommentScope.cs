@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
 {
     public class CommentScope : YamlLineScope<CommentScope>
     {
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.CommentCaseConversionStyle;
-        protected override string AlternateOpenScopeOpenSymbol => "<!--";
-        protected override string AlternateCloseScopeCloseSymbol => "-->";
 
         public CommentScope(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
@@ -16,7 +13,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
 
         protected override void WriteCode(CodeResult result)
         {
-            result.UnscopedCodeLines.Add($"{StyledValue}");
+            result.UnscopedCodeLines.Add($"#{spComment}{StyledValue}");
         }
     }
 }
