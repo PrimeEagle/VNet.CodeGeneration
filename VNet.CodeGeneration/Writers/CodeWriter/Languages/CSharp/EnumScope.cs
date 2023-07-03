@@ -6,12 +6,14 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {
     public class EnumScope : CSharpBlockScope<EnumScope>
     {
+        private List<string> _modifiers;
         protected override CaseConversionStyle CaseConversionStyle => LanguageSettings.Style.EnumerationCaseConversionStyle;
 
 
         public EnumScope(string value, List<object> parameters, IProgrammingLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
+            _modifiers = new List<string>();
         }
 
         public EnumScope AddMember(string name, int? value = null)
@@ -73,9 +75,19 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             return this;
         }
 
+        public EnumScope WithModifier(string name)
+        {
+            _modifiers.Add(name);
+
+            return this;
+        }
+
         protected override void WriteCode(CodeResult result)
         {
-            result.PreOpenScopeLines.Add($"enum {StyledValue}");
+            var modifiers = string.Join(" ", _modifiers).Trim();
+            if (!string.IsNullOrEmpty(modifiers)) modifiers += " ";
+
+            result.PreOpenScopeLines.Add($"{modifiers}enum {StyledValue}");
         }
     }
 }

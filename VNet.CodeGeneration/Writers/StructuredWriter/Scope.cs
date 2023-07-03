@@ -136,8 +136,14 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
             {
                 var newExtension = $"{LanguageSettings.DefaultFileExtensionPrefix}{LanguageSettings.DefaultFileExtension}";
                 if (newExtension.StartsWith(".")) newExtension = newExtension.Substring(1);
-
-                Path.ChangeExtension(fileName, newExtension);
+                if (Path.HasExtension(fileName))
+                {
+                    Path.ChangeExtension(fileName, newExtension);
+                }
+                else
+                {
+                    fileName += $".{newExtension}";
+                }
             }
 
             if (File.Exists(fileName) && !append) File.Delete(fileName);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using VNet.CodeGeneration.Log;
 #pragma warning disable IDE0051
@@ -134,23 +135,26 @@ namespace VNet.CodeGeneration.Writers.CodeWriter
         {
             var text = ToString();
 
-            var log = new Logger();
-            log.Initialize(@"D:\generator.log");
-            log.WriteLine(text);
-            //if (LanguageSettings.EnforceDefaultFileExtension)
-            //{
-            //    var newExtension = $"{LanguageSettings.DefaultFileExtensionPrefix}{LanguageSettings.DefaultFileExtension}";
-            //    if (newExtension.StartsWith(".")) newExtension = newExtension.Substring(1);
+            if (LanguageSettings.EnforceDefaultFileExtension)
+            {
+                var newExtension = $"{LanguageSettings.DefaultFileExtensionPrefix}{LanguageSettings.DefaultFileExtension}";
+                if (newExtension.StartsWith(".")) newExtension = newExtension.Substring(1);
+                if (Path.HasExtension(fileName))
+                {
+                    Path.ChangeExtension(fileName, newExtension);
+                }
+                else
+                {
+                    fileName += $".{newExtension}";
+                }
+            }
 
-            //    Path.ChangeExtension(fileName, newExtension);
-            //}
+            if (File.Exists(fileName) && !append) File.Delete(fileName);
 
-            //if (File.Exists(fileName) && !append) File.Delete(fileName);
-
-            //using (var writer = new StreamWriter(fileName, append))
-            //{
-            //    writer.Write(text);
-            //}
+            using (var writer = new StreamWriter(fileName, append))
+            {
+                writer.Write(text);
+            }
         }
 
         public override string ToString()

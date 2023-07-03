@@ -24,14 +24,14 @@
 
 
         #region Cases
-        public bool AutomaticCaseConversion => true;
+        public bool AutomaticCaseConversion => false;
         public CaseConversionStyle ClassCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle ConstructorCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle EnumerationCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle InterfaceCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle FunctionCaseConversionStyle => CaseConversionStyle.Pascal;
-        public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.TitleDot;
-        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.TitleDot;
+        public CaseConversionStyle ImportCaseConversionStyle => CaseConversionStyle.None;
+        public CaseConversionStyle ModuleCaseConversionStyle => CaseConversionStyle.None;
         public CaseConversionStyle AccessorCaseConversionStyle => CaseConversionStyle.Pascal;
         public CaseConversionStyle GetterCaseConversionStyle => CaseConversionStyle.None;
         public CaseConversionStyle SetterCaseConversionStyle => CaseConversionStyle.None;

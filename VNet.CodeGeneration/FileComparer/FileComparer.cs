@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using VNet.CodeGeneration.Json;
 
 
 // ReSharper disable NotAccessedField.Local
@@ -22,7 +21,7 @@ namespace VNet.CodeGeneration.FileComparer
         {
             _fileName = fileName;
             _directory = Path.GetDirectoryName(_fileName);
-            
+
             if (!File.Exists(_fileName))
             {
                 var fs = File.Create(_fileName);
@@ -39,7 +38,7 @@ namespace VNet.CodeGeneration.FileComparer
             Entries = string.IsNullOrEmpty(json) ? new List<FileComparerEntry>() : VNet.CodeGeneration.Json.Json.Deserialize<List<FileComparerEntry>>(json);
             foreach (var e in Entries)
             {
-                e.FullPath = _directory + e.FileName;
+                e.FullPath = Path.Combine(_directory, e.FileName);
             }
         }
 
@@ -53,14 +52,14 @@ namespace VNet.CodeGeneration.FileComparer
             foreach (var entry in Entries)
             {
                 // deleted files
-                if (!File.Exists(entry.FileName))
+                if (!File.Exists(entry.FullPath))
                 {
                     entry.Deleted = true;
                     continue;
                 }
 
                 // updated files
-                if (entry.Hash != GetFileHash(entry.FileName))
+                if (entry.Hash != GetFileHash(entry.FullPath))
                 {
                     entry.Updated = true;
                 }
@@ -71,16 +70,14 @@ namespace VNet.CodeGeneration.FileComparer
             // new files
             var files = Directory.GetFiles(_directory, "*.json").Where(f => !Path.GetFileName(f).StartsWith("_"));
 
-            
+
             foreach (var file in files)
             {
-                var fileName = Path.GetFileName(file);
-
-                if (Entries.All(e => e.FileName != fileName))
+                if (Entries.All(e => e.FullPath != file))
                 {
                     var newEntry = new FileComparerEntry()
                     {
-                        FileName = fileName,
+                        FileName = Path.GetFileName(file),
                         FullPath = file,
                         Hash = GetFileHash(file),
                         Updated = true,
@@ -113,7 +110,7 @@ namespace VNet.CodeGeneration.FileComparer
 
         public void Save()
         {
-            var results = Entries.Where(e => !e.Deleted).Select(e => new { e.FileName, e.Hash });
+            var results = Entries.Where(e => !e.Deleted).Select(e => new FileComparerEntry() { FileName = e.FileName, Hash = e.Hash }).ToList<FileComparerEntry>();
             var json = VNet.CodeGeneration.Json.Json.Serialize(results);
             using (var writer = new StreamWriter(_fileName))
             {
