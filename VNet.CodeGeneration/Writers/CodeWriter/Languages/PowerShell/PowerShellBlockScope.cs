@@ -39,6 +39,16 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.PowerShell
             return (T)this;
         }
 
+        public T AddCodeLines(List<string> list)
+        {
+            foreach (var item in list)
+            {
+                AddCodeLine(item);
+            }
+
+            return (T)this;
+        }
+
         public T AddCodeBlock(string text)
         {
             var result = new CodeBlockScope(text, null, LanguageSettings, this, IndentLevel, CodeLines);

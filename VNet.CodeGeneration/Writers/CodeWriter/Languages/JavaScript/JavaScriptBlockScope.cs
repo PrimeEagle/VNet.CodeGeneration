@@ -48,6 +48,16 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.JavaScript
             return (T)this;
         }
 
+        public T AddCodeLines(List<string> list)
+        {
+            foreach (var item in list)
+            {
+                AddCodeLine(item);
+            }
+
+            return (T)this;
+        }
+
         public CustomScope AddScope()
         {
             var result = new CustomScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
