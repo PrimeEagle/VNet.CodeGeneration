@@ -121,8 +121,8 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 
         protected override void WriteCode(CodeResult result)
         {
-            var genType = $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
-            var genConstraint = string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
+            var genType = _genericTypes.Count == 0 ? string.Empty : $"<{string.Join($",{spComma}", _genericTypes)}>".Trim();
+            var genConstraint = _genericConstraints.Count == 0 ? string.Empty : string.Join($",{spComma}", _genericConstraints.Select(g => "where " + g).ToList()).Trim();
             
             var baseComma = !string.IsNullOrEmpty(_baseClass) && _interfaces.Count > 0 ? $",{spComma}" : string.Empty;
             var inheritance = $"{_baseClass}{baseComma}{string.Join($",{spComma}", _interfaces)}".Trim();
