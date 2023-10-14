@@ -44,7 +44,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
 
         public NameScope WithValue(string value)
         {
-            Parameters[0] = $"{qu}{value}{qu}";
+            Parameters[0] = $"{Qu}{value}{Qu}";
             return this;
         }
 
@@ -64,7 +64,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
         {
             if (Parameters == null || Parameters.Count == 0) return;
 
-            result.ScopedCodeLines.Add($"{qu}{StyledValue}{qu}{spOp}:{spOp}{qu}{Parameters[0].ToString()}{qu}");
+            result.ScopedCodeLines.Add($"{Qu}{StyledValue}{Qu}{SpOp}:{SpOp}{Qu}{Parameters[0].ToString()}{Qu}");
         }
     }
 }

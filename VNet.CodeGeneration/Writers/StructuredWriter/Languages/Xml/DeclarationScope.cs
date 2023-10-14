@@ -41,9 +41,9 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
 
         protected override void WriteCode(CodeResult result)
         {
-            var ver = $" version{spOp}={spOp}{qu}{_version}{qu}";
-            var enc = $" encoding{spOp}={spOp}{qu}{_encoding}{qu}";
-            var stn = $" standalone{spOp}={spOp}{qu}{_standalone}{qu}";
+            var ver = $" version{SpOp}={SpOp}{Qu}{_version}{Qu}";
+            var enc = $" encoding{SpOp}={SpOp}{Qu}{_encoding}{Qu}";
+            var stn = $" standalone{SpOp}={SpOp}{Qu}{_standalone}{Qu}";
 
             result.InsideOpenScope.Add($"{ver}{enc}{stn}");
         }

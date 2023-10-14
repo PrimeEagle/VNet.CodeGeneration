@@ -1,4 +1,5 @@
-﻿namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
+﻿// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Json
 {
     public class JsonSyntax : IStructuredLanguageSyntax
     {
@@ -14,9 +15,8 @@
             if (string.IsNullOrEmpty(name))
                 return false;
 
-            for (int i = 0; i < name.Length; i++)
+            foreach (var c in name)
             {
-                char c = name[i];
                 if (char.IsControl(c))
                     return false;
             }

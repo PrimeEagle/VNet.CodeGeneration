@@ -252,6 +252,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Json\JsonLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Json\JsonLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Json\JsonSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownLineScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownBlockScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownCodeFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownDefaultStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownLanguageSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownSyntax.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Xml\CDataMemberScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Xml\CommentScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Xml\CDataScope.cs" />
@@ -286,6 +292,14 @@
     <Folder Include="$(MSBuildThisFileDirectory)Json\" />
     <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Go\" />
     <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\ExtendScript\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\FSharp\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Hlsl\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Glsl\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Msl\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\C\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Wgsl\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\QSharp\" />
     <Folder Include="$(MSBuildThisFileDirectory)Writers\CodeWriter\Languages\Rust\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Sql\" />
   </ItemGroup>
 </Project>

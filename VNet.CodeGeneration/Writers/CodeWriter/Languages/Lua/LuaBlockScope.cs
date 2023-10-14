@@ -22,7 +22,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Lua
 
         public T AddBlankLines(int num)
         {
-            for (int i = 0; i < num; i++)
+            for (var i = 0; i < num; i++)
             {
                 var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
                 AddNestedScope(result);

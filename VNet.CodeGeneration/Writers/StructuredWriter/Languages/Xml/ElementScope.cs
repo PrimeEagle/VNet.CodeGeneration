@@ -34,7 +34,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
 
         protected override void WriteCode(CodeResult result)
         {
-            var attr = _attributes.Select(a => $"{a.Item1}{spOp}={spOp}{qu}{a.Item2}{qu}").ToList();
+            var attr = _attributes.Select(a => $"{a.Item1}{SpOp}={SpOp}{Qu}{a.Item2}{Qu}").ToList();
             var attrList = string.Join(" ", attr);
             if (!string.IsNullOrEmpty(attrList)) attrList = $" {attrList}";
 

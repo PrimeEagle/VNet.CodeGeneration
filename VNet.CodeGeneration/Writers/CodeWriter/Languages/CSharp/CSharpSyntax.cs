@@ -22,7 +22,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
             }
 
             // The rest of the string must be letters, digits, or underscores
-            for (int i = 1; i < name.Length; i++)
+            for (var i = 1; i < name.Length; i++)
             {
                 if (!char.IsLetterOrDigit(name[i]) && name[i] != '_')
                 {

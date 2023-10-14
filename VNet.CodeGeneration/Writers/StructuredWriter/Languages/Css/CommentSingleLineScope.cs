@@ -14,7 +14,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Css
 
         protected override void WriteCode(CodeResult result)
         {
-            result.UnscopedCodeLines.Add($"/*{spComment}{StyledValue}{spComment}*/");
+            result.UnscopedCodeLines.Add($"/*{SpComment}{StyledValue}{SpComment}*/");
         }
     }
 }

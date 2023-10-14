@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.CSharp
 {

@@ -17,7 +17,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Css
         {
             if (Parameters != null && Parameters.Count > 0)
             {
-                result.InsideOpenScope.Add($"{StyledValue}:{spOp}{Parameters[0].ToString()};");
+                result.InsideOpenScope.Add($"{StyledValue}:{SpOp}{Parameters[0].ToString()};");
             }
         }
     }

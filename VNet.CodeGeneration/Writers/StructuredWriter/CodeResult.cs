@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable CollectionNeverUpdated.Global
 
 namespace VNet.CodeGeneration.Writers.StructuredWriter
 {

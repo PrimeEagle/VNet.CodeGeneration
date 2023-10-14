@@ -13,7 +13,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Yaml
 
         protected override void WriteCode(CodeResult result)
         {
-            result.UnscopedCodeLines.Add($"#{spComment}{StyledValue}");
+            result.UnscopedCodeLines.Add($"#{SpComment}{StyledValue}");
         }
     }
 }

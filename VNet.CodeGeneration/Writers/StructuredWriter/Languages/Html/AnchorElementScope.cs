@@ -32,7 +32,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
 
         protected override void WriteCode(CodeResult result)
         {
-            var h = !string.IsNullOrEmpty(_href) ? $" href{spOp}={spOp}{qu}{_href}{qu}" : string.Empty;
+            var h = !string.IsNullOrEmpty(_href) ? $" href{SpOp}={SpOp}{Qu}{_href}{Qu}" : string.Empty;
 
             result.InsideOpenScope.Add($"{StyledValue}{h}");
             result.ScopedCodeLines.Add($"{_content}");

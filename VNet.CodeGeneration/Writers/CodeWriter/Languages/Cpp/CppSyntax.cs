@@ -37,7 +37,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Cpp
             }
 
             // Check the remaining characters
-            for (int i = 1; i < name.Length; i++)
+            for (var i = 1; i < name.Length; i++)
             {
                 if (!char.IsLetterOrDigit(name[i]) && name[i] != '_')
                 {

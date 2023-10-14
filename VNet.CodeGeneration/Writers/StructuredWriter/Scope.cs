@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-#pragma warning disable IDE0051
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable MemberCanBePrivate.Global
+
 
 namespace VNet.CodeGeneration.Writers.StructuredWriter
 {
@@ -22,7 +24,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
                 return result;
             }
         }
-        protected List<Scope> Scopes;
+        protected readonly List<Scope> Scopes;
         public Scope Parent { get; private set; }
         protected IndentationManager IndentLevel { get; set; }
         protected List<string> CodeLines { get; private set; }
@@ -35,10 +37,10 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
 
 
         #region Style Helpers
-        protected string spOp => LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
-        protected string spComma => LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
-        protected string spComment => LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty;
-        protected string qu => LanguageSettings.Style.QuoteSymbol;
+        protected string SpOp => LanguageSettings.Style.SpaceAroundOperators ? " " : string.Empty;
+        protected string SpComma => LanguageSettings.Style.SpaceAfterComma ? " " : string.Empty;
+        protected string SpComment => LanguageSettings.Style.SpaceAfterCommentCharacter ? " " : string.Empty;
+        protected string Qu => LanguageSettings.Style.QuoteSymbol;
 
         #endregion Style Helpers
 
@@ -74,53 +76,46 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
                 GetOpenScopeOpen(os);
                 GetOpenScopeClose(os);
 
-                var line = $"{indentStr}{os.PreOpenScope}";
-                for (var i = 0; i < result.InsideOpenScope.Count; i++)
-                {
-                    line += result.InsideOpenScope[i];
-                }
-                line += os.PostOpenScope;
-                CodeLines.Add(line);
+                var linePre = $"{indentStr}{os.PreOpenScope}";
+                linePre = result.InsideOpenScope.Aggregate(linePre, (current, t) => current + t);
+                linePre += os.PostOpenScope;
+                CodeLines.Add(linePre);
 
                 IndentLevel.Increase();
                 indentStr = GetIndent(IndentLevel.Current);
 
                 // Scoped
-                for (var i = 0; i < result.ScopedCodeLines.Count; i++)
+                foreach (var t in result.ScopedCodeLines)
                 {
-                    CodeLines.Add($"{indentStr}{result.ScopedCodeLines[i]}");
+                    CodeLines.Add($"{indentStr}{t}");
                 }
             }
 
             // Unscoped
-            for (var i = 0; i < result.UnscopedCodeLines.Count; i++)
+            foreach (var t in result.UnscopedCodeLines)
             {
-                CodeLines.Add($"{indentStr}{result.UnscopedCodeLines[i]}");
+                CodeLines.Add($"{indentStr}{t}");
             }
 
-            for (var s = 0; s < Scopes.Count; s++)
+            foreach (var t in Scopes)
             {
-                Scopes[s].GenerateCode();
+                t.GenerateCode();
                 CodeLines.AppendToLastElement(LanguageSettings.Syntax.ScopeListSeparatorSymbol);
             }
 
             // Scope closing
-            if (scoped)
-            {
-                var cs = new CodeResult();
-                GetOpenScopeOpen(cs);
-                GetOpenScopeClose(cs);
+            if (!scoped) return;
 
-                var line = $"{indentStr}{cs.PreCloseScope}";
-                for (var i = 0; i < result.InsideCloseScope.Count; i++)
-                {
-                    line += result.InsideCloseScope[i];
-                }
-                line += cs.PostCloseScope;
+            var cs = new CodeResult();
+            GetOpenScopeOpen(cs);
+            GetOpenScopeClose(cs);
 
-                IndentLevel.Decrease();
-                indentStr = GetIndent(IndentLevel.Current);
-            }
+            var line = $"{indentStr}{cs.PreCloseScope}";
+            line = result.InsideCloseScope.Aggregate(line, (current, t) => current + t);
+            line += cs.PostCloseScope;
+
+            IndentLevel.Decrease();
+            indentStr = GetIndent(IndentLevel.Current);
         }
 
         protected void AddNestedScope(Scope scope)
@@ -138,7 +133,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
                 if (newExtension.StartsWith(".")) newExtension = newExtension.Substring(1);
                 if (Path.HasExtension(fileName))
                 {
-                    Path.ChangeExtension(fileName, newExtension);
+                    fileName = Path.ChangeExtension(fileName, newExtension);
                 }
                 else
                 {
@@ -185,28 +180,28 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter
 
         protected void GetOpenScopeOpen(CodeResult result)
         {
-            var scopeSymbol = AlternateOpenScopeOpenSymbol == null ? LanguageSettings.Syntax.OpenScopeOpenSymbol : AlternateOpenScopeOpenSymbol;
+            var scopeSymbol = AlternateOpenScopeOpenSymbol ?? LanguageSettings.Syntax.OpenScopeOpenSymbol;
 
             result.PreOpenScope = $"{scopeSymbol}";
         }
 
         protected void GetOpenScopeClose(CodeResult result)
         {
-            var scopeSymbol = AlternateOpenScopeCloseSymbol == null ? LanguageSettings.Syntax.OpenScopeCloseSymbol : AlternateOpenScopeCloseSymbol;
+            var scopeSymbol = AlternateOpenScopeCloseSymbol ?? LanguageSettings.Syntax.OpenScopeCloseSymbol;
 
             result.PostOpenScope = $"{scopeSymbol}";
         }
 
         protected void GetCloseScopeOpen(CodeResult result)
         {
-            var scopeSymbol = AlternateCloseScopeOpenSymbol == null ? LanguageSettings.Syntax.CloseScopeOpenSymbol : AlternateCloseScopeOpenSymbol;
+            var scopeSymbol = AlternateCloseScopeOpenSymbol ?? LanguageSettings.Syntax.CloseScopeOpenSymbol;
 
             result.PreCloseScope = $"{scopeSymbol}";
         }
 
         protected void GetCloseScopeClose(CodeResult result)
         {
-            var scopeSymbol = AlternateCloseScopeCloseSymbol == null ? LanguageSettings.Syntax.CloseScopeCloseSymbol : AlternateCloseScopeCloseSymbol;
+            var scopeSymbol = AlternateCloseScopeCloseSymbol ?? LanguageSettings.Syntax.CloseScopeCloseSymbol;
 
             result.PostCloseScope = $"{scopeSymbol}";
         }

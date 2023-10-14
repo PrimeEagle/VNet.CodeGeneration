@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using VNet.CodeGeneration.Writers.StructuredWriter.Languages.Common;
+// ReSharper disable UnusedParameter.Global
+#pragma warning disable IDE0060
 
 
 namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
@@ -24,7 +26,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Html
 
         public T AddBlankLines(int num)
         {
-            for (int i = 0; i < num; i++)
+            for (var i = 0; i < num; i++)
             {
                 var result = new BlankLineScope(null, null, LanguageSettings, this, IndentLevel, CodeLines);
                 AddNestedScope(result);

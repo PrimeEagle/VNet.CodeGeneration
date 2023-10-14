@@ -1344,7 +1344,7 @@ namespace VNet.CodeGeneration.Json
                 {
                     tz += len;
                     var offset = text.Substring(tz + 1).Trim();
-                    if (int.TryParse(offset, out int i))
+                    if (int.TryParse(offset, out var i))
                     {
                         kind = DateTimeKind.Local;
                         offsetHours = i / 100;
@@ -2918,7 +2918,7 @@ namespace VNet.CodeGeneration.Json
             if (dictionary == null)
                 return null;
 
-            if (!TryGetValueByPath(dictionary, path, out object obj))
+            if (!TryGetValueByPath(dictionary, path, out var obj))
                 return null;
 
             return Conversions.ChangeType<string>(obj).Nullify();
@@ -2943,7 +2943,7 @@ namespace VNet.CodeGeneration.Json
                 return false;
             }
 
-            if (!TryGetValueByPath(dictionary, path, out object obj))
+            if (!TryGetValueByPath(dictionary, path, out var obj))
             {
                 value = default;
                 return false;

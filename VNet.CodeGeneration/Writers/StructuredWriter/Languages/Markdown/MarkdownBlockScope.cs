@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using VNet.CodeGeneration.Writers;
+using VNet.CodeGeneration.Writers.StructuredWriter;
 using VNet.CodeGeneration.Writers.StructuredWriter.Languages.Common;
 
+// ReSharper disable EmptyRegion
 
-namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
+
+namespace VNet.Scientific.CodeGen.Writers.StructuredWriter.Languages.Markdown
 {
-    public abstract class XmlBlockScope<T> : BlockScope where T : XmlBlockScope<T>
+    public abstract class MarkdownBlockScope<T> : BlockScope where T : MarkdownBlockScope<T>
     {
-
-        protected XmlBlockScope(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
+        protected MarkdownBlockScope(string value, List<object> parameters, IStructuredLanguageSettings languageSettings, Scope parent, IndentationManager indentLevel, List<string> codeLines)
             : base(value, parameters, languageSettings, parent, indentLevel, codeLines)
         {
         }
@@ -34,7 +37,7 @@ namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Xml
         }
         #endregion Common language methods
 
-        #region XML language methods
-        #endregion XML language methods
+        #region Markdown language methods
+        #endregion Markdown language methods
     }
 }

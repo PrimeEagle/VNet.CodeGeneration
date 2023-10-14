@@ -17,9 +17,9 @@
             if (char.IsDigit(name[0]) || (name[0] == '-' && name.Length > 1 && char.IsDigit(name[1])))
                 return false;
 
-            for (int i = 0; i < name.Length; i++)
+            for (var i = 0; i < name.Length; i++)
             {
-                char c = name[i];
+                var c = name[i];
                 if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
                       (c >= '0' && c <= '9') || c == '-' || c == '_' ||
                       (c >= '\u00a1' && c <= '\uffff')))
