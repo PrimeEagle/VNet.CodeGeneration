@@ -2,6 +2,7 @@
 using VNet.CodeGeneration.Writers;
 using VNet.CodeGeneration.Writers.StructuredWriter;
 using VNet.CodeGeneration.Writers.StructuredWriter.Languages.Common;
+using VNet.CodeGeneration.Writers.StructuredWriter.Languages.Markdown;
 
 // ReSharper disable EmptyRegion
 
@@ -35,6 +36,15 @@ namespace VNet.Scientific.CodeGen.Writers.StructuredWriter.Languages.Markdown
 
             return (T)this;
         }
+
+        public T AddHeading(string value, int headingLevel)
+        {
+            var result = new HeadingScope(value, new List<object>() { headingLevel}, LanguageSettings, this, IndentLevel, CodeLines);
+            AddNestedScope(result);
+
+            return (T)this;
+        }
+
         #endregion Common language methods
 
         #region Markdown language methods

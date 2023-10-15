@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using VNet.CodeGeneration.Writers.StructuredWriter;
 
 namespace VNet.CodeGeneration.Writers.StructuredWriter.Languages.Common
 {

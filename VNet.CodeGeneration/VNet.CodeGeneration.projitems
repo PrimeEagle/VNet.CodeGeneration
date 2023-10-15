@@ -252,6 +252,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Json\JsonLanguageSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Json\JsonLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Json\JsonSyntax.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\HeadingScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownLineScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownBlockScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Writers\StructuredWriter\Languages\Markdown\MarkdownCodeFile.cs" />

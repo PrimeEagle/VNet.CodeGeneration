@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using VNet.CodeGeneration.Writers;
 using VNet.CodeGeneration.Writers.StructuredWriter;
+using VNet.CodeGeneration.Writers.StructuredWriter.Languages.Markdown;
 
 
 namespace VNet.Scientific.CodeGen.Writers.StructuredWriter.Languages.Markdown
