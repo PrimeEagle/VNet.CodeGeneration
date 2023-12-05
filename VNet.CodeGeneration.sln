@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VNet.CodeGeneration", "VNet.CodeGeneration\VNet.CodeGeneration.shproj", "{29DDC115-B986-49CA-9939-C9372746518D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VNet.CodeGeneration.Tests", "VNet.CodeGeneration.Tests\VNet.CodeGeneration.Tests.csproj", "{3451AE30-EF20-4926-BF18-FBF1F9BCBD25}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3451AE30-EF20-4926-BF18-FBF1F9BCBD25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3451AE30-EF20-4926-BF18-FBF1F9BCBD25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3451AE30-EF20-4926-BF18-FBF1F9BCBD25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3451AE30-EF20-4926-BF18-FBF1F9BCBD25}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA0FCD56-17B5-45EE-9499-EC7DE41C8EE2}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		VNet.CodeGeneration\VNet.CodeGeneration.projitems*{29ddc115-b986-49ca-9939-c9372746518d}*SharedItemsImports = 13
+		VNet.CodeGeneration\VNet.CodeGeneration.projitems*{3451ae30-ef20-4926-bf18-fbf1f9bcbd25}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal
