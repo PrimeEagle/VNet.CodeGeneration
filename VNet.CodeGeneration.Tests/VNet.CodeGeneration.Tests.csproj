@@ -18,6 +18,18 @@
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
   </ItemGroup>
 
-  <Import Project="..\VNet.CodeGeneration\VNet.CodeGeneration.projitems" Label="Shared" />
+	<PropertyGroup>
+		<!-- Check for the UsePackageReferences environment variable -->
+		<UsePackageReferences Condition="'$(UsePackageReferences)' == ''">false</UsePackageReferences>
+	</PropertyGroup>
 
+	<!-- Include project references by default -->
+	<ItemGroup Condition="'$(UsePackageReferences)' != 'true'">
+		<Import Project="..\..\VNet.CodeGeneration\VNet.CodeGeneration.projitems" Label="Shared" />
+	</ItemGroup>
+
+	<!-- Include NuGet package references when UsePackageReferences is true -->
+	<ItemGroup Condition="'$(UsePackageReferences)' == 'true'">
+		<Import Project="..\..\VNet.CodeGeneration\VNet.CodeGeneration.projitems" Label="Shared" />
+	</ItemGroup>
 </Project>
