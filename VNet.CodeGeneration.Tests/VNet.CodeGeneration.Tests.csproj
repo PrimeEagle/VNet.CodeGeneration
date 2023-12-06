@@ -25,11 +25,13 @@
 
 	<!-- Include project references by default -->
 	<ItemGroup Condition="'$(UsePackageReferences)' != 'true'">
-		<Import Project="..\..\VNet.CodeGeneration\VNet.CodeGeneration.projitems" Label="Shared" />
+		
 	</ItemGroup>
 
 	<!-- Include NuGet package references when UsePackageReferences is true -->
 	<ItemGroup Condition="'$(UsePackageReferences)' == 'true'">
-		<Import Project="..\..\VNet.CodeGeneration\VNet.CodeGeneration.projitems" Label="Shared" />
+		
 	</ItemGroup>
+
+	<Import Project="..\VNet.CodeGeneration\VNet.CodeGeneration.projitems" Label="Shared" />
 </Project>
