@@ -33,5 +33,12 @@
 		
 	</ItemGroup>
 
-	<Import Project="..\VNet.CodeGeneration\VNet.CodeGeneration.projitems" Label="Shared" />
+	<ItemGroup Label="Imports">
+		<Compile Include="..\VNet.CodeGeneration\**\*.cs"></Compile>
+		<Compile Remove="..\VNet.CodeGeneration\obj\Debug\**" />
+		<Compile Remove="..\VNet.CodeGeneration\obj\Release\**" />
+		<Compile Remove="obj\**" />
+		<EmbeddedResource Remove="obj\**" />
+		<None Remove="obj\**" />
+	</ItemGroup>
 </Project>
