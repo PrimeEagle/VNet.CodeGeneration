@@ -5,7 +5,12 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VNet.CodeGeneration.Tests", "VNet.CodeGeneration.Tests\VNet.CodeGeneration.Tests.csproj", "{3451AE30-EF20-4926-BF18-FBF1F9BCBD25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VNet.CodeGeneration", "VNet.CodeGeneration\VNet.CodeGeneration.csproj", "{29DDC115-B986-49CA-9939-C9372746518D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VNet.CodeGeneration", "VNet.CodeGeneration\VNet.CodeGeneration.csproj", "{29DDC115-B986-49CA-9939-C9372746518D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".version", ".version", "{022351A5-F37B-4116-8A28-C8074D1FC27F}"
+	ProjectSection(SolutionItems) = preProject
+		.version\version.json = .version\version.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
