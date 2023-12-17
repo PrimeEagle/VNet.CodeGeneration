@@ -14,7 +14,7 @@ namespace VNet.CodeGeneration.Writers.CodeWriter.Languages.Common
 
         protected override void WriteCode(CodeResult result)
         {
-            var splitLines = StyledValue.Split(Lookups.NewLineDelimiters, System.StringSplitOptions.None);
+            var splitLines = StyledValue.Split(Lookups.NewLineDelimiters, global::System.StringSplitOptions.None);
             for(var i = 0; i < splitLines.Length; i++) 
             {
                 result.ScopedCodeLines.Add(splitLines[i]);
